@@ -45,11 +45,21 @@ SELECT * FROM categories_ticket WHERE category LIKE '%phish%';
 SELECT * FROM categories_ticket WHERE clasification LIKE '%intrusion%';
 
 
--- CREAMOS UNOS TICKETS
+-- REGISTRAMOS UNOS TICKETS
 INSERT INTO tickets (title,severity,impact,resume,category,createdBy) VALUES ('Escaneo de red','BAJA','BAJO','Escaneo de puertos sobre infraestructura de PSA y DNIC con múltiples vectores de ataque.',8,1);
 INSERT INTO tickets (title,severity,impact,status,resume,category,createdBy) VALUES ('Compromiso de Aplicaciones','ALTA','IMPORTANTE','EN_PROGRESO','Intento de "Inyección SQL" sobre el portal web de denuncias de MINSEG',13,2);
 INSERT INTO tickets (title,severity,impact,category,createdBy) VALUES('Contenido Dañino','CRITICA','IMPORTANTE',4,2);
+INSERT INTO tickets (title,severity,impact,category,createdBy) VALUES('Vulnerabilidad FORTINET','CRITICA','CRITICO',33,2);
 SELECT * FROM tickets;
+
+
+-- REGISTRAMOS UN CVE
+INSERT INTO cves (cveId,severity,cvss,description,urlRef) VALUES 
+('CVE-2023-45590','CRITICA',9.4,'Un control inadecuado de la generación de código ("inyección de código") en Fortinet FortiClientLinux versión 7.2.0, 7.0.6 a 7.0.10 y 7.0.3 a 7.0.4 permite al atacante ejecutar código o comandos no autorizados engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso','https://nvd.nist.gov/vuln/detail/CVE-2023-45590');
+-- REGISTRAMOS UNA VULNERABILIDAD Y ASOSIACIAMO EL CVE REGISTRADO ANTERIORMENTE
+INSERT INTO vulnerabilities (ticketId,advisories,resume,vendor,cves,urlRef) VALUES 
+(4,'FG-IR-23-087','Una vulnerabilidad de Control Inadecuado de Generación de Código ("Inyección de Código") [CWE-94] en FortiClientLinux puede permitir## que un atacante no autenticado ejecute código arbitrario engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso.','FORTINET',1,'https://www.fortiguard.com/psirt/FG-IR-23-087');
+SELECT * FROM vulnerabilities;
 
 
 -- AGREGAMOS 2 REPORTES PARA PRUEBAS

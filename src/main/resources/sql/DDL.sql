@@ -81,11 +81,12 @@ CREATE TABLE vulnerabilities (
     ON DELETE RESTRICT,
   code TEXT(3) NOT NULL DEFAULT 'VUL' check (code='VUL'),
   advisories TEXT NOT NULL,
-  cves TEXT REFERENCES cves(cveId)
+  cves TEXT REFERENCES cves(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
   resume TEXT NOT NULL,
-  vendor TEXT(50) NOT NULL
+  vendor TEXT(50) NOT NULL,
+  urlRef TEXT NOT NULL
 );
 
 CREATE TABLE events (
