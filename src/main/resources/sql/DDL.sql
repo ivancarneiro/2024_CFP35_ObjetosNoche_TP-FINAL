@@ -1,5 +1,4 @@
 -- Active: 1718802158271@@127.0.0.1@3306
-
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS categories_ticket;
 DROP TABLE IF EXISTS reports;
@@ -8,7 +7,6 @@ DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS incidents;
 DROP TABLE IF EXISTS vulnerabilities;
 DROP TABLE IF EXISTS events;
-
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
   nombre TEXT(50) NOT NULL /*apellido.nombre*/,
@@ -27,8 +25,10 @@ CREATE TABLE categories_ticket (
 CREATE TABLE reports (
   id INTEGER PRIMARY KEY,
   title TEXT(100) NOT NULL,
-  cratedAt DATE DEFAULT current_timestamp,
-  created_by INTEGER NOT NULL REFERENCES users(id),
+  createdAt DATE DEFAULT current_timestamp,
+  created_by INTEGER NOT NULL REFERENCES users(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
   description TEXT NOT NULL DEFAULT 'Resumen Ejecutivo:..., Desarrollo:..., Recomendaciones:..., Referencias:...'
 );
 
@@ -44,34 +44,58 @@ CREATE TABLE cves (
 CREATE TABLE tickets (
   id integer PRIMARY KEY,
   title TEXT(100) NOT NULL,
-  cratedAt DATE DEFAULT current_timestamp,
+  createdAt DATE DEFAULT current_timestamp,
   lastUpdate DATE DEFAULT current_timestamp,
   resolution TIME,
   severity TEXT DEFAULT 'BAJA' check (severity in ('CRITICA','ALTA','MEDIA','BAJA')),
   impact TEXT DEFAULT 'NULO' check (impact in ('CRITICO','IMPORTANTE','MODERADO','BAJO','NULO')),
   status TEXT DEFAULT 'ABIERTO' check (status in ('ABIERTO','EN_PROGRESO','CERRADO')),
-  category INTEGER NOT NULL REFERENCES categories_ticket(id),
+  category INTEGER NOT NULL REFERENCES categories_ticket(id)
+    ON UPDATE RESTRICT
+    ON DELETE RESTRICT,
   resume TEXT(300),
   createdBy INTEGER NOT NULL REFERENCES users(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
 );
 
 CREATE TABLE incidents (
   id INTEGER PRIMARY KEY,
-  ticketId INTEGER NOT NULL REFERENCES tickets(id),
+  ticketId INTEGER NOT NULL REFERENCES tickets(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
   code TEXT(3) NOT NULL DEFAULT 'INC' check (code='INC'),
-  srcIps TEXT,
-  srcPorts INTEGER check (srcPorts > 0 and srcPorts <= 65535),
-  destIps TEXT,
-  dstPorts INTEGER check (srcPorts > 0 and srcPorts <= 65535),
+  srcip TEXT,
+  srcport TEXT,
+  dstip TEXT,
+  dstport TEXT,
   report INTEGER REFERENCES reports(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
 );
 
 CREATE TABLE vulnerabilities (
   id INTEGER PRIMARY KEY,
-  ticketId INTEGER NOT NULL REFERENCES tickets(id),
+  ticketId INTEGER NOT NULL REFERENCES tickets(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
   code TEXT(3) NOT NULL DEFAULT 'VUL' check (code='VUL'),
   advisories TEXT NOT NULL,
-  cves TEXT REFERENCES cves(cveId),
+  cves TEXT REFERENCES cves(cveId)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
   resume TEXT NOT NULL,
   vendor TEXT(50) NOT NULL
 );
+
+CREATE TABLE events (
+  id INTEGER PRIMARY KEY,
+  ticketId INTEGER NOT NULL REFERENCES tickets(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+  code TEXT(3) NOT NULL DEFAULT 'EVE' check (code='EVE'),
+  resume TEXT NOT NULL,
+  report INTEGER REFERENCES reports(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+)

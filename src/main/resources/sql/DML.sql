@@ -1,17 +1,7 @@
 INSERT INTO users (nombre,apellido,email,role) VALUES 
-('Admin','Administrador','csirt@gna.gob,ar','ADMINISTRADOR'),
-('Ivan', 'Carneiro', 'icarneiro@gmail.com', 'OPERADOR'),
-('Tamara', 'Acosta', 'tacosta@gmail.com', 'VEEDOR');
-
--- INSERT INTO categories_tickets (clasification,type) VALUES
---     ("Contenido Abusivo",'{
---       "SPAM": "Correo electrónico masivo no solicitado.",
---       "Manifestación de odio": "Contenido discriminatorio, acoso, amenazas, incitación a la violencia o similar.",
---       "Abuso sexual infantil, contenido sexual": "Material que represente contenido relacionado con el abuso sexual infantil, etc."
---       }'
---     );
-
--- SELECT clasification, json_extract (type, '$.SPAM') AS SPAM FROM categories_tickets;
+    ('Admin','Administrador','csirt@gna.gob,ar','ADMINISTRADOR'),
+    ('Ivan', 'Carneiro', 'icarneiro@gmail.com', 'OPERADOR'),
+    ('Tamara', 'Acosta', 'tacosta@gmail.com', 'VEEDOR');
 
 INSERT INTO categories_ticket (id, clasification, category, detail) VALUES
     (1, 'Contenido Abusivo', 'SPAM', 'Correo electrónico masivo no solicitado.'),
@@ -21,14 +11,14 @@ INSERT INTO categories_ticket (id, clasification, category, detail) VALUES
     (5, 'Contenido Dañino', 'Ransomware', 'Tipo de software malicioso que bloquea el acceso a los datos de la víctima. Quien lo usa puede inclusive publicar y/o difundir la información bloqueada si no se paga el rescate pedido para liberar la información.'),
     (6, 'Contenido Dañino', 'Botnet', 'Conjunto de hosts conectados a Internet que interactúan con el fin de cumplir una tarea distribuida, que generalmente es maliciosa.'),
     (7, 'Contenido Dañino', 'Command & Control', 'También llamados C&C o C2, son servidores operados por el/los atacante/s para controlar una botnet.'),
-    (8, 'Obtención de información', 'Escaneo de redes / análisis de tráfico', 'Envío de peticiones a un sistema para descubrir vulnerabilidades, obtención del tráfico de red o similar.'),
-    (9, 'Obtención de información', 'Ingeniería social', 'Recopilación de información, con el uso o no de la tecnología, en la que el atacante utiliza técnicas de manipulación psicológica o engaños para lograr que la víctima le entregue voluntariamente su información.'),
-    (10, 'Intrusión', 'Explotación de vulnerabilidades', 'Intento o compromiso de un sistema a través de fallas o ausencia de controles o medidas de seguridad apropiadas.'),
-    (11, 'Intrusión', 'Ataque de fuerza bruta', 'Múltiples intentos de vulnerar credenciales.'),
-    (12, 'Intrusión', 'Ataque desconocido', 'Son aquellos ataques cuya naturaleza no se conoce.'),
-    (13, 'Intrusión', 'Compromiso de equipo/sistema', 'Afectación de la confidencialidad, integridad o disponibilidad de un sistema/aplicación mediante técnicas tales como SQLi, keyloggers, web shell, etc.'),
-    (14, 'Intrusión', 'Robo', 'Intrusión física que concluye con el robo de activos, como pueden ser equipos o información.'),
-    (15, 'Intrusión', 'Compromiso de cuenta', 'Compromiso de un sistema empleando una cuenta con o sin privilegios.'),
+    (8, 'Obtencion de informacion', 'Escaneo de redes / análisis de tráfico', 'Envío de peticiones a un sistema para descubrir vulnerabilidades, obtención del tráfico de red o similar.'),
+    (9, 'Obtencion de informacion', 'Ingeniería social', 'Recopilación de información, con el uso o no de la tecnología, en la que el atacante utiliza técnicas de manipulación psicológica o engaños para lograr que la víctima le entregue voluntariamente su información.'),
+    (10, 'Intrusion', 'Explotación de vulnerabilidades', 'Intento o compromiso de un sistema a través de fallas o ausencia de controles o medidas de seguridad apropiadas.'),
+    (11, 'Intrusion', 'Ataque de fuerza bruta', 'Múltiples intentos de vulnerar credenciales.'),
+    (12, 'Intrusion', 'Ataque desconocido', 'Son aquellos ataques cuya naturaleza no se conoce.'),
+    (13, 'Intrusion', 'Compromiso de equipo/sistema', 'Afectación de la confidencialidad, integridad o disponibilidad de un sistema/aplicación mediante técnicas tales como SQLi, keyloggers, web shell, etc.'),
+    (14, 'Intrusion', 'Robo', 'Intrusion física que concluye con el robo de activos, como pueden ser equipos o información.'),
+    (15, 'Intrusion', 'Compromiso de cuenta', 'Compromiso de un sistema empleando una cuenta con o sin privilegios.'),
     (16, 'Disponibilidad', 'Denegación de servicio (DoS/DDoS)', 'Ciberataque que tiene como objetivo que uno o varios ordenadores, servicios u otros dispositivos no estén disponibles para los usuarios a los que va dirigido, interrumpiendo su funcionamiento normal.'),
     (17, 'Disponibilidad', 'Configuración errónea', 'Configuración débil o errónea de un sistema que permita afectar su disponibilidad.'),
     (18, 'Disponibilidad', 'Sabotaje', 'Sabotaje físico que puede afectar la disponibilidad de los servicios o de la información. Ej: cortes de cableados de equipos o incendios provocados.'),
@@ -48,30 +38,40 @@ INSERT INTO categories_ticket (id, clasification, category, detail) VALUES
     (32, 'Indicio de fraude', 'Phishing - QRishing', 'Se trata de códigos QR modificados de forma maliciosa.'),
     (33, 'Activo vulnerable', 'Sistema vulnerable', 'Sistema con servicios vulnerables, ya sea por errores de diseño o por no poseer medidas de seguridad o controles apropiados.'),
     (34, 'Activo vulnerable', 'Publicación de servicios vulnerables', 'Servicios activos expuestos en Internet que pueden ser utilizados para el acceso no autorizado en los sistemas. Ej: RDP, Telnet, etc.'),
-    (35, 'Activo vulnerable', 'Revelación de información', 'Servicios que permiten la obtención de información sensible.'),
+    (35, 'Activo vulnerable', 'Revelación de información', 'Servicios que permiten la obtencion de informacion sensible.'),
     (36, 'Otros', 'Amenaza persistente avanzada o APT', 'Ataques dirigidos a organizaciones.'),
     (37, 'Otros', 'Sectores no críticos', 'Aquellos incidentes que no puedan ser clasificados dentro de los actuales parámetros.');
-
 SELECT * FROM categories_ticket WHERE category LIKE '%phish%';
+SELECT * FROM categories_ticket WHERE clasification LIKE '%intrusion%';
+
 
 -- CREAMOS UNOS TICKETS
-INSERT INTO tickets (title,severity,impact,category,createdBy) VALUES
-    ('Escaneo de red','BAJA','BAJO',8,1),
-    ('Compromiso de Aplicaciones','ALTA','IMPORTANTE',13,2),
-    ('Contenido Dañino','CRITICA','IMPORTANTE',4,2);
-
+INSERT INTO tickets (title,severity,impact,resume,category,createdBy) VALUES ('Escaneo de red','BAJA','BAJO','Escaneo de puertos sobre infraestructura de PSA y DNIC con múltiples vectores de ataque.',8,1);
+INSERT INTO tickets (title,severity,impact,status,resume,category,createdBy) VALUES ('Compromiso de Aplicaciones','ALTA','IMPORTANTE','EN_PROGRESO','Intento de "Inyección SQL" sobre el portal web de denuncias de MINSEG',13,2);
+INSERT INTO tickets (title,severity,impact,category,createdBy) VALUES('Contenido Dañino','CRITICA','IMPORTANTE',4,2);
 SELECT * FROM tickets;
+
+
+-- AGREGAMOS 2 REPORTES PARA PRUEBAS
+INSERT INTO reports (id,title,created_by,description) VALUES 
+(1,'Escaneo de red',2,'El sensor de PSA y DNIC ha detectado un escaneo de redes, con puerto de destino:\n5900 - (vnc)\n5800 - (vnc-http)\n5432 - (postgres)\n3306 - (mysql)\n1521 - (ncube-lm)\n1521 - (oracle)\n1433 - (ms-sql-s)\n22 - (ssh)\n\nAcción\nSe da aviso a la Comunidad Objetivo.'),
+(2,'SQLinjection',1,'Se observa desde FortiSIEM-MINSEG un intento de "Inyección SQL" sobre el portal web de denuncias de MINSEG, intentando inyectar y ejecutar código según anáilis del payload.\nSe informa al Dpartamento de Infraestructura MINSEG fines confirmen estado del indicente, POSITIVO/FLASO POSITIVO.\nSe espera respuesta.'),
+(3,'Botnet C&C red 139.45.197.0',2,'Se observó en Analizer-MinSeg una alarma de un endpoint posiblemente infectado relacionado con una IP sospechosa que se reitera en otras Fuerzas.\n
+Se informó Seguridad Informátoca MINSEG para bloqueara la IP 139.45.197.251 por el Puerto 443.\nSe trataría de una Botnet C&C que infecta a los endpoints mediante Adware en distintas webs.\n\nAcción\nSe recomendó a Seguridad Informática realizar un bloqueo preventivo sobre la red 139.45.197.0, fines evitar que otros host se sigan infectando y realizar un escaneo con herramientas antimalware en las IP reportadas como comprometidas');
+SELECT * FROM reports;
+
+
+INSERT INTO incidents (ticketId,srcip,dstip,srcport,dstport,report) VALUES
+(1,'98.25.125.175','10.103.10.26','55022,55023,55024','22,1433,3306',1),
+(2,'45.98.145.125','192.168.1.10',NULL,'80,443',2),
+(3,'139.45.197.251','10.103.17.4',NULL,'22,1433,3306',3);
+SELECT * FROM incidents;
+
+
 UPDATE tickets SET status='CERRADO' WHERE id=1;
-SELECT * FROM tickets;
-
 -- Calculate and SET tickets.resolution timestamp
 UPDATE tickets
-SET status = 'CERRADO', 
-    lastUpdate = current_timestamp,
-    resolution = (
-        SELECT CAST(julianday(lastUpdate) - julianday(cratedAt) AS INTEGER) || ' Días ' ||
-            strftime('%H:%M', 'now', '-' || CAST(julianday(lastUpdate) - julianday(cratedAt) AS TEXT) || ' days')
-    )
+SET resolution = strftime('%d día/s %H:%M hs', (julianday(lastUpdate) - julianday(createdAt)) * 24 * 60 * 60)
 WHERE status = 'CERRADO';
 
 SELECT * FROM tickets;
