@@ -9,7 +9,7 @@ public class Connector {
     //private static String url="jdbc:mariadb://localhost:3306/colegio";
 
     // SQlite
-    private static String url="jdbc:sqlite:./data/data";
+    private static String url="jdbc:sqlite:./data/data.db";
 
     
     private static Connection conn=null;

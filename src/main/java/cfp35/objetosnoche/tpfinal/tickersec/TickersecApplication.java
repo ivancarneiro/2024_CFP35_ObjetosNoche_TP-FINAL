@@ -8,6 +8,7 @@ public class TickersecApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TickersecApplication.class, args);
+		System.out.println();
+		System.out.println("--- Prueba TickerSec ---");
 	}
-
 }
