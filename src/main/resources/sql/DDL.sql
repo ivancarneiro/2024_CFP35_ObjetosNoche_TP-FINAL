@@ -7,10 +7,11 @@ DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS incidents;
 DROP TABLE IF EXISTS vulnerabilities;
 DROP TABLE IF EXISTS events;
+
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
-  nombre TEXT(50) NOT NULL /*apellido.nombre*/,
-  apellido TEXT(50) NOT NULL /*apellido.nombre*/,
+  name TEXT(50) NOT NULL,
+  surname TEXT(50) NOT NULL,
   email TEXT(50) UNIQUE NOT NULL /* No puede repetirse con otro usuario.*/,
   role TEXT NOT NULL check (role in ('ADMINISTRADOR','OPERADOR','VEEDOR'))
 );
@@ -44,19 +45,21 @@ CREATE TABLE cves (
 CREATE TABLE tickets (
   id integer PRIMARY KEY,
   title TEXT(100) NOT NULL,
-  createdAt DATE DEFAULT current_timestamp,
-  lastUpdate DATE DEFAULT current_timestamp,
-  resolution TIME,
+  code TEXT(3) NOT NULL DEFAULT 'INC' check (code in ('INC','VUL','EVE')),
+  createdAt DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'localtime')),
+  lastUpdate DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'localtime')),
+  resolution DATETIME,
   severity TEXT DEFAULT 'BAJA' check (severity in ('CRITICA','ALTA','MEDIA','BAJA')),
   impact TEXT DEFAULT 'NULO' check (impact in ('CRITICO','IMPORTANTE','MODERADO','BAJO','NULO')),
-  status TEXT DEFAULT 'ABIERTO' check (status in ('ABIERTO','EN_PROGRESO','CERRADO')),
+  status TEXT DEFAULT 'ABIERTO' check (status in ('ABIERTO','TRAMITADO','CERRADO')),
   category INTEGER NOT NULL REFERENCES categories_ticket(id)
     ON UPDATE RESTRICT
     ON DELETE RESTRICT,
   resume TEXT(300),
   createdBy INTEGER NOT NULL REFERENCES users(id)
     ON UPDATE CASCADE
-    ON DELETE RESTRICT
+    ON DELETE RESTRICT,
+  assignedTo INTEGER REFERENCES users(id)
 );
 
 CREATE TABLE incidents (
@@ -64,7 +67,6 @@ CREATE TABLE incidents (
   ticketId INTEGER NOT NULL REFERENCES tickets(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
-  code TEXT(3) NOT NULL DEFAULT 'INC' check (code='INC'),
   srcip TEXT,
   srcport TEXT,
   dstip TEXT,
@@ -79,7 +81,6 @@ CREATE TABLE vulnerabilities (
   ticketId INTEGER NOT NULL REFERENCES tickets(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
-  code TEXT(3) NOT NULL DEFAULT 'VUL' check (code='VUL'),
   advisories TEXT NOT NULL,
   cves TEXT REFERENCES cves(id)
     ON UPDATE CASCADE
@@ -94,7 +95,6 @@ CREATE TABLE events (
   ticketId INTEGER NOT NULL REFERENCES tickets(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
-  code TEXT(3) NOT NULL DEFAULT 'EVE' check (code='EVE'),
   resume TEXT NOT NULL,
   report INTEGER REFERENCES reports(id)
     ON UPDATE CASCADE

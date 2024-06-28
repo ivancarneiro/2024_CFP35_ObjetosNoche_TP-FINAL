@@ -1,6 +1,7 @@
-INSERT INTO users (nombre,apellido,email,role) VALUES 
+INSERT INTO users (name,surname,email,role) VALUES 
     ('Admin','Administrador','csirt@gna.gob,ar','ADMINISTRADOR'),
     ('Ivan', 'Carneiro', 'icarneiro@gmail.com', 'OPERADOR'),
+    ('Juan', 'Perez', 'juanperez@gmail.com', 'OPERADOR'),
     ('Tamara', 'Acosta', 'tacosta@gmail.com', 'VEEDOR');
 
 INSERT INTO categories_ticket (id, clasification, category, detail) VALUES
@@ -22,7 +23,7 @@ INSERT INTO categories_ticket (id, clasification, category, detail) VALUES
     (16, 'Disponibilidad', 'Denegación de servicio (DoS/DDoS)', 'Ciberataque que tiene como objetivo que uno o varios ordenadores, servicios u otros dispositivos no estén disponibles para los usuarios a los que va dirigido, interrumpiendo su funcionamiento normal.'),
     (17, 'Disponibilidad', 'Configuración errónea', 'Configuración débil o errónea de un sistema que permita afectar su disponibilidad.'),
     (18, 'Disponibilidad', 'Sabotaje', 'Sabotaje físico que puede afectar la disponibilidad de los servicios o de la información. Ej: cortes de cableados de equipos o incendios provocados.'),
-    (19, 'Disponibilidad', 'Interrupciones', 'Afectaciones a la disponibilidad por causas ajenas como desastre natural, condiciones climáticas desfavorables, etc.'),
+    (19, 'Disponibilidad', 'Interrupciones', 'Afectaciones a la disponibilidad por causas ajenas como corte suministro eléctrico, interrupción ISP, desastre natural, condiciones climáticas desfavorables, etc.'),
     (20, 'Compromiso de la información', 'Acceso no autorizado a la información', 'Acceso sin permiso a los activos, como documentos, sistemas, servicios, etc.'),
     (21, 'Compromiso de la información', 'Modificación no autorizada de la información', 'Alteración no autorizada de la información (creación, modificación o borrado). Esto puede ser causado por ataques de ransomware, queries SQL, etc.'),
     (22, 'Compromiso de la información', 'Pérdida de datos', 'Pérdida de información sucedida por fallo de hardware.'),
@@ -41,16 +42,14 @@ INSERT INTO categories_ticket (id, clasification, category, detail) VALUES
     (35, 'Activo vulnerable', 'Revelación de información', 'Servicios que permiten la obtencion de informacion sensible.'),
     (36, 'Otros', 'Amenaza persistente avanzada o APT', 'Ataques dirigidos a organizaciones.'),
     (37, 'Otros', 'Sectores no críticos', 'Aquellos incidentes que no puedan ser clasificados dentro de los actuales parámetros.');
-SELECT * FROM categories_ticket WHERE category LIKE '%phish%';
-SELECT * FROM categories_ticket WHERE clasification LIKE '%intrusion%';
 
 
 -- REGISTRAMOS UNOS TICKETS
-INSERT INTO tickets (title,severity,impact,resume,category,createdBy) VALUES ('Escaneo de red','BAJA','BAJO','Escaneo de puertos sobre infraestructura de PSA y DNIC con múltiples vectores de ataque.',8,1);
-INSERT INTO tickets (title,severity,impact,status,resume,category,createdBy) VALUES ('Compromiso de Aplicaciones','ALTA','IMPORTANTE','EN_PROGRESO','Intento de "Inyección SQL" sobre el portal web de denuncias de MINSEG',13,2);
-INSERT INTO tickets (title,severity,impact,category,createdBy) VALUES('Contenido Dañino','CRITICA','IMPORTANTE',4,2);
-INSERT INTO tickets (title,severity,impact,category,createdBy) VALUES('Vulnerabilidad FORTINET','CRITICA','CRITICO',33,2);
-SELECT * FROM tickets;
+INSERT INTO tickets (title,severity,impact,resume,category,createdBy,assignedTo) VALUES ('Escaneo de red','BAJA','BAJO','Escaneo de puertos sobre infraestructura de PSA y DNIC con múltiples vectores de ataque.',8,1,3);
+INSERT INTO tickets (title,severity,impact,status,resume,category,createdBy) VALUES ('Compromiso de Aplicaciones','ALTA','IMPORTANTE','TRAMITADO','Intento de "Inyección SQL" sobre el portal web de denuncias de MINSEG',13,2);
+INSERT INTO tickets (title,severity,impact,category,createdBy) VALUES('Contenido Dañino','CRITICA','IMPORTANTE',4,3);
+INSERT INTO tickets (title,code,severity,impact,category,createdBy,assignedTo) VALUES('Vulnerabilidad FORTINET','VUL','CRITICA','CRITICO',33,2,1);
+INSERT INTO tickets (title,code,category,severity,impact,createdBy,assignedTo,resume) VALUES('Corte suministro eléctrico Zonal','EVE',19,'CRITICA','CRITICO',2,1,'Corte suministro eléctrico de la Zona, afectando al nodo de distribucion del ISP principal');
 
 
 -- REGISTRAMOS UN CVE
@@ -59,7 +58,6 @@ INSERT INTO cves (cveId,severity,cvss,description,urlRef) VALUES
 -- REGISTRAMOS UNA VULNERABILIDAD Y ASOSIACIAMO EL CVE REGISTRADO ANTERIORMENTE
 INSERT INTO vulnerabilities (ticketId,advisories,resume,vendor,cves,urlRef) VALUES 
 (4,'FG-IR-23-087','Una vulnerabilidad de Control Inadecuado de Generación de Código ("Inyección de Código") [CWE-94] en FortiClientLinux puede permitir## que un atacante no autenticado ejecute código arbitrario engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso.','FORTINET',1,'https://www.fortiguard.com/psirt/FG-IR-23-087');
-SELECT * FROM vulnerabilities;
 
 
 -- AGREGAMOS 2 REPORTES PARA PRUEBAS
@@ -68,20 +66,16 @@ INSERT INTO reports (id,title,created_by,description) VALUES
 (2,'SQLinjection',1,'Se observa desde FortiSIEM-MINSEG un intento de "Inyección SQL" sobre el portal web de denuncias de MINSEG, intentando inyectar y ejecutar código según anáilis del payload.\nSe informa al Dpartamento de Infraestructura MINSEG fines confirmen estado del indicente, POSITIVO/FLASO POSITIVO.\nSe espera respuesta.'),
 (3,'Botnet C&C red 139.45.197.0',2,'Se observó en Analizer-MinSeg una alarma de un endpoint posiblemente infectado relacionado con una IP sospechosa que se reitera en otras Fuerzas.\n
 Se informó Seguridad Informátoca MINSEG para bloqueara la IP 139.45.197.251 por el Puerto 443.\nSe trataría de una Botnet C&C que infecta a los endpoints mediante Adware en distintas webs.\n\nAcción\nSe recomendó a Seguridad Informática realizar un bloqueo preventivo sobre la red 139.45.197.0, fines evitar que otros host se sigan infectando y realizar un escaneo con herramientas antimalware en las IP reportadas como comprometidas');
-SELECT * FROM reports;
 
 
 INSERT INTO incidents (ticketId,srcip,dstip,srcport,dstport,report) VALUES
 (1,'98.25.125.175','10.103.10.26','55022,55023,55024','22,1433,3306',1),
 (2,'45.98.145.125','192.168.1.10',NULL,'80,443',2),
 (3,'139.45.197.251','10.103.17.4',NULL,'22,1433,3306',3);
-SELECT * FROM incidents;
 
 
-UPDATE tickets SET status='CERRADO' WHERE id=1;
--- Calculate and SET tickets.resolution timestamp
-UPDATE tickets
-SET resolution = strftime('%d día/s %H:%M hs', (julianday(lastUpdate) - julianday(createdAt)) * 24 * 60 * 60)
-WHERE status = 'CERRADO';
-
-SELECT * FROM tickets;
+-- -- Calculate and SET tickets.resolution
+-- UPDATE tickets SET
+--     status = 'CERRADO',
+--     lastUpdate = DATETIME(CURRENT_TIMESTAMP, 'localtime')
+-- WHERE id = 1;
