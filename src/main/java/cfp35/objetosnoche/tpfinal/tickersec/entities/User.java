@@ -2,13 +2,12 @@ package cfp35.objetosnoche.tpfinal.tickersec.entities;
 
 import cfp35.objetosnoche.tpfinal.tickersec.enums.User_roles;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Data
 @AllArgsConstructor
-@Setter
-@Getter
+@NoArgsConstructor
 public class User {
     private int id;
     private String name;
@@ -18,7 +17,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Nombre y Apellido: "+this.name+" "+this.surname+" | Email: "+this.email+" | Rol: "+this.role;
+        return "id: "+this.id+" | Nombre y Apellido: "+this.name+" "+this.surname+" | Email: "+this.email+" | Rol: "+this.role;
     }
 }
 

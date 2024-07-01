@@ -1,8 +1,10 @@
 function mueveReloj(){
-    momentoActual = new Date()
-    hora = momentoActual.getHours()
-    minuto = momentoActual.getMinutes()
-    segundo = momentoActual.getSeconds()
+    fechaActual = new Date()
+
+
+    const hora = fechaActual.getHours()
+    const minuto = fechaActual.getMinutes()
+    const segundo = fechaActual.getSeconds()
 
     horaImprimible =    hora.toString().padStart(2, '0') + " : " + 
                         minuto.toString().padStart(2, '0') + " : " + 

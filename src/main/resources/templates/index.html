@@ -11,24 +11,24 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body onload="mueveReloj()">
-    <div class="container-md bg-secondary-subtle">
-
+<body onload="mueveReloj(), fechaHover()">
+    <div class="container-fluid-md bg-secondary-subtle text-center">
         <!-- Menu -->
-        <div th:insert="fragments/menu :: menu"></div>
+        <div th:insert="fragments/menu::menu"></div>
 
         <!-- Banner -->
         <h1 class="text-center text-primary p-2 m-2 ">Sistema TickerSec</h1>
 
-        <!-- Imagen -->
-        <div class="bg-image opacity-50 text-center">
-            <img src="images/wallpaper.jpeg" class="img-fluid" alt="wallpaper">
-        </div>
-
+        <!-- Background Img -->
+        <div id="body-img"></div>
     </div>
+
+    <div th:insert="fragments/footer::footer"></div>
+    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <!-- Reloj -->
     <script src="js/reloj.js"></script>
 </body>
 
