@@ -4,7 +4,7 @@ INSERT INTO users (name,surname,email,role) VALUES
     ('Juan', 'Perez', 'juanperez@gmail.com', 'OPERADOR'),
     ('Tamara', 'Acosta', 'tacosta@gmail.com', 'VEEDOR');
 
-INSERT INTO categories_ticket (id, clasification, category, detail) VALUES
+INSERT INTO categories_ticket (id, clasification, category, description) VALUES
     (1, 'Contenido Abusivo', 'SPAM', 'Correo electrónico masivo no solicitado.'),
     (2, 'Contenido Abusivo', 'Manifestación de odio', 'Contenido discriminatorio, acoso, amenazas, incitación a la violencia o similar.'),
     (3, 'Contenido Abusivo', 'Abuso sexual infantil, contenido sexual', 'Material que represente contenido relacionado con el abuso sexual infantil, etc.'),

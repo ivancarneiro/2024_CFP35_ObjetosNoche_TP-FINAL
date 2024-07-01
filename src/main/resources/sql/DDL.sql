@@ -1,6 +1,6 @@
 -- Active: 1719275292816@@127.0.0.1@3306
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS categories_ticket;
+DROP TABLE IF EXISTS ticke_categoriest;
 DROP TABLE IF EXISTS reports;
 DROP TABLE IF EXISTS cves;
 DROP TABLE IF EXISTS tickets;
@@ -16,11 +16,11 @@ CREATE TABLE users (
   role TEXT NOT NULL check (role in ('ADMINISTRADOR','OPERADOR','VEEDOR'))
 );
 
-CREATE TABLE categories_ticket (
+CREATE TABLE ticket_categories (
   id INTEGER PRIMARY KEY,
   clasification TEXT NOT NULL,
   category TEXT NOT NULL,
-  detail TEXT NOT NULL
+  description TEXT NOT NULL
 );
 
 CREATE TABLE reports (
@@ -52,7 +52,7 @@ CREATE TABLE tickets (
   severity TEXT DEFAULT 'BAJA' check (severity in ('CRITICA','ALTA','MEDIA','BAJA')),
   impact TEXT DEFAULT 'NULO' check (impact in ('CRITICO','IMPORTANTE','MODERADO','BAJO','NULO')),
   status TEXT DEFAULT 'ABIERTO' check (status in ('ABIERTO','TRAMITADO','CERRADO')),
-  category INTEGER NOT NULL REFERENCES categories_ticket(id)
+  category INTEGER NOT NULL REFERENCES ticket_categories(id)
     ON UPDATE RESTRICT
     ON DELETE RESTRICT,
   resume TEXT(300),
