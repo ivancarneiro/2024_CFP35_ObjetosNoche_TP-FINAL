@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    private int id;
-    private String name;
-    private String surname;
-    private String email;
-    private User_roles role;
+    int id;
+    String name;
+    String surname;
+    String email;
+    User_roles role;
 
     @Override
     public String toString() {

@@ -48,8 +48,8 @@ INSERT INTO ticket_categories (id, clasification, category, description) VALUES
 INSERT INTO tickets (title,severity,impact,resume,category,createdBy,assignedTo) VALUES ('Escaneo de red','BAJA','BAJO','Escaneo de puertos sobre infraestructura de PSA y DNIC con múltiples vectores de ataque.',8,1,3);
 INSERT INTO tickets (title,severity,impact,status,resume,category,createdBy) VALUES ('Compromiso de Aplicaciones','ALTA','IMPORTANTE','TRAMITADO','Intento de "Inyección SQL" sobre el portal web de denuncias de MINSEG',13,2);
 INSERT INTO tickets (title,severity,impact,category,createdBy) VALUES('Contenido Dañino','CRITICA','IMPORTANTE',4,3);
-INSERT INTO tickets (title,code,severity,impact,category,createdBy,assignedTo) VALUES('Vulnerabilidad FORTINET','VUL','CRITICA','CRITICO',33,2,1);
-INSERT INTO tickets (title,code,category,severity,impact,createdBy,assignedTo,resume) VALUES('Corte suministro eléctrico Zonal','EVE',19,'CRITICA','CRITICO',2,1,'Corte suministro eléctrico de la Zona, afectando al nodo de distribucion del ISP principal');
+INSERT INTO tickets (title,type,severity,impact,category,createdBy,assignedTo) VALUES('Vulnerabilidad FORTINET','VUL','CRITICA','CRITICO',33,2,1);
+INSERT INTO tickets (title,type,category,severity,impact,createdBy,assignedTo,resume) VALUES('Corte suministro eléctrico Zonal','EVE',19,'CRITICA','CRITICO',2,1,'Corte suministro eléctrico de la Zona, afectando al nodo de distribucion del ISP principal');
 
 
 -- REGISTRAMOS UN CVE

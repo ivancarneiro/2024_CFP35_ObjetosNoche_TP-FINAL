@@ -12,7 +12,7 @@ import cfp35.objetosnoche.tpfinal.tickersec.enums.User_roles;
 
 public class UserRepository {
 
-    private Connection conn = Connector.getConnection();
+    private final Connection conn = Connector.getConnection();
 
     public List<User> getAll() {
         List<User> list = new ArrayList<>();

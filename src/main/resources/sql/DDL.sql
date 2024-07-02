@@ -36,8 +36,10 @@ CREATE TABLE reports (
 CREATE TABLE cves (
   id INTEGER PRIMARY KEY,
   cveId TEXT(15) NOT NULL DEFAULT 'CVE-XXXX-XXXXX',
+  publishedDate DATE,
+  lastUpdated DATE,
   severity TEXT NOT NULL check (severity in ('CRITICA','ALTA','MEDIA','BAJA')),
-  cvss FLOAT check (cvss >= 0 and cvss <=10),
+  cvss FLOAT NOT NULL check (cvss >= 0 and cvss <=10),
   description TEXT NOT NULL,
   urlRef TEXT NOT NULL
 );
@@ -45,7 +47,7 @@ CREATE TABLE cves (
 CREATE TABLE tickets (
   id integer PRIMARY KEY,
   title TEXT(100) NOT NULL,
-  code TEXT(3) NOT NULL DEFAULT 'INC' check (code in ('INC','VUL','EVE')),
+  type TEXT(3) NOT NULL DEFAULT 'INC' check (type in ('INC','VUL','EVE')),
   createdAt DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'localtime')),
   lastUpdate DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'localtime')),
   resolution DATETIME,
