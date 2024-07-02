@@ -1,8 +1,8 @@
 -- CONSULTAS DE PRUEBA
 SELECT * FROM users;
-SELECT clasification, count(categories_ticket.clasification) AS 'CANT' FROM categories_ticket GROUP BY clasification;
-SELECT count(categories_ticket.category) AS 'CATEGORIAS_DE_TICKET' FROM categories_ticket;
-SELECT * FROM categories_ticket WHERE category LIKE '%phish%';
+SELECT clasification, count(ticket_categories.clasification) AS 'CANT' FROM ticket_categories GROUP BY clasification;
+SELECT count(ticket_categories.category) AS 'CATEGORIAS_DE_TICKET' FROM ticket_categories;
+SELECT * FROM ticket_categories WHERE category LIKE '%phish%';
 SELECT * FROM tickets;
 SELECT * FROM incidents;
 SELECT * FROM vulnerabilities;
@@ -24,10 +24,10 @@ SELECT tickets.id, tickets.code, tickets.title, tickets.createdAt, tickets.resol
     WHERE users.name LIKE '%ivan%';
 
 -- 3 INCIDENTES REGISTRADOS DE CATEGORIA MALWARE
-SELECT tickets.id, tickets.code, tickets.title, tickets.severity, tickets.impact, tickets.status, categories_ticket.clasification, categories_ticket.category
+SELECT tickets.id, tickets.code, tickets.title, tickets.severity, tickets.impact, tickets.status, ticket_categories.clasification, ticket_categories.category
     FROM tickets
-    JOIN categories_ticket ON tickets.category = categories_ticket.id
-    WHERE categories_ticket.category LIKE '%malware%';
+    JOIN ticket_categories ON tickets.category = ticket_categories.id
+    WHERE ticket_categories.category LIKE '%malware%';
 
 
 -- 4 TICKETS INCIDENTES ORDENADOS POR EL TITULO
