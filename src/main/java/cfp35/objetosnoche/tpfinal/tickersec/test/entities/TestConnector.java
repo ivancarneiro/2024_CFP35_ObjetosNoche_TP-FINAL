@@ -1,4 +1,4 @@
-package cfp35.objetosnoche.tpfinal.tickersec.test;
+package cfp35.objetosnoche.tpfinal.tickersec.test.entities;
 
 import java.sql.ResultSet;
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;

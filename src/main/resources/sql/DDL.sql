@@ -1,4 +1,3 @@
--- Active: 1719951559938@@127.0.0.1@3306
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS ticket_categories;
 DROP TABLE IF EXISTS reports;
@@ -53,15 +52,15 @@ CREATE TABLE tickets (
   resolution DATETIME,
   severity TEXT DEFAULT 'BAJA' check (severity in ('CRITICA','ALTA','MEDIA','BAJA')),
   impact TEXT DEFAULT 'NULO' check (impact in ('CRITICO','IMPORTANTE','MODERADO','BAJO','NULO')),
-  status TEXT DEFAULT 'ABIERTO' check (status in ('ABIERTO','TRAMITADO','CERRADO')),
   category INTEGER NOT NULL REFERENCES ticket_categories(id)
     ON UPDATE RESTRICT
     ON DELETE RESTRICT,
-  resume TEXT(300),
   createdBy INTEGER NOT NULL REFERENCES users(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
-  assignedTo INTEGER REFERENCES users(id)
+  assignedTo INTEGER REFERENCES users(id),
+  status TEXT DEFAULT 'ABIERTO' check (status in ('ABIERTO','TRAMITADO','CERRADO')),
+  resume TEXT(300)
 );
 
 CREATE TABLE incidents (

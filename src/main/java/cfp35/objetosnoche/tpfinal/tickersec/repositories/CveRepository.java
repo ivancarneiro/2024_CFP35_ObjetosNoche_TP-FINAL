@@ -1,12 +1,14 @@
 package cfp35.objetosnoche.tpfinal.tickersec.repositories;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.CVE;
+import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 
 
 public class CveRepository {
@@ -22,7 +24,7 @@ public class CveRepository {
                 rs.getString("cveId"),
                 rs.getDate("publishedDate").toLocalDate(),
                 rs.getDate("lastUpdate").toLocalDate(),
-                rs.getString("severity"),
+                Ticket_severities.valueOf(rs.getString("severity")),
                 rs.getFloat("cvss"),
                 rs.getString("description"),
                 rs.getString("urlRef")
@@ -32,6 +34,20 @@ public class CveRepository {
             System.out.println(e);
         }
         return list;
+    }
+
+    public void save(CVE cve) {
+        if (cve == null) return;
+        try (PreparedStatement ps = conn.prepareStatement(
+                "insert into cves (cveId,publishedDate,lastUpdate,severity,cvss,description,urlRef) values (?,?,?,?,?,?,?,?)",
+                PreparedStatement.RETURN_GENERATED_KEYS)) {
+            
+            ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) cve.setId(rs.getInt("id"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
 

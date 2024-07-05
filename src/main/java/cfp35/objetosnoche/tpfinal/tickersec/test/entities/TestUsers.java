@@ -1,4 +1,4 @@
-package cfp35.objetosnoche.tpfinal.tickersec.test;
+package cfp35.objetosnoche.tpfinal.tickersec.test.entities;
 
 import cfp35.objetosnoche.tpfinal.tickersec.entities.User;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.User_roles;
