@@ -13,7 +13,7 @@ CREATE TABLE users (
   surname TEXT(50) NOT NULL,
   email TEXT(50) UNIQUE NOT NULL /* No puede repetirse con otro usuario.*/,
   role TEXT NOT NULL check (role in ('ADMINISTRADOR','OPERADOR','VEEDOR')),
-  status BOOLEAN DEFAULT TRUE check (status in (TRUE, FALSE))
+  status TEXT DEFAULT 'ENABLED' check (status in ('ENABLED','DISABLED'))
 );
 
 CREATE TABLE ticket_categories (

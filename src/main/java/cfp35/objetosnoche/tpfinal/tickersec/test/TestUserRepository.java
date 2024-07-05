@@ -14,11 +14,11 @@ public class TestUserRepository {
         System.out.println("____ Metodo save() ____");
         userRepository.save(new User(0,"Bastian","Carneiro","bastian@gmail.com",User_roles.ADMINISTRADOR));
         System.out.println("Se registro el usuario:");
+        userRepository.save(new User(0,"Guadalupe","Acosta","gacosta@gmail.com",User_roles.OPERADOR));
+        System.out.println("Se registro el usuario:");
         System.out.println(userRepository.getAll().getLast());
         System.out.println();
-        // userRepository.save(new User(0,"Guadalupe","Acosta","gacosta@gmail.com",User_roles.OPERADOR));
-        // System.out.println("Se registro el usuario:");
-        // System.out.println(userRepository.getAll().getLast());
+        
         System.out.println();
         System.out.println("____ Metodo getById() ____");
         System.out.println(userRepository.getById(2));

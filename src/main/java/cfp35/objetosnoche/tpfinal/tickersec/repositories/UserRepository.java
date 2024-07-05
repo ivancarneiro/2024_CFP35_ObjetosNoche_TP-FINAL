@@ -19,11 +19,11 @@ public class UserRepository {
         try (ResultSet rs = conn.createStatement().executeQuery("select * from users")) {
             while (rs.next()) {
                 list.add(new User(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("surname"),
-                        rs.getString("email"),
-                        User_roles.valueOf(rs.getString("role"))));
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("surname"),
+                    rs.getString("email"),
+                    User_roles.valueOf(rs.getString("role"))));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -50,7 +50,7 @@ public class UserRepository {
     }
 
     public void remove(Integer id){
-        try (PreparedStatement ps=conn.prepareStatement("delete from users where id=?")){
+        try (PreparedStatement ps=conn.prepareStatement("update users set status='DISABLE' where id=?")){
             ps.setInt(1, id);
             ps.execute();
         } catch (Exception e) {
