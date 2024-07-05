@@ -5,6 +5,7 @@ import cfp35.objetosnoche.tpfinal.tickersec.enums.User_roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @AllArgsConstructor
@@ -15,8 +16,7 @@ public class User {
     private String surname;
     private String email;
     private User_roles role;
-    private Entity_status status = Entity_status.TRUE;
-
+    private Entity_status status;
 
     @Override
     public String toString() {

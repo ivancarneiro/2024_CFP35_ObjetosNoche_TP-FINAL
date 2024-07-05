@@ -12,7 +12,8 @@ CREATE TABLE users (
   name TEXT(50) NOT NULL,
   surname TEXT(50) NOT NULL,
   email TEXT(50) UNIQUE NOT NULL /* No puede repetirse con otro usuario.*/,
-  role TEXT NOT NULL check (role in ('ADMINISTRADOR','OPERADOR','VEEDOR'))
+  role TEXT NOT NULL check (role in ('ADMINISTRADOR','OPERADOR','VEEDOR')),
+  status BOOLEAN DEFAULT TRUE check (status in (TRUE, FALSE))
 );
 
 CREATE TABLE ticket_categories (
