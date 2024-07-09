@@ -1,4 +1,4 @@
-package cfp35.objetosnoche.tpfinal.tickersec.test;
+package cfp35.objetosnoche.tpfinal.tickersec.test.repositories;
 
 public class TestCveRepository {
     public static void main(String[] args) {
