@@ -18,8 +18,8 @@ CREATE TABLE users (
 
 CREATE TABLE ticket_categories (
   id INTEGER PRIMARY KEY,
+  clasification TEXT NOT NULL,
   category TEXT NOT NULL,
-  type TEXT NOT NULL,
   description TEXT NOT NULL
 );
 

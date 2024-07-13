@@ -1,0 +1,49 @@
+<div th:fragment="menu">
+    <!-- Menú de navegación -->
+    <nav class="navbar navbar-expand-lg bg-primary px-4" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-bran me-4" href="/" id="bran">
+                <img src="icons/favicon-824.png" alt="Logo" width="80rem">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item mx-1">
+                        <a class="nav-link active item" aria-current="page" href="#">Tickets</a>
+                    </li>
+                    <li class="nav-item mx-1">
+                        <a class="nav-link active item" aria-current="page" href="#">Vulnerabilidades</a>
+                    </li>
+                    <li class="nav-item mx-1">
+                        <a class="nav-link active item" aria-current="page" href="#">CVEs</a>
+                    </li>
+                    <li class="nav-item mx-1 dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Administraci&oacute;n
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <!-- RELOJ -->
+                    <li class="nav-item d-flex">
+                        <div class="text-light border border-light m-2 px-2 rounded" id="reloj"></div>
+                        <div id="fechaHover">.</div>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" name="buscar" type="search" placeholder="Buscar"
+                        aria-label="Search">
+                    <button class="btn btn-outline-info" type="submit">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>

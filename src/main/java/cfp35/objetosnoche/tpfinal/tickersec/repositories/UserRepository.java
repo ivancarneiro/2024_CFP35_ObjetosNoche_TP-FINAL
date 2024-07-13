@@ -86,6 +86,10 @@ public class UserRepository {
         }
     }
 
+    /**
+     * @param id
+     * @return Devuelve un objeto User cuyo id es igual al valor pasado como parámetro.
+     */
     public User getById(int id) {
         return getAll()
                 .stream()
@@ -94,6 +98,10 @@ public class UserRepository {
                 .orElseThrow();
     }
 
+    /**
+     * @param apellido
+     * @return Devuelve una lista de usuarios cuyo apellido contiene el valor pasado como parámetro.
+     */
     public List<User> getLikeApellido(String apellido) {
         if (apellido == null)
             return new ArrayList<>();
@@ -104,10 +112,12 @@ public class UserRepository {
     }
 
     /**
+     * Permite actualizar los valores de los atributos (email, role o status).
+     * Se debe proporcionar de forma obligatoria el id y al menos un valor de algún atribut
      * @param id
      * @param email
-     * @param role
-     * @param status
+    * @param role -> Enun (ADMINISTRADOR, OPERADOR, VEEDOR)
+     * @param status -> Enun (HABILITADO, NOHABILITADO)
      */
     public void update(Integer id, String email, String role, String status) {
         
