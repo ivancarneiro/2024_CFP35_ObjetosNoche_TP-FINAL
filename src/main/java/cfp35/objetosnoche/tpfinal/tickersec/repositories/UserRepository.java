@@ -17,7 +17,8 @@ public class UserRepository {
 
     public List<User> getAll() {
         List<User> list = new ArrayList<>();
-        try (ResultSet rs = conn.createStatement().executeQuery("select * from users")) {
+        String selectUsers = "select * from users";
+        try (ResultSet rs = conn.createStatement().executeQuery(selectUsers)) {
             while (rs.next()) {
                 list.add(new User(
                         rs.getInt("id"),
@@ -35,7 +36,8 @@ public class UserRepository {
 
     public List<User> usuariosHabilitados() {
         List<User> list = new ArrayList<>();
-        try (ResultSet rs = conn.createStatement().executeQuery("select * from users where status='HABILITADO")) {
+        String selectHabilitado = "select * from users where status='HABILITADO";
+        try (ResultSet rs = conn.createStatement().executeQuery(selectHabilitado)) {
             while (rs.next()) {
                 list.add(new User(
                         rs.getInt("id"),
@@ -54,9 +56,8 @@ public class UserRepository {
     public void save(User user) {
         if (user == null)
             return;
-        try (PreparedStatement ps = conn.prepareStatement(
-                "insert into users (name,surname,email,role) values (?,?,?,?)",
-                PreparedStatement.RETURN_GENERATED_KEYS)) {
+        String saveUser = "insert into users (name,surname,email,role) values (?,?,?,?)";
+        try (PreparedStatement ps = conn.prepareStatement(saveUser, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
             ps.setString(3, user.getEmail());
@@ -66,12 +67,18 @@ public class UserRepository {
             if (rs.next())
                 user.setId(rs.getInt(1));
         } catch (Exception e) {
+            System.out.println("*** NO SE PUDO REGSITRAR EL USURAIO ***");
             System.out.println(e);
         }
     }
 
     public void remove(Integer id) {
-        try (PreparedStatement ps = conn.prepareStatement("update users set status='NOHABILITADO' where id=?")) {
+        // El metodo remove() no elimina al usuario sino que lo deshabilita de la vista
+        // normal.
+        // Por cuestiones de auditoria ningun usuario creado se eliminará una vez
+        // creado.
+        String removeUser = "update users set status='NOHABILITADO' where id=?";
+        try (PreparedStatement ps = conn.prepareStatement(removeUser)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -84,8 +91,73 @@ public class UserRepository {
                 .stream()
                 .filter(user -> user.getId() == id)
                 .findAny()
-                .orElse(new User());
+                .orElseThrow();
     }
-}
 
-// TODO "Metodos getLikeApellido, update"
+    public List<User> getLikeApellido(String apellido) {
+        if (apellido == null)
+            return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(user -> user.getSurname().toLowerCase().contains(apellido.toLowerCase()))
+                .toList();
+    }
+
+    /**
+     * @param id
+     * @param email
+     * @param role
+     * @param status
+     */
+    public void update(Integer id, String email, String role, String status) {
+        
+        if ((email == null || "".equals(email)) && (role == null || "".equals(role)) && (status == null || "".equals(status))) {
+            System.out.println("Error: Debes proporcionar al menos un atributo para actualizar.");
+            return;
+        }
+
+        StringBuilder updateQuery = new StringBuilder("UPDATE users SET ");
+        List<String> updateColumns = new ArrayList<>();
+
+        if (email != null) {
+            updateColumns.add("email = ?");
+        }
+        if (role != null) {
+            updateColumns.add("role = ?");
+        }
+        if (status != null) {
+            updateColumns.add("status = ?");
+        }
+
+        updateQuery.append(String.join(", ", updateColumns));
+        updateQuery.append(" WHERE id = ?");
+
+        try (PreparedStatement ps = conn.prepareStatement(updateQuery.toString())) {
+            int paramIndex = 1;
+
+            if (email != null) {
+                ps.setString(paramIndex++, email);
+            }
+            if (role != null) {
+                ps.setString(paramIndex++, role);
+            }
+            if (status != null) {
+                ps.setString(paramIndex++, status);
+            }
+
+            ps.setInt(paramIndex, id);
+
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Usuario actualizado correctamente.");
+                System.out.println(getById(id));
+            } else {
+                System.out.println("Error al actualizar el usuario o usuario no encontrado.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al ejecutar la consulta de actualización.");
+            System.out.println(e);
+        }
+    }
+
+}

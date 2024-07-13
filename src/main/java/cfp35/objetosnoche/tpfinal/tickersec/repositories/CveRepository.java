@@ -1,10 +1,13 @@
 package cfp35.objetosnoche.tpfinal.tickersec.repositories;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.CVE;
@@ -12,18 +15,19 @@ import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 
 
 public class CveRepository {
+
     private final Connection conn = Connector.getConnection();
 
     public List<CVE> getAll() {
         List<CVE> list = new ArrayList<>();
-
-        try (ResultSet rs = conn.createStatement().executeQuery("select * from cves")) {
+        String selectCves = "select * from cves";
+        try (ResultSet rs = conn.createStatement().executeQuery(selectCves)) {
         while (rs.next()) {
             list.add(new CVE(
                 rs.getInt("id"),
                 rs.getString("cveId"),
-                rs.getDate("publishedDate").toLocalDate(),
-                rs.getDate("lastUpdate").toLocalDate(),
+                LocalDate.parse(rs.getString("publishedDate")),
+                LocalDate.parse(rs.getString("lastUpdate")),
                 Ticket_severities.valueOf(rs.getString("severity")),
                 rs.getFloat("cvss"),
                 rs.getString("description"),
@@ -38,10 +42,15 @@ public class CveRepository {
 
     public void save(CVE cve) {
         if (cve == null) return;
-        try (PreparedStatement ps = conn.prepareStatement(
-                "insert into cves (cveId,publishedDate,lastUpdate,severity,cvss,description,urlRef) values (?,?,?,?,?,?,?,?)",
-                PreparedStatement.RETURN_GENERATED_KEYS)) {
-            
+        String saveSql = "insert into cves (cveId,publishedDate,lastUpdate,severity,cvss,description,urlRef) values (?,?,?,?,?,?,?,?)";
+        try (PreparedStatement ps = conn.prepareStatement(saveSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, cve.getCveId());
+            ps.setDate(2, Date.valueOf(cve.getPublishedDate()));
+            ps.setDate(3, Date.valueOf(cve.getLastUpdate()));
+            ps.setString(4,cve.getSeverity().toString());
+            ps.setFloat(5, cve.getCvss());
+            ps.setString(6, cve.getDescription());
+            ps.setString(7, cve.getUrlRef());
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) cve.setId(rs.getInt("id"));

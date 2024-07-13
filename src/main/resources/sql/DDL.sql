@@ -37,7 +37,7 @@ CREATE TABLE cves (
   id INTEGER PRIMARY KEY,
   cveId TEXT(15) NOT NULL DEFAULT 'CVE-XXXX-XXXXX',
   publishedDate DATE,
-  lastUpdated DATE,
+  lastUpdate DATE,
   severity TEXT NOT NULL check (severity in ('CRITICA','ALTA','MEDIA','BAJA')),
   cvss FLOAT NOT NULL check (cvss >= 0 and cvss <=10),
   description TEXT NOT NULL,

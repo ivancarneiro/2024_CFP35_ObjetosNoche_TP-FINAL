@@ -1,10 +1,5 @@
 package cfp35.objetosnoche.tpfinal.tickersec.test.repositories;
 
-import javax.swing.SortOrder;
-
-import cfp35.objetosnoche.tpfinal.tickersec.entities.User;
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Entity_status;
-import cfp35.objetosnoche.tpfinal.tickersec.enums.User_roles;
 import cfp35.objetosnoche.tpfinal.tickersec.repositories.UserRepository;
 
 public class TestUserRepository {
@@ -16,18 +11,13 @@ public class TestUserRepository {
         System.out.println();
 
         System.out.println("____ Metodo save() ____");
-        userRepository.save(new User(0,"Bastian","Carneiro","bastian@gmail.com",User_roles.ADMINISTRADOR,Entity_status.HABILITADO));
-        System.out.println("Se registro el usuario:");
-        System.out.println(userRepository.getAll().getLast());
-        System.out.println();
-        userRepository.save(new User(0,"Guadalupe","Acosta","gacosta@gmail.com",User_roles.OPERADOR,Entity_status.HABILITADO));
-        System.out.println("Se registro el usuario:");
-        System.out.println(userRepository.getAll().getLast());
+        // userRepository.save(new User(0,"Bastian","Carneiro","bastian@gmail.com",User_roles.ADMINISTRADOR,Entity_status.HABILITADO));
+        // userRepository.save(new User(0,"Guadalupe","Acosta","gacosta@gmail.com",User_roles.OPERADOR,Entity_status.HABILITADO));
         System.out.println();
         
         System.out.println("____ Metodo getById() ____");
-        System.out.println("--> obtenemos usuario con id=2");
-        System.out.println(userRepository.getById(2));
+        // System.out.println("--> obtenemos usuario con id=2");
+        System.out.println(userRepository.getById(5));
         System.out.println();
 
         System.out.println("____ Metodo remove() ____");
@@ -40,5 +30,19 @@ public class TestUserRepository {
 
         System.out.println("____ Lista Users actualizada ____");
         userRepository.getAll().forEach(System.out::println);
+        System.out.println();
+
+        System.out.println("____ Metodo getLikeApellido() ____");
+        userRepository.getLikeApellido("car").forEach(System.out::println);
+        System.out.println();
+
+        System.out.println("____ Metodo update() ____");
+        // userRepository.update(null, null, null, null);
+        userRepository.update(5, null, "OPERADOR", "HABILITADO");
+        System.out.println();
+
+        System.out.println("____ Lista Users actualizada ____");
+        userRepository.getAll().forEach(System.out::println);
+        System.out.println();
     }
 }

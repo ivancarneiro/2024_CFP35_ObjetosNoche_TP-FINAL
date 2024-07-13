@@ -23,7 +23,7 @@ public class User {
                 " | Nombre y Apellido: "+this.name+" "+this.surname+
                 " | Email: "+this.email+
                 " | Rol: "+this.role+
-                " | Estado: "+this.status.name();
+                " | Estado: "+this.status;
     }
 }
 
