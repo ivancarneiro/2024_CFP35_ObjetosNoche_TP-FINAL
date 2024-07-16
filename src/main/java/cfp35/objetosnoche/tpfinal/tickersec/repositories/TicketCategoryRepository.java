@@ -7,24 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
-import cfp35.objetosnoche.tpfinal.tickersec.entities.TicketCategorie;
+import cfp35.objetosnoche.tpfinal.tickersec.entities.TicketCategory;
 
 /**
  * Repositorio para administrar las categorías de ticket.
  */
-public class TicketCategorieRepository {
+public class TicketCategoryRepository {
 
     private final Connection conn = Connector.getConnection();
 
     /**
      * @return Devuelve una lista de todas las categorías de ticket registradas.
      */
-    public List<TicketCategorie> getAll() {
-        List<TicketCategorie> list = new ArrayList<>();
+    public List<TicketCategory> getAll() {
+        List<TicketCategory> list = new ArrayList<>();
         String selectCategories = "select * from ticket_categories";
         try (ResultSet rs = conn.createStatement().executeQuery(selectCategories)) {
             while (rs.next()) {
-                list.add(new TicketCategorie(
+                list.add(new TicketCategory(
                         rs.getInt("id"),
                         rs.getString("category"),
                         rs.getString("type"),
@@ -40,7 +40,7 @@ public class TicketCategorieRepository {
      * @param id
      * @return Devuelve un objeto TicketCategorie cuyo id es igual al valor pasado como parámetro.
      */
-    public TicketCategorie getById(int id) {
+    public TicketCategory getById(int id) {
         return getAll()
                 .stream()
                 .filter(tkCategory -> tkCategory.getId() == id)
@@ -52,7 +52,7 @@ public class TicketCategorieRepository {
      * @param tipo
      * @return Devuelve una lista de categorias de ticket donde el tipo contiene el valor pasado como parámetro.
      */
-    public List<TicketCategorie> getLikeType(String tipo) {
+    public List<TicketCategory> getLikeType(String tipo) {
         return getAll()
                 .stream()
                 .filter(tkCategory -> tkCategory.getType().toLowerCase().contains(tipo.toLowerCase()))
@@ -60,7 +60,7 @@ public class TicketCategorieRepository {
     }
 
 
-    public void save(TicketCategorie tkCategory) {
+    public void save(TicketCategory tkCategory) {
         if (tkCategory == null) return;
         String saveCategory = "insert into ticket_categories (category, type, description) values (?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(saveCategory, PreparedStatement.RETURN_GENERATED_KEYS)) {

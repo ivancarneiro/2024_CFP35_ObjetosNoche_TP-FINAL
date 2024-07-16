@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TicketCategorie {
+public class TicketCategory {
     private Integer id;
     private String category;
     private String type;

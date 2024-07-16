@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.CVE;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
@@ -60,4 +59,4 @@ public class CveRepository {
     }
 }
 
-// TODO crear metodo save() y un metodo para mapear un json-cves y grabarlos en la DB.
+// TODO crear metodo para mapear json-cves y grabarlos en la DB.

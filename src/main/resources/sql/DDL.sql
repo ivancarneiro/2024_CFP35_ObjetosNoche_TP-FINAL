@@ -50,7 +50,7 @@ CREATE TABLE tickets (
   type TEXT(3) NOT NULL DEFAULT 'INC' check (type in ('INC','VUL','EVE')),
   createdAt DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'localtime')),
   lastUpdate DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'localtime')),
-  resolution DATETIME,
+  resolution TEXT,
   severity TEXT DEFAULT 'BAJA' check (severity in ('CRITICA','ALTA','MEDIA','BAJA')),
   impact TEXT DEFAULT 'NULO' check (impact in ('CRITICO','IMPORTANTE','MODERADO','BAJO','NULO')),
   category INTEGER NOT NULL REFERENCES ticket_categories(id)
@@ -73,7 +73,7 @@ CREATE TABLE incidents (
   srcport TEXT,
   dstip TEXT,
   dstport TEXT,
-  report INTEGER REFERENCES reports(id)
+  reportId INTEGER REFERENCES reports(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 );
@@ -98,7 +98,7 @@ CREATE TABLE events (
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
   resume TEXT NOT NULL,
-  report INTEGER REFERENCES reports(id)
+  reportId INTEGER REFERENCES reports(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 )

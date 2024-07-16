@@ -10,7 +10,7 @@ public class TestUsers {
         System.out.println("--- Test Users Entity ---");
         System.out.println();
 
-        User user5 = new User(5, "Guadalupe","Acosta","gacosta@gmail.com",User_roles.OPERADOR, Entity_status.HABILITADO);
+        User user5 = new User(5, "Guadalupe","Acosta","gacosta@gmail",User_roles.OPERADOR, Entity_status.HABILITADO);
         System.out.println(user5.toString());
         System.out.println();
 

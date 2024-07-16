@@ -68,7 +68,7 @@ INSERT INTO reports (id,title,created_by,description) VALUES
 Se informó Seguridad Informátoca MINSEG para bloqueara la IP 139.45.197.251 por el Puerto 443.\nSe trataría de una Botnet C&C que infecta a los endpoints mediante Adware en distintas webs.\n\nAcción\nSe recomendó a Seguridad Informática realizar un bloqueo preventivo sobre la red 139.45.197.0, fines evitar que otros host se sigan infectando y realizar un escaneo con herramientas antimalware en las IP reportadas como comprometidas');
 
 
-INSERT INTO incidents (ticketId,srcip,dstip,srcport,dstport,report) VALUES
+INSERT INTO incidents (ticketId,srcip,dstip,srcport,dstport,reportId) VALUES
 (1,'98.25.125.175','10.103.10.26','55022,55023,55024','22,1433,3306',1),
 (2,'45.98.145.125','192.168.1.10',NULL,'80,443',2),
 (3,'139.45.197.251','10.103.17.4',NULL,'22,1433,3306',3);

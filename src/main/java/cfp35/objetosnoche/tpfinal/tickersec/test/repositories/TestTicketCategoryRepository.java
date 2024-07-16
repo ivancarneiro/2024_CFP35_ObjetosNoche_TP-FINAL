@@ -1,11 +1,11 @@
 package cfp35.objetosnoche.tpfinal.tickersec.test.repositories;
 
-import cfp35.objetosnoche.tpfinal.tickersec.entities.TicketCategorie;
-import cfp35.objetosnoche.tpfinal.tickersec.repositories.TicketCategorieRepository;
+import cfp35.objetosnoche.tpfinal.tickersec.entities.TicketCategory;
+import cfp35.objetosnoche.tpfinal.tickersec.repositories.TicketCategoryRepository;
 
-public class TestTicketCategorieRepository {
+public class TestTicketCategoryRepository {
     public static void main(String[] args) {
-        TicketCategorieRepository tkCategorieRepo = new TicketCategorieRepository();
+        TicketCategoryRepository tkCategorieRepo = new TicketCategoryRepository();
 
         System.out.println("--- Metodo getAll() ---");
         tkCategorieRepo.getAll().forEach(System.out::println);
@@ -13,7 +13,7 @@ public class TestTicketCategorieRepository {
 
         System.out.println("--- Metodo save() ---");
         tkCategorieRepo.save(
-                new TicketCategorie(38, "Test Entity", "Test Ticket Categorie", "Probando entidad Ticket Categorie"));
+                new TicketCategory(38, "Test Entity", "Test Ticket Categorie", "Probando entidad Ticket Categorie"));
         System.out.println("---> se registro la categoria de ticket: " + tkCategorieRepo.getById(38));
         System.out.println();
 
