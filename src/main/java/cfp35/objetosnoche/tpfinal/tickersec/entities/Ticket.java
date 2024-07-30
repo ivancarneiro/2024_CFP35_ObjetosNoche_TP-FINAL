@@ -1,5 +1,6 @@
 package cfp35.objetosnoche.tpfinal.tickersec.entities;
 
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -7,25 +8,28 @@ import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_types;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_impacts;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_status;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+
+@AllArgsConstructor
 @Getter
 @Setter
 public class Ticket {
-    private Integer id;
-    private String title;
-    private Ticket_types type;
-    private LocalDateTime createdAt;
-    private LocalDateTime lastUpdate;
-    private String resolution;
-    private Ticket_severities severity;
-    private Ticket_impacts impact;
-    private Integer category;
-    private Integer createdBy;
-    private Integer assignedTo;
-    private Ticket_status status;
-    private String resume;
+    Integer id;
+    String title;
+    Ticket_types type;
+    LocalDateTime createdAt;
+    LocalDateTime lastUpdate;
+    String resolution;
+    Ticket_severities severity;
+    Ticket_impacts impact;
+    Integer category;
+    Integer createdBy;
+    Integer assignedTo;
+    Ticket_status status;
+    String resume;
 
     /**
      * @param id
