@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketCategory {
-    private Integer id;
+    private int id;
     private String category;
     private String type;
     private String description;

@@ -38,7 +38,7 @@ public class TicketCategoryRepository {
 
     /**
      * @param id
-     * @return Devuelve un objeto TicketCategorie cuyo id es igual al valor pasado como parámetro.
+     * @return Devuelve un objeto TicketCategory cuyo id es igual al valor pasado como parámetro.
      */
     public TicketCategory getById(int id) {
         return getAll()

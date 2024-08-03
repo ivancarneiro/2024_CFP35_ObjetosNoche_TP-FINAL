@@ -4,10 +4,10 @@ package cfp35.objetosnoche.tpfinal.tickersec.entities;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_types;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_impacts;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_status;
+import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,7 +60,7 @@ public class Ticket {
         this.assignedTo = assignedTo;
         this.status = status;
         this.resume = resume;
-
+        
         if(this.status == Ticket_status.CERRADO){
             Long minutos, horas, dias;
             Duration resolucion = Duration.between(createdAt, lastUpdate);
@@ -78,12 +78,12 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return  this.id + " | Creado: " + this.createdAt + " | Actualizado: " + this.lastUpdate + "\n" +
-                this.title + " | Tipo: " + this.type + " | Categoría: " + this.category + "\n" +
+        return  this.id + " | Tipo: " + this.type.getDisplayName() + " | Creado: " + this.createdAt + " | Actualizado: " + this.lastUpdate + "\n" +
+                this.title  + " | Categoría: " + this.category + "\n" +
                 "Severidad: " + this.severity + " | Impacto: " + this.impact + "\n" +
-                "Estado :" + this.status + " | Resolucón: " + this.resolution + "\n" +
-                this.createdBy + " | " + this.assignedTo + "\n" +
-                this.resume;
+                "Estado: " + this.status + " | Resolución: " + this.resolution + "\n" +
+                "Creado: " + this.createdBy + " | Asignado a: " + this.assignedTo + "\n" +
+                "Resumen: " + this.resume + "\n";
     }
 }
 
