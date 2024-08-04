@@ -1,52 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head th:insert="fragments/base::head"></head>
+<head th:insert="~{fragments/base::head}"></head>
 
 <body onload="mueveReloj()">
-    <header th:insert="fragments/base::header"></header>
+    <header th:insert="~{fragments/base::header}"></header>
+    <!-- Banner -->
+    <h1 class="text-center text-primary p-2 m-2 ">Sistema TickerSec</h1>
+    <main class="row container-fluid my-3">
+        <div class="col">
+            <!-- Lista de tickets -->
+            <table class="table table-striped table-hover border rounded-2 p-1">
+                <thead>
+                    <tr>
+                        <th scope="col"><strong>Ticket</strong></th>
+                        <th scope="col"><strong>Estado</strong></th>
+                        <th scope="col"><strong>Categor&iacute;a</strong></th>
+                        <th scope="col"><strong>Tipo</strong></th>
+                        <th scope="col"><strong>T&iacute;tulo</strong></th>
+                        <th scope="col"><strong>Creado</strong></th>
+                        <th scope="col"><strong>Severidad</strong></th>
+                        <th scope="col"><strong>Creado por</strong></th>
+                        <th scope="col"><strong>Resumen</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${getLikeTitulo.empty}">
+                        <td colspan="2"> No hay tickets registrados.</td>
+                    </tr>
+                    <tr th:each="ticket : ${getLikeTitulo}">
+                        <td th:text="*{ticket.type}+*{ticket.id}" scope="row"></td>
+                        <td th:text="*{ticket.status.name}"></td>
+                        <td th:text="${tkCategoryRepo.getById(ticket.category).category}"></td>
+                        <td th:text="${tkCategoryRepo.getById(ticket.category).type}" class="text-nowrap"></td>
+                        <td th:text="*{ticket.title}"></td>
+                        <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}" class="text-nowrap">
+                        </td>
+                        <td th:text="*{ticket.severity.name}"></td>
+                        <td th:text="${userRepo.getById(ticket.createdBy).surname}"></td>
+                        <td th:text="*{ticket.resume}" class="overflow-hidden" th:title="*{ticket.resume}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <main class="container-fluid my-3">
-        <!-- Banner -->
-        <h1 class="text-center text-primary p-2 m-2 ">Sistema TickerSec</h1>
+        <div class="col-3">
+            <h5>Nuevo Ticket</h5>
+            <form action="crearTicket" method="post" th:object="${ticket}" class="border rounded-2 p-1">
+                <div class="form-group">
+                    <label for="type">Tipo</label>
+                    <select class="form-control mb-2" id="type">
+                        <option th:each="tipo : ${tipos}" th:text="${tipo.displayName}" th:value="${tipo}"></option>
+                </div>
+                <div class="form-group">
+                    <label for="title">T&iacute;tulo</label>
+                    <input type="text" class="form-control" id="title" required placeholder="Ingrese el título">
+                </div>
+                <div class="form-group">
+                    <label for="category">Categoría</label>
+                    <select class="form-control" id="category" required title="Asigne una categor&iacute;a">
+                        <option value="" selected></option>
+                        <option th:each="categoria : ${tkCategoryRepo.getAll()}" th:value="${categoria.id}"
+                            th:text="${categoria.type}" th:title="${categoria.description}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="severity">Severidad</label>
+                    <select class="form-control" id="severity" required>
+                        <option th:each="severidad : ${severidades}" th:value="${severidad}" th:text="${severidad}"
+                            selected></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="impact">Impacto</label>
+                    <select class="form-control" id="impact" required>
+                        <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}" selected>
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="createdBy">Creado por</label>
+                    <select class="form-control" id="createdBy" required>
+                        <option value="" selected></option>
+                        <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
+                            th:text="${usuario.surname+' '+usuario.name}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="assignedTo">Responsable</label>
+                    <select class="form-control" id="assignedTo" required>
+                        <option value="" selected></option>
+                        <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
+                            th:text="${usuario.surname+' '+usuario.name}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="resume">Resumen</label>
+                    <textarea class="form-control" id="resume" rows="3" required
+                        placeholder="Ingrese un resumen del ticket"></textarea>
+                </div>
 
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col"><strong>ID</strong></th>
-                    <th scope="col"><strong>Tipo</strong></th>
-                    <th scope="col"><strong>Categor&iacute;a</strong></th>
-                    <th scope="col"><strong>T&iacute;tulo</strong></th>
-                    <th scope="col"><strong>Creado</strong></th>
-                    <th scope="col"><strong>Severidad</strong></th>
-                    <th scope="col"><strong>Creado por</strong></th>
-                    <th scope="col"><strong>Estado</strong></th>
-                    <th scope="col"><strong>Resumen</strong></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:if="${tickets.empty}">
-                    <td colspan="2"> No hay tickets registrados.</td>
-                </tr>
-                <tr th:each="ticket : ${tickets}">
-                    <td th:text="*{ticket.id}" scope="row"></td>
-                    <td th:text="*{ticket.type}"></td>
-                    <td th:text="*{ticket.category}"></td>
-                    <td th:text="*{ticket.title}"></td>
-                    <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
-                    <td th:text="*{ticket.severity.name}"></td>
-                    <td th:text="*{ticket.createdBy}"></td>
-                    <td th:text="*{ticket.status.name}"></td>
-                    <td th:text="*{ticket.resume}" class="overflow-hiden"></td>
-
-                </tr>
-            </tbody>
-        </table>
+                <!-- Botones -->
+                <div class="mb-3 row m-2 justify-content-end">
+                    <button class="btn btn-danger col-sm-2 mx-2" type="reset">Limpiar</button>
+                    <button class="btn btn-success col-sm-2 mx-2" type="submit">Guardar</button>
+                </div>
+            </form>
+        </div>
     </main>
 
-    <footer th:insert="fragments/base::footer"></footer>
+    <footer th:insert="~{fragments/base::footer}"></footer>
 
-    <div th:insert="fragments/base::js"></div>
+    <div th:insert="~{fragments/base::js}"></div>
 </body>
 
 </html>

@@ -1,16 +1,12 @@
 package cfp35.objetosnoche.tpfinal.tickersec.entities;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_impacts;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_status;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_types;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 

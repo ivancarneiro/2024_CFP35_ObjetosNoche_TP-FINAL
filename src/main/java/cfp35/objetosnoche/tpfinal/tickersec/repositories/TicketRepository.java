@@ -1,7 +1,9 @@
 package cfp35.objetosnoche.tpfinal.tickersec.repositories;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,13 +46,43 @@ public class TicketRepository {
         return list;
     }
 
+    public void save(Ticket ticket){
+        if(ticket==null) return;
+        try (PreparedStatement ps=conn.prepareStatement(
+            "insert into tickets (title, type, createdAt, lastUpdate, severity, impact, category, createdBy, assignedTo, status, resume) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
+            PreparedStatement.RETURN_GENERATED_KEYS)){
+            ps.setString(1, ticket.getTitle());
+            ps.setString(2, ticket.getType().toString());
+            ps.setTimestamp(3, java.sql.Timestamp.valueOf(LocalDateTime.now()));
+            ps.setTimestamp(4, java.sql.Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(5, ticket.getSeverity().toString());
+            ps.setString(6, ticket.getImpact().toString());
+            ps.setInt(7, ticket.getCategory());
+            ps.setInt(8, ticket.getCreatedBy());
+            ps.setInt(9, ticket.getAssignedTo());
+            ps.setString(10, Ticket_status.ABIERTO.toString());
+            ps.setString(11, ticket.getResume());
+            ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) ticket.setId(rs.getInt(1));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     public Ticket getById(int id) {
         return getAll()
                         .stream()
                         .filter(ticket -> ticket.getId() == id)
                         .findAny()
-                        .orElseThrow();
+                        .orElse(new Ticket());
     }
 
-    
+    public List<Ticket> getLikeTitulo(String titulo) {
+        if (titulo == null) return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(ticket -> ticket.getTitle().toLowerCase().contains(titulo.toLowerCase()))
+                .toList();
+    }
 }

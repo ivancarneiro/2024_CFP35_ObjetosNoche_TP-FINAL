@@ -8,12 +8,16 @@ import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_impacts;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_status;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_types;
+import cfp35.objetosnoche.tpfinal.tickersec.repositories.TicketCategoryRepository;
+import cfp35.objetosnoche.tpfinal.tickersec.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Ticket {
@@ -76,13 +80,15 @@ public class Ticket {
         if (assignedTo == null){this.assignedTo = this.createdBy;}
     }
 
+    private UserRepository userRepository = new UserRepository();
+    private TicketCategoryRepository categoryRepository = new TicketCategoryRepository();
     @Override
     public String toString() {
         return  this.id + " | Tipo: " + this.type.getDisplayName() + " | Creado: " + this.createdAt + " | Actualizado: " + this.lastUpdate + "\n" +
-                this.title  + " | Categoría: " + this.category + "\n" +
+                this.title  + " | Categoría: " + categoryRepository.getById(this.category).getCategory() +" - "+ categoryRepository.getById(this.category).getType() + "\n" +
                 "Severidad: " + this.severity + " | Impacto: " + this.impact + "\n" +
                 "Estado: " + this.status + " | Resolución: " + this.resolution + "\n" +
-                "Creado: " + this.createdBy + " | Asignado a: " + this.assignedTo + "\n" +
+                "Creado: " + userRepository.getById(this.createdBy).getSurname() + " | Asignado a: " + userRepository.getById(this.assignedTo).getSurname() + "\n" +
                 "Resumen: " + this.resume + "\n";
     }
 }

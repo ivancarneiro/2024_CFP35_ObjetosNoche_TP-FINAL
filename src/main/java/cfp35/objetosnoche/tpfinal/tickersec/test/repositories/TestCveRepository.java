@@ -2,7 +2,6 @@ package cfp35.objetosnoche.tpfinal.tickersec.test.repositories;
 
 
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.Duration;
 
 import cfp35.objetosnoche.tpfinal.tickersec.repositories.CveRepository;
