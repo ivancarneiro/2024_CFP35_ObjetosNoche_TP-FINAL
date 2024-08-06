@@ -43,5 +43,10 @@ public class TestTicketRepository {
         ));
         System.out.println(ticketRepository.getAll().getLast());
         System.out.println();
+
+        System.out.println("--- Metodo remove() ---");
+        ticketRepository.remove(ticketRepository.getById(6));
+        ticketRepository.getAll().forEach(System.out::println);
+        System.out.println();
     }
 }

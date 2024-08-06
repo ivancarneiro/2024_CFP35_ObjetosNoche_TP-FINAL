@@ -26,19 +26,18 @@ public class TicketRepository {
         try (ResultSet rs = conn.createStatement().executeQuery(selectTickets)) {
             while (rs.next()) {
                 list.add(new Ticket(
-                    rs.getInt("id"),
-                    rs.getString("title"),
-                    Ticket_types.valueOf(rs.getString("type")),
-                    rs.getTimestamp("createdAt").toLocalDateTime(),
-                    rs.getTimestamp("lastUpdate").toLocalDateTime(),
-                    Ticket_severities.valueOf(rs.getString("severity")),
-                    Ticket_impacts.valueOf(rs.getString("impact")),
-                    rs.getInt("category"),
-                    rs.getInt("createdBy"),
-                    rs.getInt("assignedTo"),
-                    Ticket_status.valueOf(rs.getString("status")),
-                    rs.getString("resume")
-                ));
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        Ticket_types.valueOf(rs.getString("type")),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        rs.getTimestamp("lastUpdate").toLocalDateTime(),
+                        Ticket_severities.valueOf(rs.getString("severity")),
+                        Ticket_impacts.valueOf(rs.getString("impact")),
+                        rs.getInt("category"),
+                        rs.getInt("createdBy"),
+                        rs.getInt("assignedTo"),
+                        Ticket_status.valueOf(rs.getString("status")),
+                        rs.getString("resume")));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -46,11 +45,12 @@ public class TicketRepository {
         return list;
     }
 
-    public void save(Ticket ticket){
-        if(ticket==null) return;
-        try (PreparedStatement ps=conn.prepareStatement(
-            "insert into tickets (title, type, createdAt, lastUpdate, severity, impact, category, createdBy, assignedTo, status, resume) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
-            PreparedStatement.RETURN_GENERATED_KEYS)){
+    public void save(Ticket ticket) {
+        if (ticket == null)
+            return;
+        try (PreparedStatement ps = conn.prepareStatement(
+                "insert into tickets (title, type, createdAt, lastUpdate, severity, impact, category, createdBy, assignedTo, status, resume) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, ticket.getTitle());
             ps.setString(2, ticket.getType().toString());
             ps.setTimestamp(3, java.sql.Timestamp.valueOf(LocalDateTime.now()));
@@ -64,22 +64,65 @@ public class TicketRepository {
             ps.setString(11, ticket.getResume());
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) ticket.setId(rs.getInt(1));
+            if (rs.next())
+                ticket.setId(rs.getInt(1));
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
+    public void remove(Ticket ticket) {
+        if (ticket == null)
+            return;
+        try (PreparedStatement ps = conn.prepareStatement("delete from tickets where id=?")) {
+            ps.setInt(1, ticket.getId());
+            ps.execute();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    // public void update(Ticket ticket) {
+    //     if (ticket == null || ticket.getId() == null) {
+    //         return; // No podemos actualizar un ticket nulo o sin ID
+    //     }
+
+    //     try (PreparedStatement ps = conn.prepareStatement(
+    //             "UPDATE tickets SET title = ?, type = ?, lastUpdate = ?, severity = ?, impact = ?, category = ?, createdBy = ?, assignedTo = ?, status = ?, resume = ? WHERE id = ?")) {
+
+    //         ps.setString(1, ticket.getTitle());
+    //         ps.setString(2, ticket.getType().toString());
+    //         ps.setTimestamp(3, java.sql.Timestamp.valueOf(LocalDateTime.now()));
+    //         ps.setString(4, ticket.getSeverity().toString());
+    //         ps.setString(5, ticket.getImpact().toString());
+    //         ps.setInt(6, ticket.getCategory());
+    //         ps.setInt(7, ticket.getCreatedBy());
+    //         ps.setInt(8, ticket.getAssignedTo());
+    //         ps.setString(9, ticket.getStatus().name());
+    //         ps.setString(10, ticket.getResume());
+    //         ps.setInt(11, ticket.getId());
+
+    //         int rowsUpdated = ps.executeUpdate();
+
+    //         if (rowsUpdated == 0) {
+    //             System.out.println("No se encontró ningún ticket con el ID: " + ticket.getId());
+    //         }
+    //     } catch (SQLException e) {
+    //         System.out.println(e);
+    //     }
+    // }
+
     public Ticket getById(int id) {
         return getAll()
-                        .stream()
-                        .filter(ticket -> ticket.getId() == id)
-                        .findAny()
-                        .orElse(new Ticket());
+                .stream()
+                .filter(ticket -> ticket.getId() == id)
+                .findAny()
+                .orElse(new Ticket());
     }
 
     public List<Ticket> getLikeTitulo(String titulo) {
-        if (titulo == null) return new ArrayList<>();
+        if (titulo == null)
+            return new ArrayList<>();
         return getAll()
                 .stream()
                 .filter(ticket -> ticket.getTitle().toLowerCase().contains(titulo.toLowerCase()))

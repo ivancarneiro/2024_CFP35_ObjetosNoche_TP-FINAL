@@ -1,10 +1,8 @@
 package cfp35.objetosnoche.tpfinal.tickersec.repositories;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +23,10 @@ public class CveRepository {
             list.add(new CVE(
                 rs.getInt("id"),
                 rs.getString("cveId"),
-                LocalDate.parse(rs.getString("publishedDate")),
-                LocalDate.parse(rs.getString("lastUpdate")),
+                rs.getString("publishedDate"),
+                rs.getString("lastUpdate"),
                 Ticket_severities.valueOf(rs.getString("severity")),
-                rs.getFloat("cvss"),
+                Float.valueOf(rs.getString("cvss")),
                 rs.getString("description"),
                 rs.getString("urlRef")
             ));
@@ -41,13 +39,13 @@ public class CveRepository {
 
     public void save(CVE cve) {
         if (cve == null) return;
-        String saveSql = "insert into cves (cveId,publishedDate,lastUpdate,severity,cvss,description,urlRef) values (?,?,?,?,?,?,?,?)";
+        String saveSql = "insert into cves (cveId,publishedDate,lastUpdate,severity,cvss,description,urlRef) values (?,?,?,?,?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(saveSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, cve.getCveId());
-            ps.setDate(2, Date.valueOf(cve.getPublishedDate()));
-            ps.setDate(3, Date.valueOf(cve.getLastUpdate()));
+            ps.setString(2, cve.getPublishedDate());
+            ps.setString(3, cve.getLastUpdate());
             ps.setString(4,cve.getSeverity().toString());
-            ps.setFloat(5, cve.getCvss());
+            ps.setString(5, cve.getCvss().toString());
             ps.setString(6, cve.getDescription());
             ps.setString(7, cve.getUrlRef());
             ps.execute();

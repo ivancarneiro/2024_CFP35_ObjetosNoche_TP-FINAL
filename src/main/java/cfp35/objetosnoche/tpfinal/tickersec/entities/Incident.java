@@ -21,7 +21,7 @@ public class Incident extends Ticket{
     private Integer reportId;
 
     public Incident(Integer id, String title, Ticket_types type, LocalDateTime createdAt, LocalDateTime lastUpdate, String resolution, Ticket_severities severity, Ticket_impacts impact, Integer category, String srcIPs, String dstIPs, String srcPorts, String dstPorts, Integer createdBy, Integer assignedTo, Ticket_status status, String resume) {
-        super(id, title, type, createdAt, lastUpdate, resolution, severity, impact, category, createdBy, assignedTo, status, resume);
+        super(id, title, type, createdAt, lastUpdate, severity, impact, category, createdBy, assignedTo, status, resume);
         this.incidentId = super.getType().name()+super.getId();
         this.srcips = srcIPs;
         this.dstips = dstIPs;

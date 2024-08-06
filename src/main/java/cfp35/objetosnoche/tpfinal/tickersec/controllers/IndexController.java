@@ -22,7 +22,7 @@ public class IndexController {
     private String mensaje = "Mensaje de IndexController";
     private final TicketRepository ticketRepository = new TicketRepository();
     private final UserRepository userRepository = new UserRepository();
-    private final TicketCategoryRepository tkCategoryRepository = new TicketCategoryRepository();
+    private final TicketCategoryRepository categoryRepository = new TicketCategoryRepository();
 
     @GetMapping("/")
     public String getIndex(Model model, @RequestParam(name = "buscar", defaultValue = "")String buscar){
@@ -31,7 +31,7 @@ public class IndexController {
         // model.addAttribute("tickets", ticketRepository.getAll());
         model.addAttribute("getLikeTitulo", ticketRepository.getLikeTitulo(buscar));
         model.addAttribute("ticketRepo", ticketRepository);
-        model.addAttribute("tkCategoryRepo", tkCategoryRepository);
+        model.addAttribute("tkCategoryRepo", categoryRepository);
         model.addAttribute("userRepo", userRepository);
         model.addAttribute("ticket", new Ticket());
         model.addAttribute("tipos", Ticket_types.values());

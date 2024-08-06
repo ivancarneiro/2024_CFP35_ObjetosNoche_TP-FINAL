@@ -54,7 +54,7 @@ INSERT INTO tickets (title,type,category,severity,impact,createdBy,assignedTo,re
 
 -- REGISTRAMOS UN CVE
 INSERT INTO cves (cveId,publishedDate,severity,cvss,description,urlRef) VALUES 
-('CVE-2023-45590',date('2024-04-09 00:00:00'),'CRITICA',9.4,'Un control inadecuado de la generación de código ("inyección de código") en Fortinet FortiClientLinux versión 7.2.0, 7.0.6 a 7.0.10 y 7.0.3 a 7.0.4 permite al atacante ejecutar código o comandos no autorizados engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso','https://nvd.nist.gov/vuln/detail/CVE-2023-45590');
+('CVE-2023-45590',date('2024-04-09'),'CRITICA',9.4,'Un control inadecuado de la generación de código ("inyección de código") en Fortinet FortiClientLinux versión 7.2.0, 7.0.6 a 7.0.10 y 7.0.3 a 7.0.4 permite al atacante ejecutar código o comandos no autorizados engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso','https://nvd.nist.gov/vuln/detail/CVE-2023-45590');
 -- REGISTRAMOS UNA VULNERABILIDAD Y ASOSIACIAMO EL CVE REGISTRADO ANTERIORMENTE
 INSERT INTO vulnerabilities (ticketId,advisories,resume,vendor,cves,urlRef) VALUES 
 (4,'FG-IR-23-087','Una vulnerabilidad de Control Inadecuado de Generación de Código ("Inyección de Código") [CWE-94] en FortiClientLinux puede permitir## que un atacante no autenticado ejecute código arbitrario engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso.','FORTINET',1,'https://www.fortiguard.com/psirt/FG-IR-23-087');

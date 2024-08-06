@@ -1,7 +1,5 @@
 package cfp35.objetosnoche.tpfinal.tickersec.test.entities;
 
-import java.time.LocalDate;
-
 import cfp35.objetosnoche.tpfinal.tickersec.entities.CVE;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 
@@ -14,7 +12,7 @@ public class TestCVE {
         CVE cve = new CVE(
                             2,
                             "CVE-2024-6387",
-                            LocalDate.parse("2024-07-01"),
+                            "2024-07-01",
                             null,
                             Ticket_severities.ALTA,
                             8.1f,
@@ -25,7 +23,7 @@ public class TestCVE {
         System.out.println(cve);
         System.out.println("****************************************************************");
         System.out.println();
-        cve.setLastUpdate(LocalDate.parse("2024-07-04"));
+        cve.setLastUpdate("2024-07-04");
         System.out.println(cve);
     }
 }

@@ -88,7 +88,7 @@
                 </div>
                 <div class="form-group">
                     <label for="assignedTo">Responsable</label>
-                    <select class="form-control" id="assignedTo" required>
+                    <select class="form-control" id="assignedTo">
                         <option value="" selected></option>
                         <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
                             th:text="${usuario.surname+' '+usuario.name}"></option>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:insert="~{fragments/base::head}"></head>
+
+<body onload="mueveReloj()">
+    <header th:insert="~{fragments/base::header}"></header>
+    <!-- Banner -->
+    <h1 class="text-center text-primary p-2 m-2 ">Sistema TickerSec</h1>
+    <main class="row container-fluid my-3">
+        <h5>Categor&iacute;as de ticket</h5>
+        <div class="col">
+            <!-- Lista de tickets -->
+            <table class="table table-striped table-hover border rounded-2 p-1">
+                <thead>
+                    <tr>
+                        <th scope="col"><strong>Categor&iacute;a</strong></th>
+                        <th scope="col"><strong>Tipo</strong></th>
+                        <th scope="col"><strong>Descripc&iacute;n</strong></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${getLikeType.empty}">
+                        <td colspan="2"> No hay categor&iacute;as registradas.</td>
+                    </tr>
+                    <tr th:each="categoria : ${getLikeType}">
+                        <td th:text="*{categoria.category}" th:title="*{'id: '+categoria.id}" scope="row"></td>
+                        <td th:text="*{categoria.type}"></td>
+                        <td th:text="*{categoria.description}" class="overflow-hidden"
+                            th:title="*{categoria.description}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3">
+            <h5><strong>Crear categor&iacute;a</strong></h5>
+            <form role="form" th:action="@{/crearCategoria}" th:object="${categoria}" method="post">
+                <div class="form-group mb-2">
+                    <label for="category">Categor&iacute;a</label>
+                    <input type="text" class="form-control" id="category" required placeholder="Ingrese la categoría">
+                </div>
+
+                <div class="form-gorup mb-2">
+                    <label for="type">Tipo</label>
+                    <input type="text" class="form-control" id="type" required placeholder="Ingrese el tipo o subcategoría">
+                </div>
+
+                <!-- Información -->
+                <div class="mb-3 row m-2">
+                    <label for="informacion" class="col-sm-4 col-form-label text-light">Información: </label>
+                    <div class="col-sm-8">
+                        <input type="text" th:value="${mensaje}" class="form-control text-primary bg-secondary-subtle"
+                            id="informacion" readonly>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="mb-3 row m-2 justify-content-end">
+                    <button class="btn btn-danger col-sm-2 mx-2" type="reset">Limpiar</button>
+                    <button class="btn btn-success col-sm-2 mx-2" type="submit">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer th:insert="~{fragments/base::footer}"></footer>
+
+    <div th:insert="~{fragments/base::js}"></div>
+</body>
+
+</html>
