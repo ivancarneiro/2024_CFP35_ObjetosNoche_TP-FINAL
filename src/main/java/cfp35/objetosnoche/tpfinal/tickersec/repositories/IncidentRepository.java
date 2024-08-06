@@ -26,8 +26,8 @@ public class IncidentRepository {
             while (rs.next()) {
                 list.add(new Incident(
                     rs.getInt("id"),
-                    rs.getString("title"),
                     Ticket_types.valueOf(rs.getString("type")),
+                    rs.getString("title"),
                     rs.getTimestamp("createdAt").toLocalDateTime(),
                     rs.getTimestamp("lastUpdate").toLocalDateTime(),
                     rs.getString("resolution"),
@@ -41,7 +41,8 @@ public class IncidentRepository {
                     rs.getInt("createdBy"),
                     rs.getInt("assignedTo"),
                     Ticket_status.valueOf(rs.getString("status")),
-                    rs.getString("resume")));
+                    rs.getString("resume"),
+                    rs.getInt("reportId")));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -56,7 +57,7 @@ public class IncidentRepository {
     public Incident getById(String incidentId) {
         return getAll()
                 .stream()
-                .filter(incident -> incident.getIncidentId() == incidentId)
+                .filter(incident -> (incident.getType().getDisplayName()+incident.getId()).equals(incidentId))
                 .findAny()
                 .orElseThrow();
     }

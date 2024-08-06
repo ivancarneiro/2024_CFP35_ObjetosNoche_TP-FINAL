@@ -16,8 +16,8 @@ public class TestIncident {
 
         Incident incidente1 = new Incident(
             6, 
-            "Escaneo de red", 
             Ticket_types.INC, 
+            "Escaneo de red", 
             LocalDateTime.parse("2024-07-30T16:28:17"), 
             LocalDateTime.parse("2024-07-31T21:45:00"), 
             null,
@@ -31,7 +31,8 @@ public class TestIncident {
             2,
             null,
             Ticket_status.CERRADO,
-            "Resumen del ticket..."
+            "Resumen del ticket...",
+            null
         );
 
         System.out.println(incidente1);

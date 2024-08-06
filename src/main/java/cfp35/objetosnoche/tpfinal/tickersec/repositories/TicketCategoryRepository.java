@@ -37,9 +37,20 @@ public class TicketCategoryRepository {
     }
 
     /**
+     * @param id
+     * @return Devuelve un objeto TicketCategory cuyo id es igual al valor pasado como parámetro.
+     */
+    public TicketCategory getById(int id) {
+        return getAll()
+                .stream()
+                .filter(tkCategory -> tkCategory.getId() == id)
+                .findAny()
+                .orElseThrow();
+    }
+
+    /**
      * @param tipo
-     * @return Devuelve una lista de categorias de ticket donde el tipo contiene el
-     *         valor pasado como parámetro.
+     * @return Devuelve una lista de categorias de ticket donde el tipo contiene el valor pasado como parámetro.
      */
     public List<TicketCategory> getLikeType(String tipo) {
         return getAll()
@@ -48,9 +59,9 @@ public class TicketCategoryRepository {
                 .toList();
     }
 
+
     public void save(TicketCategory tkCategory) {
-        if (tkCategory == null)
-            return;
+        if (tkCategory == null) return;
         String saveCategory = "insert into ticket_categories (category, type, description) values (?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(saveCategory, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, tkCategory.getCategory());
@@ -75,18 +86,5 @@ public class TicketCategoryRepository {
             System.out.println("*** NO SE PUDO ELIMINAR LA CATEGORÍA DE TICKET ***");
             System.out.println(e);
         }
-    }
-
-    /**
-     * @param id
-     * @return Devuelve un objeto TicketCategory cuyo id es igual al valor pasado
-     *         como parámetro.
-     */
-    public TicketCategory getById(int id) {
-        return getAll()
-                .stream()
-                .filter(tkCategory -> tkCategory.getId() == id)
-                .findAny()
-                .orElseThrow();
     }
 }

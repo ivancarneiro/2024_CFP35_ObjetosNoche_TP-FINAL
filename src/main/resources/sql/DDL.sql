@@ -36,10 +36,10 @@ CREATE TABLE reports (
 CREATE TABLE cves (
   id INTEGER PRIMARY KEY,
   cveId TEXT(15) NOT NULL DEFAULT 'CVE-XXXX-XXXXX',
-  publishedDate TEXT,
-  lastUpdate TEXT,
-  severity TEXT NOT NULL check (severity in ('CRITICA','ALTA','MEDIA','BAJA')),
-  cvss FLOAT NOT NULL check (cvss >= 0 and cvss <=10),
+  publishedDate TEXT NOT NULL,
+  lastModified TEXT,
+  severity TEXT NOT NULL check (severity in ('CRITICA','ALTA','MEDIA','BAJA','NA')),
+  cvss TEXT NOT NULL,
   description TEXT NOT NULL,
   urlRef TEXT NOT NULL
 );

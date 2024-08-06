@@ -1,5 +1,6 @@
 package cfp35.objetosnoche.tpfinal.tickersec.entities;
 
+import java.time.LocalDate;
 
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 import lombok.AllArgsConstructor;
@@ -10,10 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CVE {
-    private Integer id;
+    private int id;
     private String cveId;
-    private String publishedDate;
-    private String lastUpdate;
+    private LocalDate publishedDate;
+    private LocalDate lastModified;
     private Ticket_severities severity;
     private Float cvss;
     private String description;
@@ -21,10 +22,10 @@ public class CVE {
 
     @Override
     public String toString() {
-        return  this.cveId+ " - Publicado: "+this.publishedDate+ " - Actualizado: "+this.lastUpdate+
+        return  this.cveId+ " - Publicado: "+this.publishedDate+ " - Actualizado: "+this.lastModified+
                 "\nSeveridad: "+this.severity.name()+
                 " - "+this.cvss+
-                "\nDescripción:\n"+this.description+
-                "\nReferencias: \n"+this.urlRef + "\n";
+                "\nDescripción: "+this.description+
+                "\nReferencia: "+this.urlRef +"\n";
     }
 }

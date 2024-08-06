@@ -95,7 +95,7 @@ public class UserRepository {
                 .stream()
                 .filter(user -> user.getId() == id)
                 .findAny()
-                .orElse(new User());
+                .orElseThrow();
     }
 
     /**

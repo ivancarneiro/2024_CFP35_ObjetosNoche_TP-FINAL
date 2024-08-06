@@ -53,11 +53,15 @@ INSERT INTO tickets (title,type,category,severity,impact,createdBy,assignedTo,re
 
 
 -- REGISTRAMOS UN CVE
-INSERT INTO cves (cveId,publishedDate,severity,cvss,description,urlRef) VALUES 
-('CVE-2023-45590',date('2024-04-09'),'CRITICA',9.4,'Un control inadecuado de la generación de código ("inyección de código") en Fortinet FortiClientLinux versión 7.2.0, 7.0.6 a 7.0.10 y 7.0.3 a 7.0.4 permite al atacante ejecutar código o comandos no autorizados engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso','https://nvd.nist.gov/vuln/detail/CVE-2023-45590');
+INSERT INTO cves (cveId,publishedDate,lastModified,severity,cvss,description,urlRef) VALUES 
+('CVE-2023-45590','2024-04-09','2024-04-10','CRITICA','9.4','Un control inadecuado de la generación de código ("inyección de código") en Fortinet FortiClientLinux versión 7.2.0, 7.0.6 a 7.0.10 y 7.0.3 a 7.0.4 permite al atacante ejecutar código o comandos no autorizados engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso','https://nvd.nist.gov/vuln/detail/CVE-2023-45590'),
+('CVE-2024-24787','2024-05-08','2024-07-02','CRITICA','0','En Darwin, la construcción de un módulo Go que contiene CGO puede desencadenar la ejecución de código arbitrario cuando se usa la versión de Apple de ld, debido al uso de la bandera -lto_library en una directiva "#cgo LDFLAGS".','https://nvd.nist.gov/vuln/detail/CVE-2024-24787'),
+('CVE-2024-27240','2024-07-15','2024-07-16','ALTA','7.1','Una validación de entrada incorrecta en el instalador de algunas aplicaciones de Zoom para Windows puede permitir que un usuario autenticado realice una escalada de privilegios a través del acceso local.','https://nvd.nist.gov/vuln/detail/CVE-2024-27240');
+
 -- REGISTRAMOS UNA VULNERABILIDAD Y ASOSIACIAMO EL CVE REGISTRADO ANTERIORMENTE
 INSERT INTO vulnerabilities (ticketId,advisories,resume,vendor,cves,urlRef) VALUES 
-(4,'FG-IR-23-087','Una vulnerabilidad de Control Inadecuado de Generación de Código ("Inyección de Código") [CWE-94] en FortiClientLinux puede permitir## que un atacante no autenticado ejecute código arbitrario engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso.','FORTINET',1,'https://www.fortiguard.com/psirt/FG-IR-23-087');
+(4,'FG-IR-23-087','Una vulnerabilidad de Control Inadecuado de Generación de Código ("Inyección de Código") [CWE-94] en FortiClientLinux puede permitir## que un atacante no autenticado ejecute código arbitrario engañando a un usuario de FortiClientLinux para que visite un sitio web malicioso.','FORTINET',1,'https://www.fortiguard.com/psirt/FG-IR-23-087'),
+(5,'NTAP-20240531-0006','Varios productos de NetApp incorporan Golang. Las versiones de Golang anteriores a la 1.21.10 y 1.22.0-0 anteriores a la 1.22.3 son susceptibles a una vulnerabilidad que, cuando se explota con éxito, podría provocar la divulgación de información confidencial, la adición o modificación de datos o la denegación de servicio (DoS).','NetApp',2,'https://security.netapp.com/advisory/ntap-20240531-0006/');
 
 
 -- AGREGAMOS 2 REPORTES PARA PRUEBAS

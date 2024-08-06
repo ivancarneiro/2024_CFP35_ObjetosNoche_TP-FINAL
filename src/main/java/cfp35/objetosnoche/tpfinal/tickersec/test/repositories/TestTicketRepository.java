@@ -1,12 +1,5 @@
 package cfp35.objetosnoche.tpfinal.tickersec.test.repositories;
 
-import java.time.LocalDateTime;
-
-import cfp35.objetosnoche.tpfinal.tickersec.entities.Ticket;
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_impacts;
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_status;
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_types;
 import cfp35.objetosnoche.tpfinal.tickersec.repositories.TicketRepository;
 
 public class TestTicketRepository {
@@ -24,29 +17,6 @@ public class TestTicketRepository {
 
         System.out.println("--- Metodo getLikeTitulo() ---");
         System.out.println(ticketRepository.getLikeTitulo("esca"));
-        System.out.println();
-
-        System.out.println("--- Metodo save() ---");
-        ticketRepository.save(new Ticket(
-            6,
-            "Pureba metodo save() de TicketRepository",
-            Ticket_types.EVE,
-            LocalDateTime.now().minusMinutes(68),
-            LocalDateTime.now(),
-            Ticket_severities.MEDIA,
-            Ticket_impacts.BAJO,
-            1,
-            2,
-            2,
-            Ticket_status.TRAMITADO,
-            "Resumen del ticket de prueba"
-        ));
-        System.out.println(ticketRepository.getAll().getLast());
-        System.out.println();
-
-        System.out.println("--- Metodo remove() ---");
-        ticketRepository.remove(ticketRepository.getById(6));
-        ticketRepository.getAll().forEach(System.out::println);
         System.out.println();
     }
 }
