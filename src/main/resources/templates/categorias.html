@@ -33,17 +33,24 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Formulario Registrar Categoría -->
         <div class="col-3">
             <h5><strong>Crear categor&iacute;a</strong></h5>
             <form role="form" th:action="@{/crearCategoria}" th:object="${categoria}" method="post">
                 <div class="form-group mb-2">
                     <label for="category">Categor&iacute;a</label>
-                    <input type="text" class="form-control" id="category" required placeholder="Ingrese la categoría">
+                    <input type="text" th:field="*{category}" id="category" class="form-control" required placeholder="Ingrese la categoría">
                 </div>
 
                 <div class="form-gorup mb-2">
                     <label for="type">Tipo</label>
-                    <input type="text" class="form-control" id="type" required placeholder="Ingrese el tipo o subcategoría">
+                    <input type="text" th:field="*{type}" id="type" class="form-control" required placeholder="Ingrese un tipo o subcategoría">
+                </div>
+
+                <div class="form-gorup mb-2">
+                    <label for="description">Descripci&oacute;n</label>
+                    <textarea name="description" th:field="*{description}" id="description" class="form-control" rows="4" required></textarea>
                 </div>
 
                 <!-- Información -->

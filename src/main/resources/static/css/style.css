@@ -1,0 +1,19 @@
+.severidad-critica {
+    background-color: red;
+    color: white;
+}
+
+.severidad-alta {
+    background-color: orange;
+    color: whitesmoke;
+}
+
+.severidad-media {
+    background-color: yellow;
+    color: black;
+}
+
+.severidad-baja {
+    background-color: #33ff00;
+    color: black;
+}

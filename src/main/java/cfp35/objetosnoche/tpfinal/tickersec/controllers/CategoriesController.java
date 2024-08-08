@@ -33,9 +33,9 @@ public class CategoriesController {
 
     @PostMapping("/crearCategoria")
     public String crearCategoria(@ModelAttribute TicketCategory categoria) {
-        System.out.println("****************************************************************");
-        System.out.println(categoria);
-        System.out.println("****************************************************************");
+        // System.out.println("****************************************************************");
+        // System.out.println(categoria);
+        // System.out.println("****************************************************************");
 
         categoryRepository.save(categoria);
         if(categoria.getId() > 0){
@@ -45,6 +45,4 @@ public class CategoriesController {
         }
         return "redirect:categorias";
     }
-    
-
 }

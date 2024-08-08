@@ -72,7 +72,7 @@ public class TicketCategoryRepository {
             if (rs.next())
                 tkCategory.setId(rs.getInt(1));
         } catch (Exception e) {
-            System.out.println("*** NO SE PUDO REGSITRAR EL LA NUEVA CATEGORÍA DE TICKET ***");
+            System.out.println("*** NO SE PUDO REGSITRAR LA NUEVA CATEGORÍA DE TICKET ***");
             System.out.println(e);
         }
     }
