@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Entity_status;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.User_roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +26,7 @@ public class User {
     @Pattern(regexp="^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"+"[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
     private String email;
     private User_roles role;
-    private Entity_status status;
+    private Boolean activo;
 
     @Override
     public String toString() {
@@ -35,7 +34,7 @@ public class User {
                 " | Nombre y Apellido: "+this.name+" "+this.surname+
                 " | Email: "+this.email+
                 " | Rol: "+this.role+
-                " | Estado: "+this.status;
+                " | Estado: "+this.activo;
     }
 }
 

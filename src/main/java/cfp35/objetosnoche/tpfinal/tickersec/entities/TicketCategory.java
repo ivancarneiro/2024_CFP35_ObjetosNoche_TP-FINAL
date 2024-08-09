@@ -12,9 +12,10 @@ public class TicketCategory {
     private String category;
     private String type;
     private String description;
+    private Boolean activo;
 
     @Override
     public String toString() {
-        return this.id + " | " + this.category + " | " + this.type + " | " + this.description;
+        return this.id + " | Categoría: " + this.category + " | Tipo: " + this.type + "\n Descripción: " + this.description + "\n";
     }
 }

@@ -53,8 +53,7 @@
                         <td th:text="*{ticket.type}+*{ticket.id}" th:title="*{ticket.type.displayName}" scope="row">
                         </td>
                         <td th:text="*{ticket.status.name}"></td>
-                        <td th:text="${tkCategoryRepo.getById(ticket.category).type}"
-                            th:title="${'Categoría: '+tkCategoryRepo.getById(ticket.category).category}"></td>
+                        <td th:text="${categoryRepo.getById(ticket.category).type}" th:title="${categoryRepo.getById(ticket.category).category}"></td>
                         <td th:text="*{ticket.title}"></td>
                         <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}" class="text-nowrap">
                         </td>
@@ -86,7 +85,7 @@
                     <label for="category">Categoría</label>
                     <select class="form-control" id="category" required title="Asigne una categor&iacute;a">
                         <option value="" selected></option>
-                        <option th:each="categoria : ${tkCategoryRepo.getAll()}" th:value="${categoria.id}"
+                        <option th:each="categoria : ${categoryRepo.getAll()}" th:value="${categoria.id}"
                             th:text="${categoria.type}" th:title="${categoria.description}"></option>
                     </select>
                 </div>

@@ -31,7 +31,7 @@ public class IndexController {
         // model.addAttribute("tickets", ticketRepository.getAll());
         model.addAttribute("getLikeTitulo", ticketRepository.getLikeTitulo(buscar));
         model.addAttribute("ticketRepo", ticketRepository);
-        model.addAttribute("tkCategoryRepo", categoryRepository);
+        model.addAttribute("categoryRepo", categoryRepository);
         model.addAttribute("userRepo", userRepository);
         model.addAttribute("ticket", new Ticket());
         model.addAttribute("tipos", Ticket_types.values());

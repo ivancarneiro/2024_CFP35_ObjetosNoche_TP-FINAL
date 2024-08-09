@@ -37,8 +37,7 @@ public class Incident extends Ticket {
             Ticket_status status,
             String resume,
             Integer reportId) {
-        super(id, type, title, createdAt, lastUpdate, resolution, severity, impact, category, createdBy, assignedTo,
-                status, resume);
+        super(id, type, title, createdAt, lastUpdate, resolution, severity, impact, category, createdBy, assignedTo, status, resume);
         this.srcips = srcIPs;
         this.dstips = dstIPs;
         this.srcports = srcPorts;

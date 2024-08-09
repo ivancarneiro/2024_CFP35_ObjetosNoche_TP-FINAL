@@ -1,6 +1,7 @@
-package cfp35.objetosnoche.tpfinal.tickersec.test.entities;
+package cfp35.objetosnoche.tpfinal.tickersec.test;
 
 import java.sql.ResultSet;
+
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
 
 public class TestConnector {
@@ -8,7 +9,7 @@ public class TestConnector {
         try (ResultSet rs=Connector
                                     .getConnection()
                                     .createStatement()
-                                    .executeQuery("select * from categories_ticket")){
+                                    .executeQuery("select * from ticket_categories")){
             if(rs.next()){
                 System.out.println("Se conecto a "+Connector.getUrl());
             }else{

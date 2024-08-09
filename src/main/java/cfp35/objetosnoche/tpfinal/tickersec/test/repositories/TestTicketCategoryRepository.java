@@ -13,7 +13,7 @@ public class TestTicketCategoryRepository {
 
         System.out.println("--- Metodo save() ---");
         tkCategorieRepo.save(
-                new TicketCategory(38, "Test Entity", "Test Ticket Categorie", "Probando entidad Ticket Categorie"));
+                new TicketCategory(38, "Test Entity", "Test Ticket Categorie", "Probando entidad Ticket Categorie", true));
         System.out.println("---> se registro la categoria de ticket: " + tkCategorieRepo.getById(38));
         System.out.println();
 

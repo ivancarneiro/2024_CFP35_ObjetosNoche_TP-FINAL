@@ -45,4 +45,14 @@ public class CategoriesController {
         }
         return "redirect:categorias";
     }
+
+    @PostMapping("/removeCategoria")
+    public String removeCategoria(@RequestParam(name="idBorrar", defaultValue = "0", required = false) int idBorrar) {
+        //System.out.println("******************************************************");
+        //System.out.println("Se ejecuto el método borrar");
+        //System.out.println(idBorrar);
+        //System.out.println("******************************************************");
+        categoryRepository.remove(idBorrar);
+        return "redirect:cursos";
+    }
 }

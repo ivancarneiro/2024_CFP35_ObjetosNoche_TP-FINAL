@@ -21,14 +21,15 @@ public class TicketCategoryRepository {
      */
     public List<TicketCategory> getAll() {
         List<TicketCategory> list = new ArrayList<>();
-        String selectCategories = "select * from ticket_categories";
+        String selectCategories = "select * from ticket_categories where activo=true";
         try (ResultSet rs = conn.createStatement().executeQuery(selectCategories)) {
             while (rs.next()) {
                 list.add(new TicketCategory(
                         rs.getInt("id"),
                         rs.getString("category"),
                         rs.getString("type"),
-                        rs.getString("description")));
+                        rs.getString("description"),
+                        rs.getBoolean("activo")));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -36,9 +37,40 @@ public class TicketCategoryRepository {
         return list;
     }
 
+    public void save(TicketCategory tkCategory) {
+        if (tkCategory == null)
+            return;
+        String saveCategory = "insert into ticket_categories (category, type, description, activo) values (?,?,?,?)";
+        try (PreparedStatement ps = conn.prepareStatement(saveCategory, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, tkCategory.getCategory());
+            ps.setString(2, tkCategory.getType());
+            ps.setString(3, tkCategory.getDescription());
+            ps.setBoolean(4, tkCategory.getActivo());
+            ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next())
+                tkCategory.setId(rs.getInt(1));
+        } catch (Exception e) {
+            System.out.println("*** NO SE PUDO REGSITRAR LA NUEVA CATEGORÍA DE TICKET ***");
+            System.out.println(e);
+        }
+    }
+
+    public void remove(Integer categoryId) {
+        String removeCategory = "update ticket_categories set activo=false where id=?";
+        try (PreparedStatement ps = conn.prepareStatement(removeCategory)) {
+            ps.setInt(1, categoryId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("*** NO SE PUDO ELIMINAR LA CATEGORÍA DE TICKET ***");
+            System.out.println(e);
+        }
+    }
+
     /**
      * @param id
-     * @return Devuelve un objeto TicketCategory cuyo id es igual al valor pasado como parámetro.
+     * @return Devuelve un objeto TicketCategory cuyo id es igual al valor pasado
+     *         como parámetro.
      */
     public TicketCategory getById(int id) {
         return getAll()
@@ -50,7 +82,8 @@ public class TicketCategoryRepository {
 
     /**
      * @param tipo
-     * @return Devuelve una lista de categorias de ticket donde el tipo contiene el valor pasado como parámetro.
+     * @return Devuelve una lista de categorias de ticket donde el tipo contiene el
+     *         valor pasado como parámetro.
      */
     public List<TicketCategory> getLikeType(String tipo) {
         return getAll()
@@ -59,32 +92,4 @@ public class TicketCategoryRepository {
                 .toList();
     }
 
-
-    public void save(TicketCategory tkCategory) {
-        if (tkCategory == null) return;
-        String saveCategory = "insert into ticket_categories (category, type, description) values (?,?,?)";
-        try (PreparedStatement ps = conn.prepareStatement(saveCategory, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, tkCategory.getCategory());
-            ps.setString(2, tkCategory.getType());
-            ps.setString(3, tkCategory.getDescription());
-            ps.execute();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next())
-                tkCategory.setId(rs.getInt(1));
-        } catch (Exception e) {
-            System.out.println("*** NO SE PUDO REGSITRAR LA NUEVA CATEGORÍA DE TICKET ***");
-            System.out.println(e);
-        }
-    }
-
-    public void remove(Integer id) {
-        String removeCategory = "delete from ticket_categories where id=?";
-        try (PreparedStatement ps = conn.prepareStatement(removeCategory)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("*** NO SE PUDO ELIMINAR LA CATEGORÍA DE TICKET ***");
-            System.out.println(e);
-        }
-    }
 }

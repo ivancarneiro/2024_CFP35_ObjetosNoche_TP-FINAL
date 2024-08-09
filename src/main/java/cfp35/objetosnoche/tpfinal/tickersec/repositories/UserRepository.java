@@ -8,7 +8,6 @@ import java.util.List;
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.User;
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Entity_status;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.User_roles;
 
 public class UserRepository {
@@ -26,7 +25,7 @@ public class UserRepository {
                         rs.getString("surname"),
                         rs.getString("email"),
                         User_roles.valueOf(rs.getString("role")),
-                        Entity_status.valueOf(rs.getString("status"))));
+                        rs.getBoolean("activo")));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -36,7 +35,7 @@ public class UserRepository {
 
     public List<User> usuariosHabilitados() {
         List<User> list = new ArrayList<>();
-        String selectHabilitado = "select * from users where status='HABILITADO";
+        String selectHabilitado = "select * from users where activo='HABILITADO";
         try (ResultSet rs = conn.createStatement().executeQuery(selectHabilitado)) {
             while (rs.next()) {
                 list.add(new User(
@@ -45,7 +44,7 @@ public class UserRepository {
                         rs.getString("surname"),
                         rs.getString("email"),
                         User_roles.valueOf(rs.getString("role")),
-                        Entity_status.valueOf(rs.getString("status"))));
+                        rs.getBoolean("activo")));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -62,6 +61,7 @@ public class UserRepository {
             ps.setString(2, user.getSurname());
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getRole().toString());
+            ps.setBoolean(5, user.getActivo());
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next())
@@ -77,7 +77,7 @@ public class UserRepository {
         // normal.
         // Por cuestiones de auditoria ningun usuario creado se eliminará una vez
         // creado.
-        String removeUser = "update users set status='NOHABILITADO' where id=?";
+        String removeUser = "update users set activo='INACTIVO' where id=?";
         try (PreparedStatement ps = conn.prepareStatement(removeUser)) {
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -112,16 +112,16 @@ public class UserRepository {
     }
 
     /**
-     * Permite actualizar los valores de los atributos (email, role o status).
+     * Permite actualizar los valores de los atributos (email, role o activo).
      * Se debe proporcionar de forma obligatoria el id y al menos un valor de algún atribut
      * @param id
      * @param email
     * @param role -> Enun (ADMINISTRADOR, OPERADOR, VEEDOR)
-     * @param status -> Enun (HABILITADO, NOHABILITADO)
+     * @param activo -> Enun (ACTIVO, INACTIVO)
      */
-    public void update(Integer id, String email, String role, String status) {
+    public void update(Integer id, String email, String role, String activo) {
         
-        if ((email == null || "".equals(email)) && (role == null || "".equals(role)) && (status == null || "".equals(status))) {
+        if ((email == null || "".equals(email)) && (role == null || "".equals(role)) && (activo == null || "".equals(activo))) {
             System.out.println("Error: Debes proporcionar al menos un atributo para actualizar.");
             return;
         }
@@ -135,8 +135,8 @@ public class UserRepository {
         if (role != null) {
             updateColumns.add("role = ?");
         }
-        if (status != null) {
-            updateColumns.add("status = ?");
+        if (activo != null) {
+            updateColumns.add("activo = ?");
         }
 
         updateQuery.append(String.join(", ", updateColumns));
@@ -151,8 +151,8 @@ public class UserRepository {
             if (role != null) {
                 ps.setString(paramIndex++, role);
             }
-            if (status != null) {
-                ps.setString(paramIndex++, status);
+            if (activo != null) {
+                ps.setString(paramIndex++, activo);
             }
 
             ps.setInt(paramIndex, id);
