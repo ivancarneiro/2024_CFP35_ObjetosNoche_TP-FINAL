@@ -1,3 +1,4 @@
+-- Active: 1722114294117@@127.0.0.1@3306
 INSERT INTO users (name,surname,email,role) VALUES 
     ('Admin','Administrador','csirt@gna.gob,ar','ADMINISTRADOR'),
     ('Ivan', 'Carneiro', 'icarneiro@gmail.com', 'OPERADOR'),

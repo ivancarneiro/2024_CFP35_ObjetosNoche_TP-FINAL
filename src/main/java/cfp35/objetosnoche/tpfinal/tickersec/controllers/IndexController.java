@@ -47,12 +47,12 @@ public class IndexController {
         System.out.println(ticket);
         System.out.println();
         // Guarda el ticket en la base de datos
-        ticketRepository.save(ticket);
-        if(ticket.getId()>0){
-            mensaje = "Se guardo el ticket "+ticket.getType()+ticket.getId();
-        } else {
-            mensaje = "Hubo un error al guardar el ticket";
-        }
+        // ticketRepository.save(ticket);
+        // if(ticket.getId()>0){
+        //     mensaje = "Se guardo el ticket "+ticket.getType()+ticket.getId();
+        // } else {
+        //     mensaje = "Hubo un error al guardar el ticket";
+        // }
         // Redirige a la página principal
         return "redirect:index";
     }

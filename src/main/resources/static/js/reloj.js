@@ -1,4 +1,4 @@
-(function mueveReloj() {
+(function fechaHora() {
     const reloj = document.getElementById("reloj");
     const fechaCompleta = document.getElementById("fechaCompleta"); // Nuevo elemento para la fecha completa
 
