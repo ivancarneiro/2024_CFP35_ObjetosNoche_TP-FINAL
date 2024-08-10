@@ -76,5 +76,3 @@ public class CveRepository {
     }
 
 }
-
-// TODO crear metodo para mapear json-cves y grabarlos en la DB.

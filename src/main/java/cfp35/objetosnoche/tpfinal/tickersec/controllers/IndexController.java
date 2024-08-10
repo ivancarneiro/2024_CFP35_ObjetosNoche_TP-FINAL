@@ -1,5 +1,7 @@
 package cfp35.objetosnoche.tpfinal.tickersec.controllers;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,16 +46,15 @@ public class IndexController {
     @PostMapping("/crearTicket")
     public String crearTicket(@ModelAttribute Ticket ticket) {
         System.out.println();
-        System.out.println(ticket);
-        System.out.println();
-        // Guarda el ticket en la base de datos
-        // ticketRepository.save(ticket);
-        // if(ticket.getId()>0){
-        //     mensaje = "Se guardo el ticket "+ticket.getType()+ticket.getId();
-        // } else {
-        //     mensaje = "Hubo un error al guardar el ticket";
-        // }
-        // Redirige a la página principal
-        return "redirect:index";
+        ticket.setCreatedAt(LocalDateTime.now());
+        ticket.setLastUpdate(LocalDateTime.now());
+        ticket.setStatus(Ticket_status.ABIERTO);
+        ticketRepository.save(ticket);
+        if(ticket.getId()>0){
+            mensaje = "Se guardo el ticket "+ticket.getType()+ticket.getId();
+        } else {
+            mensaje = "Hubo un error al guardar el ticket";
+        }
+        return "redirect:/";
     }
 }

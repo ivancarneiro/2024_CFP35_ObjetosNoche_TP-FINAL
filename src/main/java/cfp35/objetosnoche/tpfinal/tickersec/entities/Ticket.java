@@ -35,7 +35,7 @@ public class Ticket {
      * @param title
      * @param createdAt
      * @param lastUpdate
-     * @param resolution2
+     * @param resolution
      * @param severity
      * @param impact
      * @param category
@@ -90,7 +90,7 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return this.type.getDisplayName() + this.id + " | Creado: " + this.createdAt + " | Actualizado: "
+        return this.type.toString()+ this.id + " | Creado: " + this.createdAt + " | Actualizado: "
                 + this.lastUpdate + "\n" +
                 this.title + " | Categoría: " + this.category + "\n" +
                 "Severidad: " + this.severity + " | Impacto: " + this.impact + "\n" +

@@ -63,14 +63,12 @@ CREATE TABLE tickets (
     title TEXT(100) NOT NULL,
     type TEXT(3) NOT NULL DEFAULT 'INC' check (type in ('INC', 'VUL', 'EVE')),
     createdAt DATETIME DEFAULT (
-        DATETIME(
-            CURRENT_TIMESTAMP,
+        DATETIME('now',
             'localtime'
         )
     ),
     lastUpdate DATETIME DEFAULT (
-        DATETIME(
-            CURRENT_TIMESTAMP,
+        DATETIME('now',
             'localtime'
         )
     ),
