@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
+import cfp35.objetosnoche.tpfinal.tickersec.entities.BusquedaTicket;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.Ticket;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_impacts;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
@@ -25,20 +26,19 @@ public class TicketRepository {
         try (ResultSet rs = conn.createStatement().executeQuery(selectTickets)) {
             while (rs.next()) {
                 list.add(new Ticket(
-                    rs.getInt("id"),
-                    Ticket_types.valueOf(rs.getString("type")),
-                    rs.getString("title"),
-                    rs.getTimestamp("createdAt").toLocalDateTime(),
-                    rs.getTimestamp("lastUpdate").toLocalDateTime(),
-                    rs.getString("resolution"),
-                    Ticket_severities.valueOf(rs.getString("severity")),
-                    Ticket_impacts.valueOf(rs.getString("impact")),
-                    rs.getInt("category"),
-                    rs.getInt("createdBy"),
-                    rs.getInt("assignedTo"),
-                    Ticket_status.valueOf(rs.getString("status")),
-                    rs.getString("resume")
-                ));
+                        rs.getInt("id"),
+                        Ticket_types.valueOf(rs.getString("type")),
+                        rs.getString("title"),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        rs.getTimestamp("lastUpdate").toLocalDateTime(),
+                        rs.getString("resolution"),
+                        Ticket_severities.valueOf(rs.getString("severity")),
+                        Ticket_impacts.valueOf(rs.getString("impact")),
+                        rs.getInt("category"),
+                        rs.getInt("createdBy"),
+                        rs.getInt("assignedTo"),
+                        Ticket_status.valueOf(rs.getString("status")),
+                        rs.getString("resume")));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -46,10 +46,12 @@ public class TicketRepository {
         return list;
     }
 
-    public void save(Ticket ticket){
-        if(ticket==null) return;
-        try (PreparedStatement ps=conn.prepareStatement(
-            "INSERT INTO tickets (title, type, createdAt, lastUpdate, severity, impact, category, createdBy, assignedTo, status, resume) VALUES (?,?,?,?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS)){
+    public void save(Ticket ticket) {
+        if (ticket == null)
+            return;
+        try (PreparedStatement ps = conn.prepareStatement(
+                "INSERT INTO tickets (title, type, createdAt, lastUpdate, severity, impact, category, createdBy, assignedTo, status, resume) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, ticket.getTitle());
             ps.setString(2, ticket.getType().name());
             ps.setTimestamp(3, java.sql.Timestamp.valueOf(ticket.getCreatedAt()));
@@ -63,7 +65,8 @@ public class TicketRepository {
             ps.setString(11, ticket.getResume());
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) ticket.setId(rs.getInt(1));
+            if (rs.next())
+                ticket.setId(rs.getInt(1));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -71,17 +74,41 @@ public class TicketRepository {
 
     public Ticket getById(int id) {
         return getAll()
-                        .stream()
-                        .filter(ticket -> ticket.getId() == id)
-                        .findAny()
-                        .orElse(new Ticket());
+                .stream()
+                .filter(ticket -> ticket.getId() == id)
+                .findAny()
+                .orElse(new Ticket());
     }
 
     public List<Ticket> getLikeTitulo(String titulo) {
-        if (titulo == null) return new ArrayList<>();
+        if (titulo == null)
+            return new ArrayList<>();
         return getAll()
                 .stream()
                 .filter(ticket -> ticket.getTitle().toLowerCase().contains(titulo.toLowerCase()))
                 .toList();
+    }
+
+    public List<Ticket> getLike(BusquedaTicket busqueda) {
+        if (busqueda == null)
+            return new ArrayList<>();
+
+        String sql = "SELECT * FROM tickets WHERE ";
+
+        List<String> conditions = new ArrayList<>();
+
+        if (busqueda.getTitle() != null) {
+            conditions.add("LOWER(title) LIKE ?");
+        }
+        if (busqueda.getSeverity() != null) {
+            conditions.add("severity = ?");
+        }
+        if (busqueda.getStatus() != null) {
+            conditions.add("status = ?");
+        }
+
+        sql += String.join(" AND ", conditions);
+
+        return getAll();
     }
 }
