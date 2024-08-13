@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
-import cfp35.objetosnoche.tpfinal.tickersec.entities.BusquedaTicket;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.Ticket;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_impacts;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
@@ -80,35 +80,67 @@ public class TicketRepository {
                 .orElse(new Ticket());
     }
 
+    public List<Ticket> getLikeTiketType(Ticket_types type) {
+        if (type == null) return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(ticket -> ticket.getType() == type)
+                .toList();
+    }
+
     public List<Ticket> getLikeTitulo(String titulo) {
-        if (titulo == null)
-            return new ArrayList<>();
+        if (titulo == null) return new ArrayList<>();
         return getAll()
                 .stream()
                 .filter(ticket -> ticket.getTitle().toLowerCase().contains(titulo.toLowerCase()))
                 .toList();
     }
 
-    public List<Ticket> getLike(BusquedaTicket busqueda) {
-        if (busqueda == null)
-            return new ArrayList<>();
+    public List<Ticket> getLikeSeverity(Ticket_severities severity) {
+        if (severity == null) return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(ticket -> ticket.getSeverity() == severity)
+                .toList();
+    }
 
-        String sql = "SELECT * FROM tickets WHERE ";
+    public List<Ticket> getLikeImpact(Ticket_impacts impact) {
+        if (impact == null) return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(ticket -> ticket.getImpact() == impact)
+                .toList();
+    }
 
-        List<String> conditions = new ArrayList<>();
+    public List<Ticket> getLikeCategory(Integer categoryId) {
+        if (categoryId == null) return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(ticket -> Objects.equals(ticket.getCategory(), categoryId))
+                .toList();
+    }
 
-        if (busqueda.getTitle() != null) {
-            conditions.add("LOWER(title) LIKE ?");
-        }
-        if (busqueda.getSeverity() != null) {
-            conditions.add("severity = ?");
-        }
-        if (busqueda.getStatus() != null) {
-            conditions.add("status = ?");
-        }
+    public List<Ticket> getLikeCreatedBy(Integer createdBy){
+        if (createdBy == null) return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(ticket -> Objects.equals(ticket.getCreatedBy(), createdBy))
+                .toList();
+    }
 
-        sql += String.join(" AND ", conditions);
+    public List<Ticket> getLikeAssigned(Integer assignedTo){
+        if (assignedTo == null) return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(ticket -> Objects.equals(ticket.getAssignedTo(), assignedTo))
+                .toList();
+    }
 
-        return getAll();
+    public List<Ticket> getLikeStatus(Ticket_status status){
+        if (status == null) return new ArrayList<>();
+        return getAll()
+                .stream()
+                .filter(ticket -> ticket.getStatus() == status)
+                .toList();
     }
 }
