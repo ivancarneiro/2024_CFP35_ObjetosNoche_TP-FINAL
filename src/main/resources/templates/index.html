@@ -5,71 +5,12 @@
 
 <body>
     <header th:insert="~{fragments/base::header}"></header>
-    <main class="row container-fluid my-3">
+    <main class="container-fluid my-3">
         <div class="row text-center text-primary p-2 my-2">
             <div class="row">
                 <h1>Sistema TickerSec</h1>
             </div>
-            <div class="d-flex justify-content-center">
-                <form class="d-flex" role="search">
-                    <div class="col form-group me-2">
-                        <label for="typeFilter">por Tipo</label>
-                        <select class="form-control form-control-sm" name="typeFilter" id="typeFilter">
-                            <option value="">Todos</option>
-                            <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo.displayName}"></option>
-                        </select>
-                    </div>
-                    <div class="col form-group me-2">
-                        <label for="typeFilter">por Severidad</label>
-                        <select class="form-control form-control-sm" name="severityFilter" id="severityFilter">
-                            <option value="">Todas</option>
-                            <option th:each="severidad : ${severidades}" th:value="${severidad}" th:text="${severidad}">
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col form-group me-2">
-                        <label for="typeFilter">por Impacto</label>
-                        <select class="form-control form-control-sm" name="impactFilter" id="impactFilter">
-                            <option value="">Todas</option>
-                            <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}"></option>
-                        </select>
-                    </div>
-                    <div class="col form-group me-2">
-                        <label for="statusFilter">por Estado</label>
-                        <select class="form-control form-control-sm" name="statusFilter" id="statusFilter">
-                            <option value="">Todos</option>
-                            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
-                        </select>
-                    </div>
-                    <div class="col form-group me-2">
-                        <label for="categoryFilter">por Categor&iacute;a</label>
-                        <select class="form-control form-control-sm" name="categoryFilter" id="categoryFilter">
-                            <option value="">Todas</option>
-                            <option th:each="categoria : ${categoryRepo.getAll()}" th:value="${categoria.id}"
-                                th:text="${categoria.type}" th:title="${categoria.category}"></option>
-                        </select>
-                    </div>
-                    <div class="col form-group me-2">
-                        <label for="createdByFilter">Creado por</label>
-                        <select class="form-control form-control-sm" name="createdByFilter" id="createdByFilter">
-                            <option value="">Todos</option>
-                            <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
-                                th:text="${usuario.surname+' '+usuario.name}"></option>
-                        </select>
-                    </div>
-                    <div class="col form-group me-2">
-                        <label for="assignedToFilter">Asignado a</label>
-                        <select class="form-control form-control-sm" name="assignedToFilter" id="assignedToFilter">
-                            <option value="">Todos</option>
-                            <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
-                                th:text="${usuario.surname+' '+usuario.name}"></option>
-                        </select>
-                    </div>
-                    <div class="d-flex align-content-end pt-4">
-                        <button class="btn btn-sm btn-outline-primary">Filtrar</button>
-                    </div>
-                </form>
-            </div>
+            <div th:insert="~{fragments/indexFilter::indexFilter}"></div>
         </div>
         <div class="col">
             <!-- Lista de tickets -->
@@ -88,9 +29,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <tr th:if="${ticketsFiltered.empty}">
+                    <tr th:if="${ticketsFiltered.empty}">
                         <td> No hay tickets registrados.</td>
-                    </tr> -->
+                    </tr>
                     <tr th:each="ticket : ${ticketsFiltered}">
                         <td th:text="*{ticket.type}+*{ticket.id}" th:title="*{ticket.type.displayName}" scope="row">
                         </td>
@@ -111,157 +52,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Formulario Nuevo Ticket -->
-        <div class="col-3">
-            <h5>Nuevo Ticket</h5>
-            <form method="post" th:action="crearTicket" th:object="${ticket}" class="border rounded-2 p-1">
-                <div class="form-group">
-                    <label for="type">Tipo</label>
-                    <select class="form-control form-control-sm mb-2" th:field="*{type}" id="type">
-                        <option th:each="tipo : ${tipos}" th:text="${tipo.displayName}" th:value="${tipo}"></option>
-                </div>
-                <div class="form-group">
-                    <label for="title">T&iacute;tulo</label>
-                    <input type="text" class="form-control form-control-sm" th:field="*{title}" id="title" required
-                        placeholder="Ingrese el título">
-                </div>
-                <div class="form-group">
-                    <label for="category">Categoría</label>
-                    <select class="form-control form-control-sm" th:field="*{category}" id="category" required
-                        title="Asigne una categor&iacute;a">
-                        <option value="" selected></option>
-                        <option th:each="categoria : ${categoryRepo.getAll()}" th:value="${categoria.id}"
-                            th:text="${categoria.type}" th:title="${categoria.description}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="severity">Severidad</label>
-                    <select class="form-control form-control-sm" th:field="*{severity}" id="severity" required>
-                        <option th:each="severidad : ${severidades}" th:value="${severidad}" th:text="${severidad}">
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="impact">Impacto</label>
-                    <select class="form-control form-control-sm" th:field="*{impact}" id="impact" required>
-                        <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}" selected>
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="createdBy">Creado por</label>
-                    <select class="form-control form-control-sm" th:field="*{createdBy}" id="createdBy" required>
-                        <option value="" selected></option>
-                        <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
-                            th:text="${usuario.surname+' '+usuario.name}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="assignedTo">Responsable</label>
-                    <select class="form-control form-control-sm" th:field="*{assignedTo}" id="assignedTo">
-                        <option value="" selected></option>
-                        <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
-                            th:text="${usuario.surname+' '+usuario.name}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="resume">Resumen</label>
-                    <textarea class="form-control form-control-sm" th:field="*{resume}" id="resume" rows="3" required
-                        minlength="15" placeholder="Ingrese un resumen del ticket"></textarea>
-                </div>
-                <div class="mb-3 row p-2 justify-content-end">
-                    <button class="btn btn-danger col-2 mx-2" type="reset">Limpiar</button>
-                    <button class="btn btn-success col-2 mx-2" type="submit">Guardar</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Button trigger modal -->
-        <!-- <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#nuevoTicketModal">
-            Nuevo Ticket
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-square mx-1"
-                viewBox="0 0 16 16">
-                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-            </svg>
-        </button> -->
-        <!-- Modal -->
-        <!-- <div class="modal fade" id="nuevoTicketModal" tabindex="-1" aria-labelledby="nuevoTicketModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="nuevoTicketModalLabel">Nuevo Ticket</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="crearTicket" method="post" th:object="${ticket}" class="border rounded-2 p-1">
-                            <div class="form-group">
-                                <label for="type">Tipo</label>
-                                <select class="form-control form-control-sm mb-2" id="type">
-                                    <option th:each="tipo : ${tipos}" th:text="${tipo.displayName}" th:value="${tipo}">
-                                    </option>
-                            </div>
-                            <div class="form-group">
-                                <label for="title">T&iacute;tulo</label>
-                                <input type="text" class="form-control form-control-sm" id="title" required
-                                    placeholder="Ingrese el título">
-                            </div>
-                            <div class="form-group">
-                                <label for="category">Categoría</label>
-                                <select class="form-control form-control-sm" id="category" required title="Asigne una categor&iacute;a">
-                                    <option value="" selected></option>
-                                    <option th:each="categoria : ${categoryRepo.getAll()}" th:value="${categoria.id}"
-                                        th:text="${categoria.type}" th:title="${categoria.description}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="severity">Severidad</label>
-                                <select class="form-control form-control-sm" id="severity" required>
-                                    <option th:each="severidad : ${severidades}" th:value="${severidad}"
-                                        th:text="${severidad}" selected></option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="impact">Impacto</label>
-                                <select class="form-control form-control-sm" id="impact" required>
-                                    <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}"
-                                        selected>
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="createdBy">Creado por</label>
-                                <select class="form-control form-control-sm" id="createdBy" required>
-                                    <option value="" selected></option>
-                                    <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
-                                        th:text="${usuario.surname+' '+usuario.name}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="assignedTo">Responsable</label>
-                                <select class="form-control form-control-sm" id="assignedTo">
-                                    <option value="" selected></option>
-                                    <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
-                                        th:text="${usuario.surname+' '+usuario.name}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="resume">Resumen</label>
-                                <textarea class="form-control form-control-sm" id="resume" rows="3" required
-                                    placeholder="Ingrese un resumen del ticket"></textarea>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-danger col-3"
-                                    data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-success col-3">Guardar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </main>
 
     <footer th:insert="~{fragments/base::footer}"></footer>

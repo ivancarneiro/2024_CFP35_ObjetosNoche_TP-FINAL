@@ -56,14 +56,20 @@ public class TicketCategoryRepository {
         }
     }
 
+    // public void remove(Integer categoryId) {
+    //     String removeCategory = "update ticket_categories set activo=false where id=?";
+    //     try (PreparedStatement ps = conn.prepareStatement(removeCategory)) {
+    //         ps.setInt(1, categoryId);
+    //         ps.executeUpdate();
+    //     } catch (Exception e) {
+    //         System.out.println("*** NO SE PUDO ELIMINAR LA CATEGORÍA DE TICKET ***");
+    //         System.out.println(e);
+    //     }
+    // }
+
     public void remove(Integer categoryId) {
-        String removeCategory = "update ticket_categories set activo=false where id=?";
-        try (PreparedStatement ps = conn.prepareStatement(removeCategory)) {
-            ps.setInt(1, categoryId);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("*** NO SE PUDO ELIMINAR LA CATEGORÍA DE TICKET ***");
-            System.out.println(e);
+        if (categoryId != null) {
+            getById(categoryId).setActivo(false);
         }
     }
 
