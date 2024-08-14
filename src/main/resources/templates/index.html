@@ -14,16 +14,14 @@
                 <form class="d-flex" role="search">
                     <div class="col form-group me-2">
                         <label for="typeFilter">por Tipo</label>
-                        <select class="form-control form-control-sm" name="typeFilter" id="typeFilter"
-                            th:field="*{tipos}">
+                        <select class="form-control form-control-sm" name="typeFilter" id="typeFilter">
                             <option value="">Todos</option>
                             <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo.displayName}"></option>
                         </select>
                     </div>
                     <div class="col form-group me-2">
                         <label for="typeFilter">por Severidad</label>
-                        <select class="form-control form-control-sm" name="severityFilter" id="severityFilter"
-                            th:field="*{severidades}">
+                        <select class="form-control form-control-sm" name="severityFilter" id="severityFilter">
                             <option value="">Todas</option>
                             <option th:each="severidad : ${severidades}" th:value="${severidad}" th:text="${severidad}">
                             </option>
@@ -31,16 +29,14 @@
                     </div>
                     <div class="col form-group me-2">
                         <label for="typeFilter">por Impacto</label>
-                        <select class="form-control form-control-sm" name="impactFilter" id="impactFilter"
-                            th:field="*{impactos}">
+                        <select class="form-control form-control-sm" name="impactFilter" id="impactFilter">
                             <option value="">Todas</option>
                             <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}"></option>
                         </select>
                     </div>
                     <div class="col form-group me-2">
                         <label for="statusFilter">por Estado</label>
-                        <select class="form-control form-control-sm" name="statusFilter" id="statusFilter"
-                            th:field="*{impactos}">
+                        <select class="form-control form-control-sm" name="statusFilter" id="statusFilter">
                             <option value="">Todos</option>
                             <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
                         </select>
@@ -62,7 +58,7 @@
                         </select>
                     </div>
                     <div class="col form-group me-2">
-                        <label for="assignedToFilter">Responsable</label>
+                        <label for="assignedToFilter">Asignado a</label>
                         <select class="form-control form-control-sm" name="assignedToFilter" id="assignedToFilter">
                             <option value="">Todos</option>
                             <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
@@ -92,10 +88,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:if="${getLikeTitulo.empty}">
+                    <!-- <tr th:if="${ticketsFiltered.empty}">
                         <td> No hay tickets registrados.</td>
-                    </tr>
-                    <tr th:each="ticket : ${getLikeTitulo}">
+                    </tr> -->
+                    <tr th:each="ticket : ${ticketsFiltered}">
                         <td th:text="*{ticket.type}+*{ticket.id}" th:title="*{ticket.type.displayName}" scope="row">
                         </td>
                         <td th:text="*{ticket.status.name}"></td>

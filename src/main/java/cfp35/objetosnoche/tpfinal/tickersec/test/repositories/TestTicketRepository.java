@@ -1,6 +1,7 @@
 package cfp35.objetosnoche.tpfinal.tickersec.test.repositories;
 
-import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_status;
+import cfp35.objetosnoche.tpfinal.tickersec.entities.FilterTicket;
+import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_types;
 import cfp35.objetosnoche.tpfinal.tickersec.repositories.TicketRepository;
 
 public class TestTicketRepository {
@@ -62,19 +63,32 @@ public class TestTicketRepository {
         // ticketRepository.getLikeImpact(Ticket_impacts.IMPORTANTE).forEach(System.out::println);
         // System.out.println("****************************************************************");
 
-        System.out.println();
-        System.out.println("--- Metodo getLikeCreatedBy() ---");
-        ticketRepository.getLikeCreatedBy(1).forEach(System.out::println);
-        System.out.println("****************************************************************");
+        // System.out.println();
+        // System.out.println("--- Metodo getLikeCreatedBy() ---");
+        // ticketRepository.getLikeCreatedBy(1).forEach(System.out::println);
+        // System.out.println("****************************************************************");
+
+        // System.out.println();
+        // System.out.println("--- Metodo getLikeAssigned() ---");
+        // ticketRepository.getLikeAssigned(2).forEach(System.out::println);
+        // System.out.println("****************************************************************");
+
+        // System.out.println();
+        // System.out.println("--- Metodo getLikeStatus() ---");
+        // ticketRepository.getLikeStatus(Ticket_status.CERRADO).forEach(System.out::println);
+        // System.out.println("****************************************************************");
 
         System.out.println();
-        System.out.println("--- Metodo getLikeAssigned() ---");
-        ticketRepository.getLikeAssigned(2).forEach(System.out::println);
-        System.out.println("****************************************************************");
-
-        System.out.println();
-        System.out.println("--- Metodo getLikeStatus() ---");
-        ticketRepository.getLikeStatus(Ticket_status.CERRADO).forEach(System.out::println);
+        System.out.println("--- Metodo getTicketsFiltered() ---");
+        ticketRepository.getTicketsFiltered(new FilterTicket(
+            Ticket_types.VUL,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        )).forEach(System.out::println);
         System.out.println("****************************************************************");
     }
 }

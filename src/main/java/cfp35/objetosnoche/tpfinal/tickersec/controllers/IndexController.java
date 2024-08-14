@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import cfp35.objetosnoche.tpfinal.tickersec.entities.FilterTicket;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.Ticket;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_impacts;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
@@ -27,22 +28,33 @@ public class IndexController {
     private final TicketCategoryRepository categoryRepository = new TicketCategoryRepository();
 
     @GetMapping("/")
-    public String getIndex(
-        Model model,
-        @RequestParam(name = "buscar", defaultValue = "")String buscar,
-        @RequestParam(name = "typeFilter", required=false) String typeFilter,
-        @RequestParam(name = "severityFilter", required=false) String severityFilter,
-        @RequestParam(name = "impactFilter", required=false) String impactFilter,
-        @RequestParam(name = "statusFilter", required=false) String statusFilter,
-        @RequestParam(name = "categoryFilter", required=false) String categoryFilter,
-        @RequestParam(name = "createdByFilter", required=false) String createdByFilter,
-        @RequestParam(name = "assignedToFilter", required=false) String assignedToFilter){
+    public String getIndex(Model model,
+            @RequestParam(name = "buscar", defaultValue = "") String buscar,
+            @RequestParam(name = "typeFilter", required = false) Ticket_types typeFilter,
+            @RequestParam(name = "severityFilter", required = false) Ticket_severities severityFilter,
+            @RequestParam(name = "impactFilter", required = false) Ticket_impacts impactFilter,
+            @RequestParam(name = "statusFilter", required = false) Ticket_status statusFilter,
+            @RequestParam(name = "categoryFilter", required = false) Integer categoryFilter,
+            @RequestParam(name = "createdByFilter", required = false) Integer createdByFilter,
+            @RequestParam(name = "assignedToFilter", required = false) Integer assignedToFilter) {
+                // System.out.println();
+                // System.out.println("****************************************");
+                // System.out.println("typeFilter: " + typeFilter);
+                // System.out.println("severityFilter: " + severityFilter);
+                // System.out.println("impactFilter: " + impactFilter);
+                // System.out.println("statusFilter: " + statusFilter);
+                // System.out.println("categoryFilter: " + categoryFilter);
+                // System.out.println("createdByFilter: " + createdByFilter);
+                // System.out.println("assignedToFilter: " + assignedToFilter);
+                // System.out.println("****************************************");
 
         model.addAttribute("titulo", "TickerSec");
         model.addAttribute("buscarPlaceholder", "buscar por titulo del ticket");
         model.addAttribute("mensaje", mensaje);
         // model.addAttribute("tickets", ticketRepository.getAll());
-        model.addAttribute("getLikeTitulo", ticketRepository.getLikeTitulo(buscar));
+        // model.addAttribute("getLikeTitulo", ticketRepository.getLikeTitulo(buscar));
+        FilterTicket filters = new FilterTicket(typeFilter, severityFilter, impactFilter, statusFilter, categoryFilter, createdByFilter, assignedToFilter);
+        model.addAttribute("ticketsFiltered", ticketRepository.getTicketsFiltered(filters));
         model.addAttribute("ticketRepo", ticketRepository);
         model.addAttribute("categoryRepo", categoryRepository);
         model.addAttribute("userRepo", userRepository);
@@ -61,8 +73,8 @@ public class IndexController {
         ticket.setLastUpdate(LocalDateTime.now());
         ticket.setStatus(Ticket_status.ABIERTO);
         ticketRepository.save(ticket);
-        if(ticket.getId()>0){
-            mensaje = "Se guardo el ticket "+ticket.getType()+ticket.getId();
+        if (ticket.getId() > 0) {
+            mensaje = "Se guardo el ticket " + ticket.getType() + ticket.getId();
         } else {
             mensaje = "Hubo un error al guardar el ticket";
         }

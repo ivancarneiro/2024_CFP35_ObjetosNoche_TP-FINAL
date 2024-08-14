@@ -18,8 +18,8 @@ public class FilterTicket {
     Ticket_types type;
     Ticket_severities severity;
     Ticket_impacts impact;
+    Ticket_status status;
     Integer category;
     Integer createdBy;
     Integer assignedTo;
-    Ticket_status status;
 }
