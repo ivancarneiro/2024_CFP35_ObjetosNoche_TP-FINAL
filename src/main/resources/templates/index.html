@@ -7,7 +7,73 @@
     <header th:insert="~{fragments/base::header}"></header>
     <main class="row container-fluid my-3">
         <div class="row text-center text-primary p-2 my-2">
-            <h1>Sistema TickerSec</h1>
+            <div class="row">
+                <h1>Sistema TickerSec</h1>
+            </div>
+            <div class="d-flex justify-content-center">
+                <form class="d-flex" role="search">
+                    <div class="col form-group me-2">
+                        <label for="typeFilter">por Tipo</label>
+                        <select class="form-control form-control-sm" name="typeFilter" id="typeFilter"
+                            th:field="*{tipos}">
+                            <option value="">Todos</option>
+                            <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo.displayName}"></option>
+                        </select>
+                    </div>
+                    <div class="col form-group me-2">
+                        <label for="typeFilter">por Severidad</label>
+                        <select class="form-control form-control-sm" name="severityFilter" id="severityFilter"
+                            th:field="*{severidades}">
+                            <option value="">Todas</option>
+                            <option th:each="severidad : ${severidades}" th:value="${severidad}" th:text="${severidad}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col form-group me-2">
+                        <label for="typeFilter">por Impacto</label>
+                        <select class="form-control form-control-sm" name="impactFilter" id="impactFilter"
+                            th:field="*{impactos}">
+                            <option value="">Todas</option>
+                            <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}"></option>
+                        </select>
+                    </div>
+                    <div class="col form-group me-2">
+                        <label for="statusFilter">por Estado</label>
+                        <select class="form-control form-control-sm" name="statusFilter" id="statusFilter"
+                            th:field="*{impactos}">
+                            <option value="">Todos</option>
+                            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
+                        </select>
+                    </div>
+                    <div class="col form-group me-2">
+                        <label for="categoryFilter">por Categor&iacute;a</label>
+                        <select class="form-control form-control-sm" name="categoryFilter" id="categoryFilter">
+                            <option value="">Todas</option>
+                            <option th:each="categoria : ${categoryRepo.getAll()}" th:value="${categoria.id}"
+                                th:text="${categoria.type}" th:title="${categoria.category}"></option>
+                        </select>
+                    </div>
+                    <div class="col form-group me-2">
+                        <label for="createdByFilter">Creado por</label>
+                        <select class="form-control form-control-sm" name="createdByFilter" id="createdByFilter">
+                            <option value="">Todos</option>
+                            <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
+                                th:text="${usuario.surname+' '+usuario.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col form-group me-2">
+                        <label for="assignedToFilter">Responsable</label>
+                        <select class="form-control form-control-sm" name="assignedToFilter" id="assignedToFilter">
+                            <option value="">Todos</option>
+                            <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
+                                th:text="${usuario.surname+' '+usuario.name}"></option>
+                        </select>
+                    </div>
+                    <div class="d-flex align-content-end pt-4">
+                        <button class="btn btn-sm btn-outline-primary">Filtrar</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="col">
             <!-- Lista de tickets -->
@@ -39,7 +105,8 @@
                         <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}" class="text-nowrap">
                         </td>
                         <td class="text-center">
-                            <span th:text="*{ticket.severity.name}" th:classappend="${'severidad-' + ticket.severity.name.toLowerCase()} +' '+ rounded-1 +' '+ px-1"></span>
+                            <span th:text="*{ticket.severity.name}"
+                                th:classappend="${'severidad-' + ticket.severity.name.toLowerCase()} +' '+ rounded-1 +' '+ px-1"></span>
                         </td>
                         <td th:text="${userRepo.getById(ticket.createdBy).surname}"></td>
                         <td th:text="${userRepo.getById(ticket.assignedTo).surname}"></td>
@@ -60,32 +127,38 @@
                 </div>
                 <div class="form-group">
                     <label for="title">T&iacute;tulo</label>
-                    <input type="text" class="form-control form-control-sm" th:field="*{title}" id="title" required placeholder="Ingrese el título">
+                    <input type="text" class="form-control form-control-sm" th:field="*{title}" id="title" required
+                        placeholder="Ingrese el título">
                 </div>
                 <div class="form-group">
                     <label for="category">Categoría</label>
-                    <select class="form-control form-control-sm" th:field="*{category}" id="category" required title="Asigne una categor&iacute;a">
+                    <select class="form-control form-control-sm" th:field="*{category}" id="category" required
+                        title="Asigne una categor&iacute;a">
                         <option value="" selected></option>
-                        <option th:each="categoria : ${categoryRepo.getAll()}" th:value="${categoria.id}" th:text="${categoria.type}" th:title="${categoria.description}"></option>
+                        <option th:each="categoria : ${categoryRepo.getAll()}" th:value="${categoria.id}"
+                            th:text="${categoria.type}" th:title="${categoria.description}"></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="severity">Severidad</label>
                     <select class="form-control form-control-sm" th:field="*{severity}" id="severity" required>
-                        <option th:each="severidad : ${severidades}" th:value="${severidad}" th:text="${severidad}"></option>
+                        <option th:each="severidad : ${severidades}" th:value="${severidad}" th:text="${severidad}">
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="impact">Impacto</label>
                     <select class="form-control form-control-sm" th:field="*{impact}" id="impact" required>
-                        <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}" selected></option>
+                        <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}" selected>
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="createdBy">Creado por</label>
                     <select class="form-control form-control-sm" th:field="*{createdBy}" id="createdBy" required>
                         <option value="" selected></option>
-                        <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}" th:text="${usuario.surname+' '+usuario.name}"></option>
+                        <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
+                            th:text="${usuario.surname+' '+usuario.name}"></option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -98,8 +171,8 @@
                 </div>
                 <div class="form-group">
                     <label for="resume">Resumen</label>
-                    <textarea class="form-control form-control-sm" th:field="*{resume}" id="resume" rows="3" required minlength="15"
-                        placeholder="Ingrese un resumen del ticket"></textarea>
+                    <textarea class="form-control form-control-sm" th:field="*{resume}" id="resume" rows="3" required
+                        minlength="15" placeholder="Ingrese un resumen del ticket"></textarea>
                 </div>
                 <div class="mb-3 row p-2 justify-content-end">
                     <button class="btn btn-danger col-2 mx-2" type="reset">Limpiar</button>

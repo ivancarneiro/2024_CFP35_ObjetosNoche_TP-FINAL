@@ -27,8 +27,19 @@ public class IndexController {
     private final TicketCategoryRepository categoryRepository = new TicketCategoryRepository();
 
     @GetMapping("/")
-    public String getIndex(Model model, @RequestParam(name = "buscar", defaultValue = "")String buscar){
+    public String getIndex(
+        Model model,
+        @RequestParam(name = "buscar", defaultValue = "")String buscar,
+        @RequestParam(name = "typeFilter", required=false) String typeFilter,
+        @RequestParam(name = "severityFilter", required=false) String severityFilter,
+        @RequestParam(name = "impactFilter", required=false) String impactFilter,
+        @RequestParam(name = "statusFilter", required=false) String statusFilter,
+        @RequestParam(name = "categoryFilter", required=false) String categoryFilter,
+        @RequestParam(name = "createdByFilter", required=false) String createdByFilter,
+        @RequestParam(name = "assignedToFilter", required=false) String assignedToFilter){
+
         model.addAttribute("titulo", "TickerSec");
+        model.addAttribute("buscarPlaceholder", "buscar por titulo del ticket");
         model.addAttribute("mensaje", mensaje);
         // model.addAttribute("tickets", ticketRepository.getAll());
         model.addAttribute("getLikeTitulo", ticketRepository.getLikeTitulo(buscar));
