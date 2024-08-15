@@ -16,13 +16,14 @@
             <!-- Lista de tickets -->
             <table class="table table-striped table-hover border rounded-2 p-1">
                 <thead>
-                    <tr>
+                    <tr class="text-center">
                         <th scope="col"><strong>Ticket</strong></th>
                         <th scope="col"><strong>Estado</strong></th>
                         <th scope="col"><strong>Tipo</strong></th>
                         <th scope="col"><strong>T&iacute;tulo</strong></th>
                         <th scope="col"><strong>Creado</strong></th>
                         <th scope="col"><strong>Severidad</strong></th>
+                        <th scope="col"><strong>Impacto</strong></th>
                         <th scope="col"><strong>Creado por</strong></th>
                         <th scope="col"><strong>Asignado a</strong></th>
                         <th scope="col"><strong>Resumen</strong></th>
@@ -33,18 +34,19 @@
                         <td> No hay tickets registrados.</td>
                     </tr>
                     <tr th:each="ticket : ${ticketsFiltered}">
-                        <td th:text="*{ticket.type}+*{ticket.id}" th:title="*{ticket.type.displayName}" scope="row">
+                        <td class="text-center" th:text="*{ticket.type}+*{ticket.id}" th:title="*{ticket.type.displayName}" scope="row">
                         </td>
-                        <td th:text="*{ticket.status.name}"></td>
+                        <td class="text-center" th:text="*{ticket.status.name}"></td>
                         <td th:text="${categoryRepo.getById(ticket.category).type}"
                             th:title="${categoryRepo.getById(ticket.category).category}"></td>
                         <td th:text="*{ticket.title}"></td>
-                        <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}" class="text-nowrap">
+                        <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}" class="text-center text-nowrap">
                         </td>
                         <td class="text-center">
                             <span th:text="*{ticket.severity.name}"
                                 th:classappend="${'severidad-' + ticket.severity.name.toLowerCase()} +' '+ rounded-1 +' '+ px-1"></span>
                         </td>
+                        <td class="text-center" th:text="*{ticket.impact}"></td>
                         <td th:text="${userRepo.getById(ticket.createdBy).surname}"></td>
                         <td th:text="${userRepo.getById(ticket.assignedTo).surname}"></td>
                         <td th:text="*{ticket.resume}" class="overflow-hidden" th:title="*{ticket.resume}"></td>

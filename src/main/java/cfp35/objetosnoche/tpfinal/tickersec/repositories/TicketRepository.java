@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.FilterTicket;
@@ -145,40 +146,17 @@ public class TicketRepository {
                 .toList();
     }
 
-    public List<Ticket> getTicketsFiltered(FilterTicket filter){
-        if (filter == null) return new ArrayList<>();
-        
-        List<Ticket> tickets = getAll();
-        
-        // filtro por tipo de ticket
-        if (filter.getType() != null){
-            tickets = tickets.stream().filter(ticket -> ticket.getType().equals(filter.getType())).toList();
-        }
-        // filtro por severidad
-        if (filter.getSeverity() != null){
-            tickets = tickets.stream().filter(ticket -> ticket.getSeverity().equals(filter.getSeverity())).toList();
-        }
-        // filtro por impacto
-        if (filter.getImpact() != null){
-            tickets = tickets.stream().filter(ticket -> ticket.getImpact().equals(filter.getImpact())).toList();
-        }
-        // filtro por estado
-        if (filter.getStatus() != null){
-            tickets = tickets.stream().filter(ticket -> ticket.getStatus().equals(filter.getStatus())).toList();
-        }
-        // filtro por categoria
-        if (filter.getCategory() != null){
-            tickets = tickets.stream().filter(ticket -> ticket.getCategory().equals(filter.getCategory())).toList();
-        }
-        // filtro por creado
-        if (filter.getCreatedBy() != null){
-            tickets = tickets.stream().filter(ticket -> ticket.getCreatedBy().equals(filter.getCreatedBy())).toList();
-        }
-        // filtro por responsable
-        if (filter.getAssignedTo() != null){
-            tickets = tickets.stream().filter(ticket -> ticket.getAssignedTo().equals(filter.getAssignedTo())).toList();
-        }
-
-        return tickets;
+    public List<Ticket> getTicketsFiltered(FilterTicket filter) {
+        return getAll().stream()
+                .filter(ticket ->
+                        (filter.getType() == null || ticket.getType().equals(filter.getType())) &&
+                        (filter.getSeverity() == null || ticket.getSeverity().equals(filter.getSeverity())) &&
+                        (filter.getImpact() == null || ticket.getImpact().equals(filter.getImpact())) &&
+                        (filter.getStatus() == null || ticket.getStatus().equals(filter.getStatus())) &&
+                        (filter.getCategory() == null || ticket.getCategory().equals(filter.getCategory())) &&
+                        (filter.getCreatedBy() == null || ticket.getCreatedBy().equals(filter.getCreatedBy())) &&
+                        (filter.getAssignedTo() == null || ticket.getAssignedTo().equals(filter.getAssignedTo()))
+                )
+                .collect(Collectors.toList());
     }
 }
