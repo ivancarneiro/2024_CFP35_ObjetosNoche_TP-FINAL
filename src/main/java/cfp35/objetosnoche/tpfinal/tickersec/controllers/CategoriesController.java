@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import cfp35.objetosnoche.tpfinal.tickersec.entities.FilterCategory;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.TicketCategory;
 import cfp35.objetosnoche.tpfinal.tickersec.repositories.TicketCategoryRepository;
 
@@ -19,15 +20,27 @@ public class CategoriesController {
     private final TicketCategoryRepository categoryRepository = new TicketCategoryRepository();
 
     @GetMapping("/categorias")
-    public String getCategorias(Model model, @RequestParam(name = "buscar", defaultValue = "")String buscar) {
-        // System.out.println("****************************************************************");
-        // System.out.println(buscar);
-        // System.out.println("****************************************************************");
+    public String getCategorias(Model model,
+        @RequestParam(name = "buscar", defaultValue = "")String buscar,
+        @RequestParam(name = "categoryFilter", required = false) String categoryFilter,
+        @RequestParam(name = "typeFilter", required = false) String typeFilter){
+        System.out.println();
+        System.out.println("****************************************");
+        System.out.println("categoryFilter: " + categoryFilter);
+        System.out.println("typeFilter: " + typeFilter);
+        System.out.println("****************************************");
         model.addAttribute("titulo", "Categorías de Incidentes");
         model.addAttribute("mensaje", mensaje);
         model.addAttribute("categoria", new TicketCategory());
-        // model.addAttribute("categorias", categoryRepository.getAll());
-        model.addAttribute("getLikeType", categoryRepository.getLikeType(buscar));
+        model.addAttribute("categorias", categoryRepository.getAll());
+        model.addAttribute(
+            "getCategoryFiltered",
+            categoryRepository.getCategoryFiltered(
+                new FilterCategory(
+                    categoryFilter,
+                    typeFilter
+                )
+            ));
         return "categorias";
     }
 

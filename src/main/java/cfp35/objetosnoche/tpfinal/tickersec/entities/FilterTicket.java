@@ -15,6 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FilterTicket {
+    String buscar;
     Ticket_types type;
     Ticket_severities severity;
     Ticket_impacts impact;

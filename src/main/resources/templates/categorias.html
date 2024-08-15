@@ -12,6 +12,7 @@
                 <div th:if="${!mensaje.empty}">
                     <span th:text="${mensaje}" class="text-danger"></span>
                 </div>
+                <div th:insert="~{fragments/categoryFilter::categoryFilter}"></div>
             </div>
         </div>
         <div class="col">
@@ -26,10 +27,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:if="${getLikeType.empty}">
+                    <tr th:if="${getCategoryFiltered.empty}">
                         <td colspan="2"> No hay categor&iacute;as registradas.</td>
                     </tr>
-                    <tr th:each="categoria : ${getLikeType}">
+                    <tr th:each="categoria : ${getCategoryFiltered}">
                         <td th:text="*{categoria.category}" th:title="*{'id: '+categoria.id}" scope="row"></td>
                         <td th:text="*{categoria.type}"></td>
                         <td th:text="*{categoria.description}" class="overflow-hidden"

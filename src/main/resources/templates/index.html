@@ -8,7 +8,12 @@
     <main class="container-fluid my-3">
         <div class="row text-center text-primary p-2 my-2">
             <div class="row">
-                <h1>Sistema TickerSec</h1>
+                <div class="col">
+                    <h1>Sistema TickerSec</h1>
+                </div>
+                <div class="col-2">
+                    <div th:replace="~{fragments/formNewTicketModal::formNewTicketModal}"></div>
+                </div>
             </div>
             <div th:insert="~{fragments/indexFilter::indexFilter}"></div>
         </div>
@@ -34,13 +39,15 @@
                         <td> No hay tickets registrados.</td>
                     </tr>
                     <tr th:each="ticket : ${ticketsFiltered}">
-                        <td class="text-center" th:text="*{ticket.type}+*{ticket.id}" th:title="*{ticket.type.displayName}" scope="row">
+                        <td class="text-center" th:text="*{ticket.type}+*{ticket.id}"
+                            th:title="*{ticket.type.displayName}" scope="row">
                         </td>
                         <td class="text-center" th:text="*{ticket.status.name}"></td>
                         <td th:text="${categoryRepo.getById(ticket.category).type}"
                             th:title="${categoryRepo.getById(ticket.category).category}"></td>
                         <td th:text="*{ticket.title}"></td>
-                        <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}" class="text-center text-nowrap">
+                        <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}"
+                            class="text-center text-nowrap">
                         </td>
                         <td class="text-center">
                             <span th:text="*{ticket.severity.name}"

@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
+import cfp35.objetosnoche.tpfinal.tickersec.entities.FilterCategory;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.TicketCategory;
 
 /**
@@ -56,18 +58,7 @@ public class TicketCategoryRepository {
         }
     }
 
-    // public void remove(Integer categoryId) {
-    //     String removeCategory = "update ticket_categories set activo=false where id=?";
-    //     try (PreparedStatement ps = conn.prepareStatement(removeCategory)) {
-    //         ps.setInt(1, categoryId);
-    //         ps.executeUpdate();
-    //     } catch (Exception e) {
-    //         System.out.println("*** NO SE PUDO ELIMINAR LA CATEGORÍA DE TICKET ***");
-    //         System.out.println(e);
-    //     }
-    // }
-
-    public void remove(Integer categoryId) {
+    public void removeCategory(Integer categoryId) {
         if (categoryId != null) {
             getById(categoryId).setActivo(false);
         }
@@ -86,16 +77,12 @@ public class TicketCategoryRepository {
                 .orElseThrow();
     }
 
-    /**
-     * @param tipo
-     * @return Devuelve una lista de categorias de ticket donde el tipo contiene el
-     *         valor pasado como parámetro.
-     */
-    public List<TicketCategory> getLikeType(String tipo) {
+    public List<TicketCategory> getCategoryFiltered(FilterCategory filter) {
         return getAll()
                 .stream()
-                .filter(tkCategory -> tkCategory.getType().toLowerCase().contains(tipo.toLowerCase()))
-                .toList();
+                .filter(category -> 
+                    ((filter.getCategory() == null || filter.getCategory().isEmpty())|| category.getCategory().equals(filter.getCategory())) &&
+                    ((filter.getType() == null || filter.getType().isEmpty()) || category.getType().equals(filter.getType())))
+                .collect(Collectors.toList());
     }
-
 }

@@ -81,7 +81,8 @@ public class TestTicketRepository {
         System.out.println();
         System.out.println("--- Metodo getTicketsFiltered() ---");
         ticketRepository.getTicketsFiltered(new FilterTicket(
-            Ticket_types.VUL,
+            "forti",
+            null,
             null,
             null,
             null,

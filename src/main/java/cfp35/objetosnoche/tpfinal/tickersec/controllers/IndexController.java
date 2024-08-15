@@ -29,7 +29,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String getIndex(Model model,
-            @RequestParam(name = "buscar", defaultValue = "") String buscar,
+            @RequestParam(name = "buscar", required = false) String buscar,
             @RequestParam(name = "typeFilter", required = false) Ticket_types typeFilter,
             @RequestParam(name = "severityFilter", required = false) Ticket_severities severityFilter,
             @RequestParam(name = "impactFilter", required = false) Ticket_impacts impactFilter,
@@ -37,24 +37,22 @@ public class IndexController {
             @RequestParam(name = "categoryFilter", required = false) Integer categoryFilter,
             @RequestParam(name = "createdByFilter", required = false) Integer createdByFilter,
             @RequestParam(name = "assignedToFilter", required = false) Integer assignedToFilter) {
-                // System.out.println();
-                // System.out.println("****************************************");
-                // System.out.println("typeFilter: " + typeFilter);
-                // System.out.println("severityFilter: " + severityFilter);
-                // System.out.println("impactFilter: " + impactFilter);
-                // System.out.println("statusFilter: " + statusFilter);
-                // System.out.println("categoryFilter: " + categoryFilter);
-                // System.out.println("createdByFilter: " + createdByFilter);
-                // System.out.println("assignedToFilter: " + assignedToFilter);
-                // System.out.println("****************************************");
+                System.out.println();
+                System.out.println("****************************************");
+                System.out.println("buscar: " + buscar);
+                System.out.println("typeFilter: " + typeFilter);
+                System.out.println("severityFilter: " + severityFilter);
+                System.out.println("impactFilter: " + impactFilter);
+                System.out.println("statusFilter: " + statusFilter);
+                System.out.println("categoryFilter: " + categoryFilter);
+                System.out.println("createdByFilter: " + createdByFilter);
+                System.out.println("assignedToFilter: " + assignedToFilter);
+                System.out.println("****************************************");
 
         model.addAttribute("titulo", "TickerSec");
         model.addAttribute("buscarPlaceholder", "buscar por titulo del ticket");
         model.addAttribute("mensaje", mensaje);
-        // model.addAttribute("tickets", ticketRepository.getAll());
-        // model.addAttribute("getLikeTitulo", ticketRepository.getLikeTitulo(buscar));
-        FilterTicket filters = new FilterTicket(typeFilter, severityFilter, impactFilter, statusFilter, categoryFilter, createdByFilter, assignedToFilter);
-        model.addAttribute("ticketsFiltered", ticketRepository.getTicketsFiltered(filters));
+        model.addAttribute("ticketsFiltered", ticketRepository.getTicketsFiltered(new FilterTicket(buscar,typeFilter,severityFilter,impactFilter,statusFilter,categoryFilter,createdByFilter,assignedToFilter)));
         model.addAttribute("ticketRepo", ticketRepository);
         model.addAttribute("categoryRepo", categoryRepository);
         model.addAttribute("userRepo", userRepository);

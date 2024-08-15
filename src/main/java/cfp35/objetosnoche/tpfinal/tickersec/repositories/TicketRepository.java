@@ -149,6 +149,7 @@ public class TicketRepository {
     public List<Ticket> getTicketsFiltered(FilterTicket filter) {
         return getAll().stream()
                 .filter(ticket ->
+                        ((filter.getBuscar() == null || filter.getBuscar().isEmpty()) || ticket.getTitle().toLowerCase().contains(filter.getBuscar().toLowerCase())) &&
                         (filter.getType() == null || ticket.getType().equals(filter.getType())) &&
                         (filter.getSeverity() == null || ticket.getSeverity().equals(filter.getSeverity())) &&
                         (filter.getImpact() == null || ticket.getImpact().equals(filter.getImpact())) &&
