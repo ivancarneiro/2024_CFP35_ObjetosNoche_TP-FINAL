@@ -5,10 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import cfp35.objetosnoche.tpfinal.tickersec.connectors.Connector;
 import cfp35.objetosnoche.tpfinal.tickersec.entities.CVE;
+import cfp35.objetosnoche.tpfinal.tickersec.entities.FilterCVE;
 import cfp35.objetosnoche.tpfinal.tickersec.enums.Ticket_severities;
 
 public class CveRepository {
@@ -34,11 +37,14 @@ public class CveRepository {
         } catch (Exception e) {
             System.out.println(e);
         }
+        Collections.sort(list);
+
         return list;
     }
 
     public void save(CVE cve) {
-        if (cve == null) return;
+        if (cve == null)
+            return;
         String saveSql = "insert into cves (cveId,publishedDate,lastModified,severity,cvss,description,urlRef) values (?,?,?,?,?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(saveSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, cve.getCveId());
@@ -74,4 +80,9 @@ public class CveRepository {
                 .orElse(new CVE());
     }
 
+    public List<CVE> getCvesFiltered(FilterCVE filter) {
+        return getAll().stream()
+                .filter(cve -> ((filter.getBuscar() == null || filter.getBuscar().isEmpty()) || cve.getCveId().toLowerCase().contains(filter.getBuscar().toLowerCase())))
+                .collect(Collectors.toList());
+    }
 }

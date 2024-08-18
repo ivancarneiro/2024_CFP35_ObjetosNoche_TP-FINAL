@@ -22,6 +22,7 @@ public class CvesController {
 
         model.addAttribute("titulo", "CVEs");
         model.addAttribute("mensaje", mensaje);
+        model.addAttribute("buscarPlaceholder", "buscar por CVEid");
         model.addAttribute("cve", new CVE());
         // model.addAttribute("cves", cveRepository.getAll());
         model.addAttribute("getLikeCveId", cveRepository.getLikeCveId(buscar));
@@ -39,7 +40,7 @@ public class CvesController {
 
         cveRepository.save(cve);
         if (cve.getId() > 0) {
-            mensaje = "Se registró un nuevo cve: " + cve.getCveId();
+            mensaje = "Se registró " + cve.getCveId();
         } else {
             mensaje = "Hubo un error al guardar el cve";
         }

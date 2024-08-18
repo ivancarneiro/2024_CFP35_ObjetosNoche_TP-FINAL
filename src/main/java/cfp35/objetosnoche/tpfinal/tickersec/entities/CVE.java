@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CVE {
+public class CVE implements Comparable<CVE>{
     private int id;
     private String cveId;
     private LocalDate publishedDate;
@@ -27,5 +27,10 @@ public class CVE {
                 " - "+this.cvss+
                 "\nDescripción: "+this.description+
                 "\nReferencia: "+this.urlRef +"\n";
+    }
+
+    @Override
+    public int compareTo(CVE o) {
+        return -1 * this.publishedDate.compareTo(o.publishedDate);
     }
 }

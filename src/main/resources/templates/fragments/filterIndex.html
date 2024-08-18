@@ -1,0 +1,62 @@
+<div th:fragment="filterIndex" class="d-flex justify-content-center">
+    <div class="col">
+        <form class="d-flex" role="search">
+            <div class="col form-group me-2">
+                <label for="typeFilter">por Tipo</label>
+                <select class="form-control form-control-sm" name="typeFilter" id="typeFilter">
+                    <option value="">Todos</option>
+                    <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo.displayName}"></option>
+                </select>
+            </div>
+            <div class="col form-group me-2">
+                <label for="typeFilter">por Severidad</label>
+                <select class="form-control form-control-sm" name="severityFilter" id="severityFilter">
+                    <option value="">Todas</option>
+                    <option th:each="severidad : ${severidades}" th:value="${severidad}" th:text="${severidad}">
+                    </option>
+                </select>
+            </div>
+            <div class="col form-group me-2">
+                <label for="typeFilter">por Impacto</label>
+                <select class="form-control form-control-sm" name="impactFilter" id="impactFilter">
+                    <option value="">Todas</option>
+                    <option th:each="impacto : ${impactos}" th:value="${impacto}" th:text="${impacto}"></option>
+                </select>
+            </div>
+            <div class="col form-group me-2">
+                <label for="statusFilter">por Estado</label>
+                <select class="form-control form-control-sm" name="statusFilter" id="statusFilter">
+                    <option value="">Todos</option>
+                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
+                </select>
+            </div>
+            <div class="col form-group me-2">
+                <label for="categoryFilter">por Categor&iacute;a</label>
+                <select class="form-control form-control-sm" name="categoryFilter" id="categoryFilter">
+                    <option value="">Todas</option>
+                    <option th:each="categoria : ${categoryRepo.getAll()}" th:value="${categoria.id}"
+                        th:text="${categoria.type}" th:title="${categoria.category}"></option>
+                </select>
+            </div>
+            <div class="col form-group me-2">
+                <label for="createdByFilter">Creado por</label>
+                <select class="form-control form-control-sm" name="createdByFilter" id="createdByFilter">
+                    <option value="">Todos</option>
+                    <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
+                        th:text="${usuario.surname+' '+usuario.name}"></option>
+                </select>
+            </div>
+            <div class="col form-group me-2">
+                <label for="assignedToFilter">Asignado a</label>
+                <select class="form-control form-control-sm" name="assignedToFilter" id="assignedToFilter">
+                    <option value="">Todos</option>
+                    <option th:each="usuario : ${userRepo.getAll()}" th:value="${usuario.id}"
+                        th:text="${usuario.surname+' '+usuario.name}"></option>
+                </select>
+            </div>
+            <div class="d-flex align-content-end pt-4">
+                <button class="btn btn-sm btn-outline-primary">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>

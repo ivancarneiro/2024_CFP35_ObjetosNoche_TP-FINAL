@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Ticket {
+public class Ticket implements  Comparable<Ticket>{
     int id;
     Ticket_types type;
     String title;
@@ -80,7 +80,7 @@ public class Ticket {
             dias = horas / 24;
             horas = horas % 24;
 
-            this.resolution = dias + "dias : " + horas + "horas : " + minutos + "minutos";
+            this.resolution = dias + "d " + horas + "h " + minutos + "min";
         }
 
         if (assignedTo == null) {
@@ -97,5 +97,10 @@ public class Ticket {
                 "Estado: " + this.status + " | Resolución: " + this.resolution + "\n" +
                 "Creado: " + this.createdBy + " | Asignado a: " + this.assignedTo + "\n" +
                 "Resumen: " + this.resume + "\n";
+    }
+
+    @Override
+    public int compareTo(Ticket o) {
+        return -1 * Integer.compare(this.id, o.id);
     }
 }

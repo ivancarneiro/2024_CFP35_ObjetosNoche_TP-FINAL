@@ -5,68 +5,63 @@
 
 <body>
     <header th:insert="~{fragments/base::header}"></header>
-    <div class="container justify-content-center text-center text-primary p-2 my-2">
-        <div class="row">
-            <div class="col">
+    <div class="container-fluid justify-content-center text-center text-primary">
+        <div class="row bg-primary py-2" style="--bs-bg-opacity: .2;">
+            <div class="my-2">
                 <h1>Sistema TickerSec</h1>
             </div>
-            <div class="col-2">
+            <div class="row">
+                <span th:text="${mensaje}" class="text-danger" id="mensaje"></span>
+            </div>
+            <div class="d-flex justify-content-around">
+                <div class="me-5" th:insert="~{fragments/filterIndex::filterIndex}"></div>
                 <div th:replace="~{fragments/formNewTicketModal::formNewTicketModal}"></div>
             </div>
         </div>
-        <div class="row">
-            <span th:text="${mensaje}" class="text-danger" id="mensaje"></span>
-        </div>
-        <div th:insert="~{fragments/indexFilter::indexFilter}"></div>
     </div>
     <main class="container-fluid my-3">
-        <div class="col">
-            <div class="vh-100 overflow-auto">
-                <!-- Lista de tickets -->
-                <table class="table table-striped table-hover border rounded-2 p-1">
-                    <thead>
-                        <tr class="text-center">
-                            <th class="sticky-top table-dark" scope="col"><strong>Ticket</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>Estado</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>Tipo</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>T&iacute;tulo</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>Creado</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>Severidad</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>Impacto</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>Creado por</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>Asignado a</strong></th>
-                            <th class="sticky-top table-dark" scope="col"><strong>Resumen</strong></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:if="${ticketsFiltered.empty}">
-                            <td> No hay tickets registrados.</td>
-                        </tr>
-                        <tr th:each="ticket : ${ticketsFiltered}">
-                            <td th:text="*{ticket.type}+*{ticket.id}" th:title="*{ticket.type.displayName}" scope="row">
-                            </td>
-                            <td class="text-center" th:text="*{ticket.status.name}"></td>
-                            <td th:text="${categoryRepo.getById(ticket.category).type}"
-                                th:title="${categoryRepo.getById(ticket.category).category}"></td>
-                            <td th:text="*{ticket.title}"></td>
-                            <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}"
-                                class="text-center text-nowrap">
-                            </td>
-                            <td class="text-center">
-                                <span th:text="*{ticket.severity.name}"
-                                    th:classappend="${'severidad-' + ticket.severity.name.toLowerCase()} +' '+ rounded-1 +' '+ px-1"></span>
-                            </td>
-                            <td class="text-center">
-                                <span th:text="*{ticket.impact}"
-                                    th:classappend="${'impacto-' + ticket.impact.name.toLowerCase()} +' '+ rounded-1 +' '+ px-1"></span>
-                            </td>
-                            <td th:text="${userRepo.getById(ticket.createdBy).surname}"></td>
-                            <td th:text="${userRepo.getById(ticket.assignedTo).surname}"></td>
-                            <td th:text="*{ticket.resume}" class="overflow-hidden" th:title="*{ticket.resume}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="vh-100 overflow-auto">
+            <!-- Lista de tickets -->
+            <table class="table table-striped table-hover border rounded-2 p-1">
+                <thead>
+                    <tr class="text-center">
+                        <th class="sticky-top table-dark" scope="col"><strong>Ticket</strong></th>
+                        <th class="sticky-top table-dark" scope="col"><strong>Estado</strong></th>
+                        <th class="sticky-top table-dark" scope="col"><strong>Tipo</strong></th>
+                        <th class="sticky-top table-dark" scope="col"><strong>T&iacute;tulo</strong></th>
+                        <th class="sticky-top table-dark" scope="col"><strong>Creado</strong></th>
+                        <!-- <th class="sticky-top table-dark" scope="col"><strong>Resoluci&oacute;n</strong></th> -->
+                        <th class="sticky-top table-dark" scope="col"><strong>Severidad</strong></th>
+                        <th class="sticky-top table-dark" scope="col"><strong>Impacto</strong></th>
+                        <th class="sticky-top table-dark" scope="col"><strong>Creado por</strong></th>
+                        <th class="sticky-top table-dark" scope="col"><strong>Asignado a</strong></th>
+                        <th class="sticky-top table-dark" scope="col"><strong>Resumen</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${ticketsFiltered.empty}">
+                        <td> No hay tickets registrados.</td>
+                    </tr>
+                    <tr th:each="ticket : ${ticketsFiltered}">
+                        <td th:text="*{ticket.type}+*{ticket.id}" th:title="*{ticket.type.displayName}" scope="row"></td>
+                        <td class="text-center" th:text="*{ticket.status.name}"></td>
+                        <td th:text="${categoryRepo.getById(ticket.category).type}"
+                            th:title="${categoryRepo.getById(ticket.category).category}"></td>
+                        <td th:text="*{ticket.title}"></td>
+                        <td th:text="${#temporals.format(ticket.createdAt, 'dd-MM-yyyy HH:mm')}" class="text-center text-nowrap"></td>
+                        <!-- <td th:text="*{ticket.resolution}"></td> -->
+                        <td class="text-center">
+                            <span th:text="*{ticket.severity.name}" th:classappend="${'severidad-' + ticket.severity.name.toLowerCase()} +' '+ rounded-1 +' '+ px-1"></span>
+                        </td>
+                        <td class="text-center">
+                            <span th:text="*{ticket.impact}" th:classappend="${'impacto-' + ticket.impact.name.toLowerCase()} +' '+ rounded-1 +' '+ px-1"></span>
+                        </td>
+                        <td th:text="${userRepo.getById(ticket.createdBy).surname}"></td>
+                        <td th:text="${userRepo.getById(ticket.assignedTo).surname}"></td>
+                        <td th:text="*{ticket.resume}" class="overflow-hidden" th:title="*{ticket.resume}"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 
