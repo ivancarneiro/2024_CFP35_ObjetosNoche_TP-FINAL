@@ -38,9 +38,8 @@ public class CveRepository {
     }
 
     public void save(CVE cve) {
-        if (cve == null)
-            return;
-        String saveSql = "insert into cves (cveId,publishedDate,lastModified,severity,cvss,description,urlRef) values (?,?,?,?,?,?,?,?)";
+        if (cve == null) return;
+        String saveSql = "insert into cves (cveId,publishedDate,lastModified,severity,cvss,description,urlRef) values (?,?,?,?,?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(saveSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, cve.getCveId());
             ps.setString(2, cve.getPublishedDate().toString());

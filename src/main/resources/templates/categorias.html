@@ -3,88 +3,69 @@
 
 <head th:insert="~{fragments/base::head}"></head>
 
-<body onload="mueveReloj()">
+<body>
     <header th:insert="~{fragments/base::header}"></header>
     <main class="row container-fluid my-3">
-        <div class="row text-center text-primary p-2 my-2">
+        <div class="row text-center text-primary p-2">
             <div class="row">
-                <h1>Sistema TickerSec</h1>
-                <div th:if="${!mensaje.empty}">
-                    <span th:text="${mensaje}" class="text-danger"></span>
+                <div class="col">
+                    <h1>Sistema TickerSec</h1>
+                </div>
+                <div class="col-2">
+                    <div th:replace="~{fragments/formNewCategoryModal::formNewCategoryModal}"></div>
+                </div>
+                <div class="row">
+                    <span th:text="${mensaje}" class="text-danger" id="mensaje"></span>
                 </div>
                 <div th:insert="~{fragments/categoryFilter::categoryFilter}"></div>
             </div>
         </div>
         <div class="col">
-            <!-- Lista de tickets -->
-            <table class="table table-striped table-hover border rounded-2 p-1">
-                <thead>
-                    <tr>
-                        <th scope="col"><strong>Categor&iacute;a</strong></th>
-                        <th scope="col"><strong>Tipo</strong></th>
-                        <th scope="col"><strong>Descripci&oacute;n</strong></th>
-                        <th scope="col">Acci&oacute;n</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:if="${getCategoryFiltered.empty}">
-                        <td colspan="2"> No hay categor&iacute;as registradas.</td>
-                    </tr>
-                    <tr th:each="categoria : ${getCategoryFiltered}">
-                        <td th:text="*{categoria.category}" th:title="*{'id: '+categoria.id}" scope="row"></td>
-                        <td th:text="*{categoria.type}"></td>
-                        <td th:text="*{categoria.description}" class="overflow-hidden"
-                            th:title="*{categoria.description}"></td>
-                        <td>
-                            <form method="post" th:action="@{/categorias/delete/{id}(id=${categoria.id})}">
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-trash3" viewBox="0 0 16 16">
-                                        <path
-                                            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-                                    </svg>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Formulario Registrar Categoría -->
-        <div class="col-3">
-            <h5><strong>Crear categor&iacute;a</strong></h5>
-            <form role="form" th:action="@{/crearCategoria}" th:object="${categoria}" method="post">
-                <div class="form-group mb-2">
-                    <label for="category">Categor&iacute;a</label>
-                    <input type="text" th:field="*{category}" id="category" class="form-control" required
-                        placeholder="Ingrese la categoría">
-                </div>
-
-                <div class="form-gorup mb-2">
-                    <label for="type">Tipo</label>
-                    <input type="text" th:field="*{type}" id="type" class="form-control" required
-                        placeholder="Ingrese un tipo o subcategoría">
-                </div>
-
-                <div class="form-gorup mb-2">
-                    <label for="description">Descripci&oacute;n</label>
-                    <textarea name="description" th:field="*{description}" id="description" class="form-control" rows="4" minlength="20" required 
-                    placeholder="Detalle o definición de la categoría a registrar..."></textarea>
-                </div>
-
-                <!-- Botones -->
-                <div class="mb-3 row m-2 justify-content-end">
-                    <button class="btn btn-danger col-sm-2 mx-2" type="reset">Limpiar</button>
-                    <button class="btn btn-success col-sm-2 mx-2" type="submit">Guardar</button>
-                </div>
-            </form>
+            <div class="vh-100 overflow-auto">
+                <!-- Lista de tickets -->
+                <table class="table table-striped table-hover table-bordered p-1">
+                    <thead>
+                        <tr>
+                            <th class="sticky-top table-dark" scope="col"><strong>Categor&iacute;a</strong></th>
+                            <th class="sticky-top table-dark" scope="col"><strong>Tipo</strong></th>
+                            <th class="sticky-top table-dark" scope="col"><strong>Descripci&oacute;n</strong></th>
+                            <th class="sticky-top table-dark" scope="col">Acci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${getCategoryFiltered.empty}">
+                            <td colspan="2"> No hay categor&iacute;as registradas.</td>
+                        </tr>
+                        <tr th:each="categoria : ${getCategoryFiltered}">
+                            <td th:text="*{categoria.category}" th:title="*{'id: '+categoria.id}" scope="row"></td>
+                            <td th:text="*{categoria.type}"></td>
+                            <td th:text="*{categoria.description}" class="overflow-hidden"
+                                th:title="*{categoria.description}"></td>
+                            <td>
+                                <form method="post" th:action="@{/deleteCategory}"
+                                    th:onsubmit="confirmDeleteCategory([[${categoria}]]) && actualizarMensaje();">
+                                    <input type="hidden" th:value="${categoria.id}" name="categoryId" id="categoryId"
+                                        readonly>
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path
+                                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
-
     <footer th:insert="~{fragments/base::footer}"></footer>
 
     <div th:insert="~{fragments/base::js}"></div>
+    <script type="text/javascript" th:src="@{js/confirmDeleteCategory.js}"></script>
+    <script type="text/javascript" th:src="@{js/actualizarMensaje.js}"></script>
 </body>
 
 </html>

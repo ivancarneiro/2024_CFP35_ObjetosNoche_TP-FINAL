@@ -14,14 +14,11 @@ import cfp35.objetosnoche.tpfinal.tickersec.repositories.CveRepository;
 @Controller
 public class CvesController {
 
-    private String mensaje = "Mensaje de CvesController";
+    private String mensaje = "";
     private final CveRepository cveRepository = new CveRepository();
 
     @GetMapping("/cves")
-    public String getCves(Model model, @RequestParam(name = "buscar", defaultValue = "") String buscar) {
-        System.out.println("****************************************************************");
-        System.out.println(buscar);
-        System.out.println("****************************************************************");
+    public String getCves(Model model, @RequestParam(defaultValue = "") String buscar) {
 
         model.addAttribute("titulo", "CVEs");
         model.addAttribute("mensaje", mensaje);
@@ -34,13 +31,14 @@ public class CvesController {
 
     @PostMapping("/registrarCve")
     public String registrarCve(@ModelAttribute CVE cve) {
+        System.out.println();
         System.out.println("****************************************************************");
         System.out.println(cve);
         System.out.println("****************************************************************");
         System.out.println();
 
-        cveRepository.save(cve);
         if (cve.getId() > 0) {
+            cveRepository.save(cve);
             mensaje = "Se registró un nuevo cve: " + cve.getCveId();
         } else {
             mensaje = "Hubo un error al guardar el cve";

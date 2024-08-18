@@ -1,0 +1,76 @@
+<!-- Formulario Nuevo CVE en Modal -->
+<div th:fragment="formNewCveModal" class="align-content-end pt-2">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-bs-toggle="modal"
+        data-bs-target="#nuevoCveModal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus"
+            viewBox="0 0 16 16">
+            <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+        </svg>
+        Registar CVE
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="nuevoCveModal" tabindex="-1" aria-labelledby="nuevoCveModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="nuevoCveModalLabel">Registar Nuevo CVE</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" role="form" th:action="@{/registrarCve}" th:object="${cve}">
+                        <div class="form-group mb-2">
+                            <label for="cveId">CVE ID</label>
+                            <input type="text" class="form-control" th:field="*{cveId}" id="cveId" required
+                                placeholder="Ingrese el cveId 'CVE-YEAR-XXXXX">
+                        </div>
+
+                        <div class="form-gorup row mb-2">
+                            <div class="col">
+                                <label for="publishedDate">Publicado</label>
+                                <input type="date" class="form-control" th:field="*{publishedDate}" id="publishedDate" required>
+                            </div>
+                            <div class="col">
+                                <label for="lastModified">Actualizado</label>
+                                <input type="date" class="form-control" th:field="*{lastModified}" id="lastModified" required>
+                            </div>
+                        </div>
+                        <!-- CVE severity = cvss -->
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="severity">Severidad</label>
+                                <select class="form-control" th:field="*{severity}" id="severity" required>
+                                    <option th:each="severidad : ${severidades}" th:value="${severidad}"
+                                        th:text="${severidad}" selected></option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="cvss">CVSS</label>
+                                <input type="number" class="form-control" th:field="*{cvss}" id="cvss" step="0.1" min="0" max="10"
+                                    placeholder="min 0 - max 10" selected>
+                            </div>
+                        </div>
+                        <!-- CVE description -->
+                        <div class="form-gorup mb-2">
+                            <label for="description">Descripción</label>
+                            <textarea name="description" th:field="*{description}" id="description" class="form-control" rows="5"
+                                required></textarea>
+                        </div>
+                        <!-- CVE urlRef -->
+                        <div class="form-gorup mb-2">
+                            <label for="urlRef">URL de referencia</label>
+                            <input type="url" class="form-control" th:field="*{urlRef}" id="urlRef" required>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="mb-3 d-flex m-2 justify-content-end">
+                            <button class="btn btn-danger mx-2" type="reset">Limpiar</button>
+                            <button class="btn btn-success mx-2" type="submit">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

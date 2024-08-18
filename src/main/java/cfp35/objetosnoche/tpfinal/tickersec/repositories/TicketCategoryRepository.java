@@ -40,14 +40,13 @@ public class TicketCategoryRepository {
     }
 
     public void save(TicketCategory tkCategory) {
-        if (tkCategory == null)
-            return;
+        if (tkCategory == null) return;
         String saveCategory = "insert into ticket_categories (category, type, description, activo) values (?,?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(saveCategory, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, tkCategory.getCategory());
             ps.setString(2, tkCategory.getType());
             ps.setString(3, tkCategory.getDescription());
-            ps.setBoolean(4, tkCategory.getActivo());
+            ps.setBoolean(4, true);
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next())
@@ -58,10 +57,14 @@ public class TicketCategoryRepository {
         }
     }
 
-    public void removeCategory(Integer categoryId) {
-        if (categoryId != null) {
-            getById(categoryId).setActivo(false);
-        }
+    public void removeCategory(TicketCategory category){
+        if(category==null) return;
+        try (PreparedStatement ps=conn.prepareStatement("update ticket_categories set activo=false where id=?")){
+            ps.setInt(1, category.getId());
+            ps.execute();
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
     }
 
     /**
@@ -74,15 +77,17 @@ public class TicketCategoryRepository {
                 .stream()
                 .filter(tkCategory -> tkCategory.getId() == id)
                 .findAny()
-                .orElseThrow();
+                .orElse(new TicketCategory());
     }
 
     public List<TicketCategory> getCategoryFiltered(FilterCategory filter) {
         return getAll()
-                .stream()
-                .filter(category -> 
-                    ((filter.getCategory() == null || filter.getCategory().isEmpty())|| category.getCategory().equals(filter.getCategory())) &&
-                    ((filter.getType() == null || filter.getType().isEmpty()) || category.getType().equals(filter.getType())))
-                .collect(Collectors.toList());
+            .stream()
+            .filter(category -> 
+            (category.getActivo() == true) &&
+            ((filter.getBuscar() == null || filter.getBuscar().isEmpty()) || category.getDescription().toLowerCase().contains(filter.getBuscar().toLowerCase())) &&
+            ((filter.getCategory() == null || filter.getCategory().isEmpty()) || category.getCategory().equals(filter.getCategory())) &&
+            ((filter.getType() == null || filter.getType().isEmpty()) || category.getType().equals(filter.getType())))
+            .collect(Collectors.toList());
     }
 }

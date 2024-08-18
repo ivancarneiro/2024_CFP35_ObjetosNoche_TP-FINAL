@@ -1,0 +1,54 @@
+<!-- Formulario Nueva Categoría en Modal -->
+<div th:fragment="formNewCategoryModal" class="align-content-end pt-2">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-bs-toggle="modal"
+        data-bs-target="#nuevaCategoriaModal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus"
+            viewBox="0 0 16 16">
+            <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+        </svg>
+        Nueva Categoría
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="nuevaCategoriaModal" tabindex="-1" aria-labelledby="nuevaCategoriaModal"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="nuevaCategoriaModal">Registar Nueva Categoría</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form role="form" th:action="@{/crearCategoria}" th:object="${categoria}" method="post"
+                        class="border rounded-2 p-2">
+                        <div class="form-group mb-2">
+                            <label for="category">Categor&iacute;a</label>
+                            <input type="text" th:field="*{category}" id="category" class="form-control" required
+                                placeholder="Ingrese la categoría">
+                        </div>
+
+                        <div class="form-gorup mb-2">
+                            <label for="type">Tipo</label>
+                            <input type="text" th:field="*{type}" id="type" class="form-control" required
+                                placeholder="Ingrese un tipo o subcategoría">
+                        </div>
+
+                        <div class="form-gorup mb-2">
+                            <label for="description">Descripci&oacute;n</label>
+                            <textarea name="description" th:field="*{description}" id="description" class="form-control"
+                                rows="4" minlength="20" required
+                                placeholder="Detalle o definición de la categoría a registrar..."></textarea>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-end m-3">
+                            <button class="btn btn-danger me-2" type="reset">Limpiar</button>
+                            <button class="btn btn-success" type="submit">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

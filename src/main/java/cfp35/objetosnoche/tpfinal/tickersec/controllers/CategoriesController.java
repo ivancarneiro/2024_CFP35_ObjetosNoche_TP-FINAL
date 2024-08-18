@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,15 +20,11 @@ public class CategoriesController {
 
     @GetMapping("/categorias")
     public String getCategorias(Model model,
-        @RequestParam(name = "buscar", defaultValue = "")String buscar,
-        @RequestParam(name = "categoryFilter", required = false) String categoryFilter,
-        @RequestParam(name = "typeFilter", required = false) String typeFilter){
-        System.out.println();
-        System.out.println("****************************************");
-        System.out.println("categoryFilter: " + categoryFilter);
-        System.out.println("typeFilter: " + typeFilter);
-        System.out.println("****************************************");
+        @RequestParam(defaultValue = "")String buscar,
+        @RequestParam(required = false) String categoryFilter,
+        @RequestParam(required = false) String typeFilter){
         model.addAttribute("titulo", "Categorías de Incidentes");
+        model.addAttribute("buscarPlaceholder", "buscar en la descripción de la categoria");
         model.addAttribute("mensaje", mensaje);
         model.addAttribute("categoria", new TicketCategory());
         model.addAttribute("categorias", categoryRepository.getAll());
@@ -37,6 +32,7 @@ public class CategoriesController {
             "getCategoryFiltered",
             categoryRepository.getCategoryFiltered(
                 new FilterCategory(
+                    buscar,
                     categoryFilter,
                     typeFilter
                 )
@@ -46,9 +42,6 @@ public class CategoriesController {
 
     @PostMapping("/crearCategoria")
     public String crearCategoria(@ModelAttribute TicketCategory categoria) {
-        // System.out.println("****************************************************************");
-        // System.out.println(categoria);
-        // System.out.println("****************************************************************");
         categoryRepository.save(categoria);
         if(categoria.getId() > 0){
             mensaje = "Se registró la categoria: id: "+ categoria.getId() +" | "+ categoria.getCategory() +" | "+ categoria.getType();
@@ -58,11 +51,13 @@ public class CategoriesController {
         return "redirect:categorias";
     }
 
-    @PostMapping("/categorias/delete/{categoryId}")
-    public String deleteCategory(@PathVariable Integer categoryId) {
-        if (categoryId != null) {
-            // categoryRepository.remove(categoryId);
-            mensaje = "Eliminado: " + categoryRepository.getById(categoryId).toString();
+    @PostMapping("/deleteCategory")
+    public String deleteCategory(@RequestParam(defaultValue="0", required = false) int categoryId) {
+        if (categoryRepository.getAll().contains(categoryRepository.getById(categoryId))) {
+            mensaje = "Se eliminó la caegoría: " + categoryId +" "+ categoryRepository.getById(categoryId).getCategory() +" - "+ categoryRepository.getById(categoryId).getType();
+            categoryRepository.removeCategory(categoryRepository.getById(categoryId));
+        } else {
+            mensaje = "No se encontró la caegoría para eliminar con id: " + categoryId;
         }
         return "redirect:/categorias";
     }

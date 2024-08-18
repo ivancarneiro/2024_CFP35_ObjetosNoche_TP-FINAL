@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:insert="~{fragments/base::head}"></head>
+
+<body>
+    <header th:insert="~{fragments/base::header}"></header>
+    <div class="row text-center text-primary p-2 my-2">
+        <div class="row">
+            <div class="col">
+                <h1>Sistema TickerSec</h1>
+            </div>
+            <div class="col-2">
+                <div>Otra columna</div>
+            </div>
+        </div>
+        <div class="row">
+            <span th:text="${mensaje}" class="text-danger" id="mensaje"></span>
+        </div>
+    </div>
+    <main class="container-fluid my-3">
+
+        <div class="col">
+            <div class="vh-100 overflow-auto">
+                AQUI VA EL TICKET
+            </div>
+        </div>
+    </main>
+
+    <footer th:insert="~{fragments/base::footer}"></footer>
+
+    <div th:insert="~{fragments/base::js}"></div>
+    <script type="text/javascript" th:src="@{js/actualizarMensaje.js}"></script>
+</body>
+
+</html>

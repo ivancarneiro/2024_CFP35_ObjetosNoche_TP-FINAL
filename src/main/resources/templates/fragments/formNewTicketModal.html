@@ -20,7 +20,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" th:action="crearTicket" th:object="${ticket}" class="border rounded-2 p-1">
+                    <form method="post" th:action="@{/crearTicket}" th:object="${ticket}" class="border rounded-2 p-1">
                         <div class="form-group">
                             <label for="type">Tipo</label>
                             <select class="form-control form-control-sm mb-2" th:field="*{type}" id="type">

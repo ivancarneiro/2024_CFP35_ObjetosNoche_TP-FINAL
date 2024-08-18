@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FilterCategory {
+    private String buscar;
     private String category;
     private String type;
 }

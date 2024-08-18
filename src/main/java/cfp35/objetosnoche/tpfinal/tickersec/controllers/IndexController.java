@@ -22,7 +22,7 @@ import cfp35.objetosnoche.tpfinal.tickersec.repositories.UserRepository;
 @Controller
 public class IndexController {
 
-    private String mensaje = "Mensaje de IndexController";
+    private String mensaje = "";
     private final TicketRepository ticketRepository = new TicketRepository();
     private final UserRepository userRepository = new UserRepository();
     private final TicketCategoryRepository categoryRepository = new TicketCategoryRepository();
@@ -79,3 +79,5 @@ public class IndexController {
         return "redirect:/";
     }
 }
+
+// TODO Aplicar paginación
