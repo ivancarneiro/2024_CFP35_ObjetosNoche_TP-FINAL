@@ -51,7 +51,7 @@ public class CveRepository {
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next())
-                cve.setId(rs.getInt("id"));
+                cve.setId(rs.getInt(1));
         } catch (Exception e) {
             System.out.println(e);
         }

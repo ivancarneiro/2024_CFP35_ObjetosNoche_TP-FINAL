@@ -37,8 +37,8 @@ public class CvesController {
         System.out.println("****************************************************************");
         System.out.println();
 
+        cveRepository.save(cve);
         if (cve.getId() > 0) {
-            cveRepository.save(cve);
             mensaje = "Se registró un nuevo cve: " + cve.getCveId();
         } else {
             mensaje = "Hubo un error al guardar el cve";
